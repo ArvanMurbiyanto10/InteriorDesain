@@ -8,7 +8,6 @@ import {
   Instagram,
   Phone,
   Mail,
-  MapPin,
   ArrowUpRight,
   CheckCircle,
   Layout,
@@ -19,19 +18,19 @@ import {
   ChevronUp,
 } from "lucide-react";
 
-// PENTING: Import CSS yang sudah di-rename
+// PENTING: Import CSS
 import "./LandingPage.css";
 
 // --- IMPORT ASSETS ---
 import heroImg from "../assets/foto-9.jpg";
 import img1 from "../assets/foto-1.jpg";
 import img2 from "../assets/foto-2.jpg";
-import img3 from "../assets/foto-3.jpg";
+import img3 from "../assets/foto-3.jpg"; // Foto Section 2
 import img5 from "../assets/foto-5.jpg";
 import img6 from "../assets/foto-6.jpg";
 import img7 from "../assets/foto-7.jpg";
-import img8 from "../assets/foto-8.jpg";
-import img10 from "../assets/foto-10.jpg";
+import img8 from "../assets/foto-8.jpg"; // Foto Section 3
+import img10 from "../assets/foto-10.jpg"; // Foto Section 1
 
 // --- DATA ---
 const SERVICES_DATA = [
@@ -87,53 +86,73 @@ const FAQ_DATA = [
   },
 ];
 
-// --- MAIN COMPONENT (Nama Diganti jadi LandingPage) ---
+const PROCESS_DATA = [
+  {
+    id: "01",
+    title: "Discovery",
+    desc: "Konsultasi awal mendalam untuk memahami kebutuhan, gaya hidup, dan anggaran proyek Anda.",
+  },
+  {
+    id: "02",
+    title: "Design Concept",
+    desc: "Pengembangan layout, moodboard, dan visualisasi 3D hingga sesuai dengan visi impian Anda.",
+  },
+  {
+    id: "03",
+    title: "Craftsmanship",
+    desc: "Proses produksi di workshop kami menggunakan material pilihan dan dikerjakan oleh tenaga ahli.",
+  },
+  {
+    id: "04",
+    title: "Installation",
+    desc: "Pemasangan akhir di lokasi dengan presisi tinggi, kerapihan, dan supervisi ketat.",
+  },
+];
+
+// --- MAIN COMPONENT ---
 
 function LandingPage() {
   const [menuOpen, setMenuOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
   const [openFaq, setOpenFaq] = useState(0);
-
-  // State untuk Form WhatsApp
   const [formData, setFormData] = useState({ nama: "", wa: "", pesan: "" });
 
-  // Handle Scroll Navbar
   useEffect(() => {
     const handleScroll = () => setScrolled(window.scrollY > 50);
     window.addEventListener("scroll", handleScroll);
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
-  // Handle Input Form
   const handleInput = (e) => {
     const { name, value } = e.target;
     setFormData({ ...formData, [name]: value });
   };
 
-  // Fungsi Kirim ke WA
   const kirimKeWA = (e) => {
     e.preventDefault();
     const nomorHP = "6285282773811";
     const text = `Halo Doger Interior, perkenalkan saya *${formData.nama}* (No.WA: ${formData.wa}).%0A%0ASaya ingin konsultasi: ${formData.pesan}`;
     window.open(`https://wa.me/${nomorHP}?text=${text}`, "_blank");
   };
-
   return (
     <div className="op10-root">
-      {/* 1. NAVBAR (Sticky & Solid) */}
+      {/* 1. NAVBAR */}
       <nav className={`op10-nav ${scrolled ? "scrolled" : ""}`}>
         <div className="op10-container nav-flex">
           <div className="nav-brand">
             DOGER<span>.STUDIO</span>
           </div>
-
           <div className={`nav-links ${menuOpen ? "active" : ""}`}>
             <a href="#hero" onClick={() => setMenuOpen(false)}>
               Home
             </a>
-            <a href="#about" onClick={() => setMenuOpen(false)}>
+
+            {/* --- UBAH DI SINI: Link ke Halaman About --- */}
+            <Link to="/about" onClick={() => setMenuOpen(false)}>
               Tentang
-            </a>
+            </Link>
+            {/* ------------------------------------------- */}
+
             <a href="#services" onClick={() => setMenuOpen(false)}>
               Layanan
             </a>
@@ -150,7 +169,6 @@ function LandingPage() {
               <X />
             </span>
           </div>
-
           <div className="nav-actions">
             <a href="#contact" className="btn-nav-cta">
               Konsultasi
@@ -167,7 +185,6 @@ function LandingPage() {
 
       {/* 2. HERO SECTION */}
       <header id="hero" className="op10-hero-split">
-        {/* Kiri: Teks */}
         <div className="hero-left">
           <div className="hl-content fade-up">
             <span className="badge-hero">EST. 2024 — DEPOK</span>
@@ -187,7 +204,6 @@ function LandingPage() {
                 Lihat Karya
               </a>
             </div>
-
             <div className="hero-stats">
               <div>
                 <strong>300+</strong>
@@ -201,8 +217,6 @@ function LandingPage() {
             </div>
           </div>
         </div>
-
-        {/* Kanan: Gambar */}
         <div className="hero-right fade-in">
           <img src={heroImg} alt="Luxury Kitchen Set" />
           <div className="hero-overlay-deco"></div>
@@ -253,7 +267,6 @@ function LandingPage() {
             <span className="sub-head">LAYANAN KAMI</span>
             <h2>SOLUSI INTERIOR LENGKAP</h2>
           </div>
-
           <div className="services-grid-cards">
             {SERVICES_DATA.map((srv, index) => (
               <div
@@ -275,7 +288,197 @@ function LandingPage() {
         </div>
       </section>
 
-      {/* 5. GALLERY SECTION */}
+      {/* --- SECTION 1: SPESIALIS BAHAN (Teks Kiri, Foto Kanan) --- */}
+      <section className="op10-section bg-cream">
+        {/* Gunakan class 'grid-2' agar urutan normal: Teks dulu, baru Foto */}
+        <div className="op10-container grid-2">
+          {/* 1. Teks (Di Kiri) */}
+          <div className="specialist-content fade-up">
+            <span className="sub-head">MATERIAL & KUALITAS</span>
+            <h2>SPESIALIS PEMAKAIAN BAHAN</h2>
+            <p>
+              Kami mengutamakan durabilitas dan estetika. Material yang kami
+              gunakan dipilih secara ketat untuk memastikan ketahanan terhadap
+              iklim tropis, kelembapan, dan serangan rayap.
+            </p>
+            <ul className="check-list">
+              <li>
+                <CheckCircle size={18} className="icon-check" />{" "}
+                <strong>Kayu Solid & Plywood Grade A</strong> untuk struktur
+                kokoh.
+              </li>
+              <li>
+                <CheckCircle size={18} className="icon-check" />{" "}
+                <strong>Finishing HPL Premium</strong> yang presisi dan rapi.
+              </li>
+              <li>
+                <CheckCircle size={18} className="icon-check" />{" "}
+                <strong>Aksesoris Berkualitas</strong> (Engsel Soft-close, Rel
+                Double Track).
+              </li>
+            </ul>
+            <p
+              style={{
+                marginTop: "20px",
+                marginBottom: "30px",
+                color: "#666",
+                fontSize: "0.95rem",
+              }}
+            >
+              Jangan ragu untuk berkonsultasi mengenai pilihan bahan terbaik
+              untuk hunian Anda.
+            </p>
+            <a href="#contact" className="btn-primary">
+              Hubungi Kami
+            </a>
+          </div>
+
+          {/* 2. Foto (Di Kanan) */}
+          <div className="specialist-img fade-up delay-1">
+            <img src={img10} alt="Detail Material Kayu" />
+            <div className="material-badge">
+              <span>PREMIUM</span>
+              <small>QUALITY</small>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* --- SECTION 2: DESAIN & PRESISI (Foto Kiri, Teks Kanan - DIBALIK) --- */}
+      <section className="op10-section bg-cream">
+        <div className="op10-container grid-2-reverse">
+          {/* 1. Foto (Dipindahkan ke Kiri) */}
+          <div className="specialist-img fade-up delay-1">
+            <img src={img10} alt="Detail Material Kayu" />
+            {/* Tambahkan class 'badge-left' agar badge estetik di sisi kiri */}
+            <div className="material-badge badge-left">
+              <span>PREMIUM</span>
+              <small>QUALITY</small>
+            </div>
+          </div>
+
+          {/* 2. Teks (Dipindahkan ke Kanan) */}
+          <div className="specialist-content fade-up">
+            <span className="sub-head">MATERIAL & KUALITAS</span>
+            <h2>SPESIALIS PEMAKAIAN BAHAN</h2>
+            <p>
+              Kami mengutamakan durabilitas dan estetika. Material yang kami
+              gunakan dipilih secara ketat untuk memastikan ketahanan terhadap
+              iklim tropis, kelembapan, dan serangan rayap.
+            </p>
+            <ul className="check-list">
+              <li>
+                <CheckCircle size={18} className="icon-check" />{" "}
+                <strong>Kayu Solid & Plywood Grade A</strong> untuk struktur
+                kokoh.
+              </li>
+              <li>
+                <CheckCircle size={18} className="icon-check" />{" "}
+                <strong>Finishing HPL Premium</strong> yang presisi dan rapi.
+              </li>
+              <li>
+                <CheckCircle size={18} className="icon-check" />{" "}
+                <strong>Aksesoris Berkualitas</strong> (Engsel Soft-close, Rel
+                Double Track).
+              </li>
+            </ul>
+            <p
+              style={{
+                marginTop: "20px",
+                marginBottom: "30px",
+                color: "#666",
+                fontSize: "0.95rem",
+              }}
+            >
+              Jangan ragu untuk berkonsultasi mengenai pilihan bahan terbaik
+              untuk hunian Anda.
+            </p>
+            <a href="#contact" className="btn-primary">
+              Hubungi Kami
+            </a>
+          </div>
+        </div>
+      </section>
+
+      {/* --- SECTION 3: FUNGSIONAL & RAPI (Teks Kiri, Foto Kanan - NORMAL) --- */}
+      <section className="op10-section bg-cream">
+        <div className="op10-container grid-2">
+          {/* Kolom Kiri: Teks */}
+          <div className="specialist-content fade-up">
+            <span className="sub-head">FUNGSIONAL & RAPI</span>
+            <h2>RUANG PENYIMPANAN MAKSIMAL</h2>
+            <p>
+              Interior bukan hanya soal tampilan, tapi juga fungsi. Kami
+              merancang lemari dan kabinet dengan sistem penyimpanan cerdas
+              untuk rumah yang selalu rapi dan terorganisir.
+            </p>
+            <ul className="check-list">
+              <li>
+                <CheckCircle size={18} className="icon-check" />{" "}
+                <strong>Rak Adjustable</strong> yang bisa diatur sesuai
+                kebutuhan.
+              </li>
+              <li>
+                <CheckCircle size={18} className="icon-check" />{" "}
+                <strong>Hidden Storage</strong> untuk menyimpan barang jarang
+                pakai.
+              </li>
+              <li>
+                <CheckCircle size={18} className="icon-check" />{" "}
+                <strong>Lighting Integration</strong> lampu LED otomatis dalam
+                lemari.
+              </li>
+            </ul>
+            <p
+              style={{
+                marginTop: "20px",
+                marginBottom: "30px",
+                color: "#666",
+                fontSize: "0.95rem",
+              }}
+            >
+              Ingin rumah yang selalu rapi dan modern? Kami punya solusinya.
+            </p>
+            <a href="#contact" className="btn-primary">
+              Hubungi Kami
+            </a>
+          </div>
+
+          {/* Kolom Kanan: Foto */}
+          <div className="specialist-img fade-up delay-1">
+            <img src={img8} alt="Fungsional Storage" />
+            <div className="material-badge">
+              <span>SMART</span>
+              <small>DESIGN</small>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* 5. PROCESS SECTION */}
+      <section id="process" className="op10-section bg-white">
+        <div className="op10-container">
+          <div className="section-head center fade-up">
+            <span className="sub-head">ALUR KERJA</span>
+            <h2>PROSES KAMI</h2>
+          </div>
+          <div className="process-grid">
+            {PROCESS_DATA.map((item, index) => (
+              <div
+                key={item.id}
+                className="process-item fade-up"
+                style={{ animationDelay: `${index * 0.15}s` }}
+              >
+                <span className="process-num">{item.id}</span>
+                <h3>{item.title}</h3>
+                <p>{item.desc}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* 6. GALLERY SECTION */}
       <section id="gallery" className="op10-section bg-dark text-cream">
         <div className="op10-container">
           <div className="header-flex fade-up">
@@ -290,7 +493,6 @@ function LandingPage() {
               Lihat Instagram <ArrowUpRight size={18} />
             </a>
           </div>
-
           <div className="gallery-grid-simple">
             {GALLERY_ITEMS.map((item, i) => (
               <div
@@ -309,10 +511,9 @@ function LandingPage() {
         </div>
       </section>
 
-      {/* 6. FAQ & CONTACT FORM */}
+      {/* 7. FAQ & CONTACT FORM */}
       <section id="contact" className="op10-section bg-cream">
         <div className="op10-container grid-2-faq">
-          {/* FAQ (Kiri) */}
           <div className="faq-left fade-up">
             <span className="sub-head">PERTANYAAN UMUM</span>
             <h2>YANG SERING DITANYAKAN</h2>
@@ -324,7 +525,7 @@ function LandingPage() {
                   onClick={() => setOpenFaq(openFaq === i ? null : i)}
                 >
                   <div className="faq-head">
-                    {faq.q}
+                    {faq.q}{" "}
                     {openFaq === i ? (
                       <ChevronUp size={20} />
                     ) : (
@@ -336,13 +537,10 @@ function LandingPage() {
               ))}
             </div>
           </div>
-
-          {/* Form WhatsApp (Kanan) */}
           <div className="contact-right fade-up delay-2">
             <div className="form-card">
               <h3>Mulai Konsultasi Gratis</h3>
               <p>Isi form di bawah, kami akan membalas via WhatsApp.</p>
-
               <form onSubmit={kirimKeWA}>
                 <div className="form-group">
                   <label>Nama Lengkap</label>
@@ -383,7 +581,7 @@ function LandingPage() {
         </div>
       </section>
 
-      {/* 7. FOOTER */}
+      {/* 8. FOOTER */}
       <footer className="op10-footer">
         <div className="op10-container footer-content">
           <div className="f-brand">
@@ -403,7 +601,6 @@ function LandingPage() {
               </a>
             </div>
           </div>
-
           <div className="f-info">
             <h5>ALAMAT WORKSHOP</h5>
             <p>
@@ -411,10 +608,9 @@ function LandingPage() {
               <br />
               Grogol, Limo, Kota Depok, Jawa Barat
             </p>
-            {/* Google Maps Embed */}
             <div className="map-frame">
               <iframe
-                title="Lokasi Doger Interior"
+                title="Lokasi"
                 src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3965.234!2d106.77!3d-6.36!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zNsKwMjEnMzYuMCJTIDEwNsKwNDYnMTIuMCJF!5e0!3m2!1sen!2sid!4v1600000000000!5m2!1sen!2sid"
                 width="100%"
                 height="100"
@@ -424,21 +620,21 @@ function LandingPage() {
               ></iframe>
             </div>
           </div>
-
           <div className="f-contact">
             <h5>KONTAK CEPAT</h5>
             <p>WA: 0852-8277-3811</p>
             <p>Email: doger.interior@gmail.com</p>
-            <p>Jam Kerja: Senin - Sabtu (08.00 - 17.00)</p>
           </div>
         </div>
         <div className="footer-copyright">
           © 2026 Doger Interior. All Rights Reserved.
         </div>
       </footer>
+      <Link to="/" className="op10-back-float">
+        <ArrowLeft />
+      </Link>
     </div>
   );
 }
 
-// Export nama baru
 export default LandingPage;

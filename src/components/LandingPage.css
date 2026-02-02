@@ -113,7 +113,6 @@ html {
   justify-content: space-between;
   align-items: center;
 }
-
 .nav-brand {
   font-size: 1.5rem;
   font-weight: 800;
@@ -225,6 +224,8 @@ html {
   align-items: center;
   gap: 10px;
   transition: 0.3s;
+  cursor: pointer;
+  border: none;
 }
 .btn-primary:hover {
   background: var(--c-brown-dark);
@@ -286,26 +287,40 @@ html {
   background: linear-gradient(to right, var(--c-cream-bg) 0%, transparent 20%);
 }
 
-/* 3. ABOUT */
+/* 3. ABOUT & SPECIALIST SECTION */
 .op10-section {
   padding: 100px 0;
 }
+
+/* Grid 50:50 agar ukuran foto konsisten di semua section */
 .grid-2 {
   display: grid;
-  grid-template-columns: 1fr 1.2fr;
+  grid-template-columns: 1fr 1fr;
+  gap: 60px;
+  align-items: center;
+}
+.grid-2-reverse {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
   gap: 60px;
   align-items: center;
 }
 
-.about-img-wrap {
+.about-img-wrap,
+.specialist-img {
   position: relative;
 }
-.about-img-wrap img {
+.about-img-wrap img,
+.specialist-img img {
   width: 100%;
   border-radius: var(--radius);
   box-shadow: var(--shadow);
+  object-fit: cover;
 }
-.exp-badge {
+
+/* Badge Kanan (Default) */
+.exp-badge,
+.material-badge {
   position: absolute;
   bottom: -30px;
   right: -30px;
@@ -316,12 +331,21 @@ html {
   text-align: center;
   box-shadow: var(--shadow);
 }
-.exp-badge span {
+
+/* Badge Kiri (Untuk Layout Terbalik) */
+.material-badge.badge-left {
+  right: auto;
+  left: -30px;
+}
+
+.exp-badge span,
+.material-badge span {
   font-size: 1.5rem;
   font-weight: 800;
   display: block;
 }
-.exp-badge small {
+.exp-badge small,
+.material-badge small {
   font-size: 0.8rem;
   letter-spacing: 1px;
 }
@@ -335,7 +359,8 @@ html {
   margin-bottom: 10px;
 }
 .about-text h2,
-.section-head h2 {
+.section-head h2,
+.specialist-content h2 {
   font-size: 2.5rem;
   margin-bottom: 20px;
   line-height: 1.2;
@@ -411,7 +436,41 @@ html {
   color: #666;
 }
 
-/* 5. GALLERY */
+/* 5. PROCESS WORKFLOW */
+.process-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 30px;
+  margin-top: 60px;
+}
+.process-item {
+  position: relative;
+  padding-top: 25px;
+  border-top: 2px solid rgba(83, 63, 49, 0.15);
+}
+.process-num {
+  display: block;
+  font-family: var(--font-main);
+  font-size: 3.5rem;
+  font-weight: 800;
+  line-height: 1;
+  margin-bottom: 20px;
+  color: var(--c-brown-dark);
+  opacity: 0.25;
+}
+.process-item h3 {
+  font-size: 1.3rem;
+  margin-bottom: 12px;
+  color: var(--c-brown);
+  font-weight: 700;
+}
+.process-item p {
+  font-size: 0.95rem;
+  line-height: 1.6;
+  color: #666;
+}
+
+/* 6. GALLERY */
 .header-flex {
   display: flex;
   justify-content: space-between;
@@ -465,7 +524,7 @@ html {
   opacity: 1;
 }
 
-/* 6. FAQ & FORM */
+/* 7. FAQ & FORM */
 .grid-2-faq {
   display: grid;
   grid-template-columns: 1fr 1.5fr;
@@ -527,7 +586,7 @@ html {
   outline: none;
 }
 
-/* 7. FOOTER */
+/* 8. FOOTER */
 .op10-footer {
   background: var(--c-brown);
   color: var(--c-white);
@@ -621,17 +680,29 @@ html {
     justify-content: center;
   }
 
+  /* Grid Reset Mobile */
   .grid-2,
-  .grid-2-faq {
+  .grid-2-faq,
+  .grid-2-reverse {
     grid-template-columns: 1fr;
   }
-  .about-img-wrap {
+
+  .about-img-wrap,
+  .specialist-img {
     order: -1;
     margin-bottom: 50px;
   }
+  .material-badge.badge-left {
+    left: auto;
+    right: -30px;
+  } /* Reset badge di mobile */
   .services-grid-cards,
   .gallery-grid-simple {
     grid-template-columns: 1fr 1fr;
+  }
+  .process-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 50px 30px;
   }
   .footer-content {
     grid-template-columns: 1fr;
@@ -687,6 +758,13 @@ html {
   .services-grid-cards,
   .gallery-grid-simple {
     grid-template-columns: 1fr;
+  }
+  .process-grid {
+    grid-template-columns: 1fr;
+    gap: 40px;
+  }
+  .process-item {
+    text-align: center;
   }
   .hero-title {
     font-size: 2.5rem;
