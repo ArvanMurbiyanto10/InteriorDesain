@@ -157,7 +157,7 @@ function LandingPage() {
               Layanan
             </a>
             <a href="#gallery" onClick={() => setMenuOpen(false)}>
-              Galeri
+              Project
             </a>
             <a href="#contact" onClick={() => setMenuOpen(false)}>
               Kontak
@@ -187,7 +187,7 @@ function LandingPage() {
       <header id="hero" className="op10-hero-split">
         <div className="hero-left">
           <div className="hl-content fade-up">
-            <span className="badge-hero">EST. 2024 — DEPOK</span>
+            <span className="badge-hero"></span>
             <h1 className="hero-title">
               Wujudkan Interior <br />
               <span className="text-highlight">Impian Anda</span>
@@ -237,10 +237,20 @@ function LandingPage() {
             <span className="sub-head">TENTANG KAMI</span>
             <h2>MENGAPA MEMILIH DOGER INTERIOR?</h2>
             <p>
-              Kami mengerti bahwa rumah adalah investasi jangka panjang. Oleh
-              karena itu, kami hanya menggunakan material terbaik (PVC
-              Board/Multiplek) dan aksesoris berkualitas tinggi agar interior
-              Anda awet puluhan tahun.
+              Berbekal pengalaman lebih dari 20 tahun sebagai spesialis
+              fabrikasi, Doger Interior berkomitmen mewujudkan desain interior
+              impian Anda menjadi kenyataan yang presisi, fungsional, dan
+              berkualitas tinggi. Kami memahami bahwa rumah adalah investasi
+              jangka panjang, itulah sebabnya kami menyediakan berbagai opsi
+              material unggulan, mulai dari PVC Board yang anti-rayap dan
+              serangga, Aluminium yang tahan api, hingga Multiplek dengan
+              beragam pilihan finishing yang menawan. Bersama doger.interior,
+              Anda mendapatkan jaminan kualitas tanpa kompromi melalui
+              pengerjaan yang teliti dan pendampingan penuh dari tahap desain
+              hingga pemasangan selesai. Kami mengedepankan transparansi di
+              setiap langkah, sehingga Anda selalu mendapatkan update
+              perkembangan proyek secara nyata demi mewujudkan hunian impian
+              yang presisi dan berkualitas tinggi.
             </p>
             <ul className="check-list">
               <li>
@@ -451,29 +461,6 @@ function LandingPage() {
               <span>SMART</span>
               <small>DESIGN</small>
             </div>
-          </div>
-        </div>
-      </section>
-
-      {/* 5. PROCESS SECTION */}
-      <section id="process" className="op10-section bg-white">
-        <div className="op10-container">
-          <div className="section-head center fade-up">
-            <span className="sub-head">ALUR KERJA</span>
-            <h2>PROSES KAMI</h2>
-          </div>
-          <div className="process-grid">
-            {PROCESS_DATA.map((item, index) => (
-              <div
-                key={item.id}
-                className="process-item fade-up"
-                style={{ animationDelay: `${index * 0.15}s` }}
-              >
-                <span className="process-num">{item.id}</span>
-                <h3>{item.title}</h3>
-                <p>{item.desc}</p>
-              </div>
-            ))}
           </div>
         </div>
       </section>
