@@ -1,0 +1,157 @@
+/* --- VARIABLES (Sesuai tema AboutPage) --- */
+:root {
+  --color-cream: #EBD9B4;
+  --color-brown: #5D4037;
+  --color-dark: #1a1a1a;
+  --color-text-muted: #a0a0a0;
+}
+
+/* --- FOOTER CONTAINER --- */
+.footer-root {
+  background-color: var(--color-dark);
+  color: #ffffff;
+  padding: 80px 0 30px;
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  border-top: 4px solid var(--color-brown);
+}
+
+.footer-container {
+  width: 90%;
+  max-width: 1280px;
+  margin: 0 auto;
+}
+
+/* --- GRID LAYOUT --- */
+.footer-grid {
+  display: grid;
+  grid-template-columns: 1.5fr 1fr 1fr;
+  gap: 60px;
+  margin-bottom: 60px;
+}
+
+/* --- BRAND SECTION --- */
+.footer-logo {
+  font-family: 'Playfair Display', serif;
+  font-size: 2rem;
+  font-weight: 700;
+  margin-bottom: 20px;
+  letter-spacing: 1px;
+}
+
+.text-accent {
+  color: var(--color-cream);
+}
+
+.footer-desc {
+  color: var(--color-text-muted);
+  line-height: 1.6;
+  margin-bottom: 30px;
+  max-width: 350px;
+  font-size: 0.95rem;
+}
+
+/* --- SOCIAL ICONS --- */
+.footer-socials {
+  display: flex;
+  gap: 15px;
+}
+
+.social-link {
+  background: rgba(255, 255, 255, 0.05);
+  width: 40px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  color: #fff;
+  transition: all 0.3s ease;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.social-link:hover {
+  background: var(--color-cream);
+  color: var(--color-brown);
+  transform: translateY(-3px);
+  border-color: var(--color-cream);
+}
+
+/* --- HEADINGS --- */
+.footer-heading {
+  font-size: 1.1rem;
+  margin-bottom: 25px;
+  color: var(--color-cream);
+  font-weight: 600;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+}
+
+/* --- LINKS --- */
+.footer-links ul {
+  list-style: none;
+  padding: 0;
+}
+
+.footer-links li {
+  margin-bottom: 12px;
+}
+
+.footer-links a {
+  color: var(--color-text-muted);
+  text-decoration: none;
+  transition: all 0.3s ease;
+  display: inline-block;
+}
+
+.footer-links a:hover {
+  color: var(--color-cream);
+  transform: translateX(5px);
+}
+
+/* --- CONTACT --- */
+.contact-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 15px;
+  margin-bottom: 20px;
+  color: var(--color-text-muted);
+  font-size: 0.95rem;
+}
+
+.contact-icon {
+  color: var(--color-cream);
+  flex-shrink: 0;
+  margin-top: 2px;
+}
+
+/* --- BOTTOM BAR --- */
+.footer-bottom {
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+  padding-top: 30px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 20px;
+  color: #666;
+  font-size: 0.85rem;
+}
+
+/* --- RESPONSIVE --- */
+@media (max-width: 900px) {
+  .footer-grid {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+@media (max-width: 600px) {
+  .footer-grid {
+    grid-template-columns: 1fr;
+    gap: 40px;
+  }
+  
+  .footer-bottom {
+    flex-direction: column;
+    text-align: center;
+  }
+}

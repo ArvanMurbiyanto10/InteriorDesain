@@ -1,13 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import {
-  ArrowLeft,
   ArrowRight,
-  Menu,
-  X,
-  Instagram,
-  Phone,
-  Mail,
   ArrowUpRight,
   CheckCircle,
   Layout,
@@ -22,13 +16,14 @@ import {
   ShieldCheck,
   Star,
   DollarSign,
-  PenTool, // Untuk Custom Design
-  MessageSquare, // Untuk Konsultasi
+  PenTool,
+  MessageSquare,
 } from "lucide-react";
 
 import "./LandingPage.css";
 
 // --- IMPORT ASSETS ---
+// Pastikan path ini benar sesuai struktur folder kamu
 import heroImg from "../assets/foto-9.jpg";
 import img1 from "../assets/foto-1.jpg";
 import img2 from "../assets/foto-2.jpg";
@@ -76,9 +71,8 @@ const PROJECT_CATEGORIES = [
   {
     title: "KITCHEN SET & PANTRY",
     desc: "Spesialis Jasa Pembuatan Kitchen Set, Pantry, & Minibar Custom Anti-Rayap.",
-    projectInfo:
-      "Melayani Project Residential (Rumah/Apartemen) & Commercial Area.",
-    hasContact: true, // Akan memunculkan tombol WA
+    projectInfo: "Melayani Project Residential (Rumah/Apartemen) & Commercial Area.",
+    hasContact: true,
     items: [
       { img: img1, title: "Modern Minibar", cat: "Kitchen" },
       { img: img7, title: "Scandinavian Kitchen", cat: "Kitchen" },
@@ -134,7 +128,7 @@ const PROJECT_CATEGORIES = [
   },
 ];
 
-// --- DATA FAQ (PENTING: JANGAN DIHAPUS AGAR TIDAK ERROR) ---
+// --- DATA FAQ ---
 const FAQ_DATA = [
   {
     q: "Berapa lama pengerjaan?",
@@ -244,16 +238,8 @@ const ProjectSlider = ({ title, desc, projectInfo, hasContact, items }) => {
 
 // --- MAIN LANDING PAGE COMPONENT ---
 function LandingPage() {
-  const [menuOpen, setMenuOpen] = useState(false);
-  const [scrolled, setScrolled] = useState(false);
   const [openFaq, setOpenFaq] = useState(0);
   const [formData, setFormData] = useState({ nama: "", wa: "", pesan: "" });
-
-  useEffect(() => {
-    const handleScroll = () => setScrolled(window.scrollY > 50);
-    window.addEventListener("scroll", handleScroll);
-    return () => window.removeEventListener("scroll", handleScroll);
-  }, []);
 
   const handleInput = (e) => {
     const { name, value } = e.target;
@@ -269,56 +255,13 @@ function LandingPage() {
 
   return (
     <div className="op10-root">
-      {/* 1. NAVBAR */}
-      <nav className={`op10-nav ${scrolled ? "scrolled" : ""}`}>
-        <div className="op10-container nav-flex">
-          <div className="nav-brand">
-            <Link to="/">
-              DOGER<span>.INTERIOR</span>
-            </Link>
-          </div>
-          <div className={`nav-links ${menuOpen ? "active" : ""}`}>
-            <Link to="/" onClick={() => setMenuOpen(false)}>
-              Home
-            </Link>
-            <Link to="/about" onClick={() => setMenuOpen(false)}>
-              Tentang
-            </Link>
-            <Link to="/services" onClick={() => setMenuOpen(false)}>
-              Layanan
-            </Link>
-            <a href="/projek" onClick={() => setMenuOpen(false)}>
-              Proyek
-            </a>
-            <Link to="/contact" onClick={() => setMenuOpen(false)}>
-              Kontak
-            </Link>
-            <span
-              className="close-menu mobile-only"
-              onClick={() => setMenuOpen(false)}
-            >
-              <X />
-            </span>
-          </div>
-          <div className="nav-actions">
-            <Link to="/contact" className="btn-nav-cta">
-              Konsultasi
-            </Link>
-            <button
-              className="burger-menu"
-              onClick={() => setMenuOpen(!menuOpen)}
-            >
-              <Menu />
-            </button>
-          </div>
-        </div>
-      </nav>
+      {/* NAVBAR SUDAH DIHAPUS (Karena ada di App.jsx) */}
 
       {/* 2. HERO SECTION */}
       <header id="hero" className="op10-hero-split">
         <div className="hero-left">
           <div className="hl-content fade-up">
-            <span className="badge-hero">EST. 2024 — DEPOK</span>
+            <span className="badge-hero">EST. 2004 — DEPOK</span>
             <h1 className="hero-title">
               Wujudkan Interior <br />
               <span className="text-highlight">Impian Anda</span>
@@ -331,9 +274,9 @@ function LandingPage() {
               <Link to="/contact" className="btn-primary">
                 Hubungi Kami <ArrowRight size={18} />
               </Link>
-              <a href="/projek" className="btn-secondary">
+              <Link to="/projek" className="btn-secondary">
                 Lihat Karya
-              </a>
+              </Link>
             </div>
             <div className="hero-stats">
               <div>
@@ -419,7 +362,7 @@ function LandingPage() {
           <div className="about-img-wrap fade-up delay-1">
             <img src={img2} alt="About Us" />
             <div className="exp-badge">
-              <span>5+ TH</span>
+              <span>20+ TH</span>
               <small>PENGALAMAN</small>
             </div>
           </div>
@@ -751,58 +694,7 @@ function LandingPage() {
         </div>
       </section>
 
-      {/* 8. FOOTER */}
-      <footer className="op10-footer">
-        <div className="op10-container footer-content">
-          <div className="f-brand">
-            <h2>
-              DOGER<span>.STUDIO</span>
-            </h2>
-            <p>Jasa Interior & Kitchen Set Profesional Jabodetabek.</p>
-            <div className="f-sosmed">
-              <a href="#">
-                <Instagram size={20} />
-              </a>
-              <a href="#">
-                <Phone size={20} />
-              </a>
-              <a href="#">
-                <Mail size={20} />
-              </a>
-            </div>
-          </div>
-          <div className="f-info">
-            <h5>ALAMAT WORKSHOP</h5>
-            <p>
-              Jl. H. Ahmad Nado 1 No.126,
-              <br />
-              Grogol, Limo, Kota Depok, Jawa Barat
-            </p>
-            <div className="map-frame">
-              <iframe
-                title="Lokasi"
-                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3965.234!2d106.77!3d-6.36!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zNsKwMjEnMzYuMCJTIDEwNsKwNDYnMTIuMCJF!5e0!3m2!1sen!2sid!4v1600000000000!5m2!1sen!2sid"
-                width="100%"
-                height="100"
-                style={{ border: 0 }}
-                allowFullScreen=""
-                loading="lazy"
-              ></iframe>
-            </div>
-          </div>
-          <div className="f-contact">
-            <h5>KONTAK CEPAT</h5>
-            <p>WA: 0852-8277-3811</p>
-            <p>Email: doger.interior@gmail.com</p>
-          </div>
-        </div>
-        <div className="footer-copyright">
-          © 2026 Doger Interior. All Rights Reserved.
-        </div>
-      </footer>
-
-      {/* Floating Back Button (To Home is unnecessary on Home, but for consistency if reused) */}
-      {/* <Link to="/" className="op10-back-float"><ArrowLeft /></Link> */}
+      {/* FOOTER SUDAH DIHAPUS (Karena ada di App.jsx) */}
     </div>
   );
 }
