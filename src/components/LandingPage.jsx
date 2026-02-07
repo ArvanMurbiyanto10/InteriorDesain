@@ -22,14 +22,8 @@ import {
   ShieldCheck,
   Star,
   DollarSign,
-  Send,
-  MapPin,
-  Clock,
-  Hammer,
-  Truck,
-  PenTool,
-  Calendar,
-  MessageSquare
+  PenTool, // Untuk Custom Design
+  MessageSquare, // Untuk Konsultasi
 } from "lucide-react";
 
 import "./LandingPage.css";
@@ -50,55 +44,41 @@ const SERVICES_DATA = [
   {
     id: "kitchen",
     title: "Kitchen Set",
-    desc: "Dapur ergonomis dengan material anti-rayap (PVC), Multiplek, atau Aluminium.",
+    desc: "Dapur ergonomis dengan material anti-rayap (PVC) atau HPL Premium.",
     img: img7,
     icon: <Layout />,
   },
   {
     id: "wardrobe",
     title: "Wardrobe",
-    desc: "Solusi penyimpanan cerdas, rapi, dan menawan untuk koleksi pribadi Anda.",
+    desc: "Lemari pakaian full-plafon dengan desain mewah dan fungsional.",
     img: img8,
     icon: <Box />,
   },
   {
     id: "living",
-    title: "Backdrop TV",
-    desc: "Area TV mewah dan tertata rapi tanpa drama kabel berantakan.",
+    title: "Living Room",
+    desc: "Backdrop TV dan partisi ruangan yang mempercantik hunian.",
     img: img3,
     icon: <Layers />,
   },
   {
-    id: "storage",
-    title: "Lemari Bawah Tangga",
-    desc: "Manfaatkan area kosong menjadi storage multifungsi yang estetik.",
-    img: img6,
+    id: "commercial",
+    title: "Commercial",
+    desc: "Interior kantor dan cafe yang meningkatkan citra bisnis Anda.",
+    img: img5,
     icon: <Globe />,
   },
 ];
 
-// --- DATA TAHAPAN PEMESANAN ---
-const PROCESS_DATA = [
-  { id: "01", title: "Konsultasi (Gratis)", desc: "Diskusikan kebutuhan, konsep, dan material bersama tim kami.", icon: <MessageSquare size={20} /> },
-  { id: "02", title: "Survey Lokasi", desc: "Tim kami melakukan pengukuran secara langsung di lokasi client.", icon: <Calendar size={20} /> },
-  { id: "03", title: "Design 3D & Visual", desc: "Draft visual profesional (Biaya Rp.500.000) hingga kesepakatan final.", icon: <PenTool size={20} /> },
-  { id: "04", title: "Invoice & DP 1", desc: "Pembayaran DP 1 untuk mengikat jadwal dan pengadaan material.", icon: <CheckCircle size={20} /> },
-  { id: "05", title: "Proses Produksi", desc: "Pengerjaan di workshop kami sesuai spesifikasi material yang disetujui.", icon: <Hammer size={20} /> },
-  { id: "06", title: "Instalasi", desc: "Proses pemasangan akhir di lokasi hingga proyek selesai sempurna.", icon: <Truck size={20} /> },
-];
-
-const FAQ_DATA = [
-  { q: "Berapa lama pengerjaan?", a: "Estimasi 14-21 hari kerja setelah desain 3D disetujui, tergantung antrian produksi." },
-  { q: "Apakah survei gratis?", a: "Ya, Survei & Konsultasi GRATIS untuk seluruh wilayah Jabodetabek." },
-  { q: "Material apa yang dipakai?", a: "Kami menggunakan Multiplek, PVC Board (Anti Rayap), atau Aluminium dengan finishing HPL/Duco." },
-];
-
+// --- DATA PROJECT CATEGORIES ---
 const PROJECT_CATEGORIES = [
   {
     title: "KITCHEN SET & PANTRY",
     desc: "Spesialis Jasa Pembuatan Kitchen Set, Pantry, & Minibar Custom Anti-Rayap.",
-    projectInfo: "Residential (Rumah/Apartemen) & Commercial Area.",
-    hasContact: true,
+    projectInfo:
+      "Melayani Project Residential (Rumah/Apartemen) & Commercial Area.",
+    hasContact: true, // Akan memunculkan tombol WA
     items: [
       { img: img1, title: "Modern Minibar", cat: "Kitchen" },
       { img: img7, title: "Scandinavian Kitchen", cat: "Kitchen" },
@@ -111,15 +91,66 @@ const PROJECT_CATEGORIES = [
   {
     title: "WARDROBE & LEMARI",
     items: [
-      { img: img8, title: "Walk-in Closet", cat: "Bedroom" },
-      { img: img2, title: "Lemari Anak", cat: "Bedroom" },
+      { img: img8, title: "Walk-in Closet", cat: "Master Bedroom" },
+      { img: img2, title: "Lemari Anak", cat: "Kids Room" },
       { img: img6, title: "Lemari Bawah Tangga", cat: "Storage" },
       { img: img3, title: "Glass Wardrobe", cat: "Luxury" },
+      { img: img1, title: "Sliding Door", cat: "Minimalist" },
+      { img: img7, title: "Open Wardrobe", cat: "Modern" },
+    ],
+  },
+  {
+    title: "LIVING ROOM & BACKDROP TV",
+    items: [
+      { img: img3, title: "Backdrop Marmer", cat: "Living Room" },
+      { img: img5, title: "Partisi Kisi-kisi", cat: "Divider" },
+      { img: img10, title: "Meja Console", cat: "Foyer" },
+      { img: img6, title: "Rak Display", cat: "Living Room" },
+      { img: img2, title: "Sofa Background", cat: "Wall Panel" },
+      { img: img8, title: "Floating Cabinet", cat: "TV Unit" },
+    ],
+  },
+  {
+    title: "KAMAR TIDUR (BEDROOM)",
+    items: [
+      { img: img2, title: "Master Bedroom", cat: "Luxury" },
+      { img: img1, title: "Dipan Laci", cat: "Storage Bed" },
+      { img: img7, title: "Headboard Panel", cat: "Bedroom" },
+      { img: img3, title: "Meja Rias Custom", cat: "Vanity" },
+      { img: img5, title: "Nakas Gantung", cat: "Bedside" },
+      { img: img10, title: "Kamar Tamu", cat: "Guest Room" },
+    ],
+  },
+  {
+    title: "COMMERCIAL & OFFICE",
+    items: [
+      { img: img5, title: "Meeting Room", cat: "Office" },
+      { img: img6, title: "Resepsionis", cat: "Lobby" },
+      { img: img10, title: "Cafe Counter", cat: "F&B" },
+      { img: img1, title: "Workstation", cat: "Office" },
+      { img: img8, title: "Display Toko", cat: "Retail" },
+      { img: img3, title: "Waiting Area", cat: "Clinic" },
     ],
   },
 ];
 
-// --- KOMPONEN PROJECT SLIDER (FIX: hasContact digunakan di sini) ---
+// --- DATA FAQ (PENTING: JANGAN DIHAPUS AGAR TIDAK ERROR) ---
+const FAQ_DATA = [
+  {
+    q: "Berapa lama pengerjaan?",
+    a: "Estimasi 14-21 hari kerja setelah desain 3D disetujui, tergantung antrian produksi.",
+  },
+  {
+    q: "Apakah survei gratis?",
+    a: "Ya, Survei & Konsultasi GRATIS untuk seluruh wilayah Jabodetabek.",
+  },
+  {
+    q: "Material apa yang dipakai?",
+    a: "Kami menggunakan Multiplek, Blockmin, atau PVC Board (Anti Rayap) dengan finishing HPL/Duco.",
+  },
+];
+
+// --- KOMPONEN PROJECT SLIDER ---
 const ProjectSlider = ({ title, desc, projectInfo, hasContact, items }) => {
   const [current, setCurrent] = useState(0);
   const [itemsPerPage, setItemsPerPage] = useState(1);
@@ -136,56 +167,82 @@ const ProjectSlider = ({ title, desc, projectInfo, hasContact, items }) => {
   }, []);
 
   const maxIndex = items.length - itemsPerPage;
-  const nextSlide = () => setCurrent((prev) => (prev >= maxIndex ? 0 : prev + 1));
-  const prevSlide = () => setCurrent((prev) => (prev <= 0 ? maxIndex : prev - 1));
+  const nextSlide = () =>
+    setCurrent((prev) => (prev >= maxIndex ? 0 : prev + 1));
+  const prevSlide = () =>
+    setCurrent((prev) => (prev <= 0 ? maxIndex : prev - 1));
 
   return (
     <div className="project-category-wrapper fade-up">
-      <div className="cat-title-wrap">
+      {/* Header Kategori */}
+      <div className="cat-header-box">
         <h3 className="cat-title">{title}</h3>
-        {desc && <p className="cat-desc">{desc}</p>}
-        {projectInfo && <p className="cat-project">{projectInfo}</p>}
-        
-        {/* VARIABEL hasContact DIGUNAKAN DI SINI UNTUK MENAMPILKAN TOMBOL WA */}
+        <div className="cat-divider"></div>
+
+        {/* Deskripsi (Jika Ada) */}
+        {(desc || projectInfo) && (
+          <div className="cat-text-content">
+            {desc && <p className="cat-desc">{desc}</p>}
+            {projectInfo && <p className="cat-info">{projectInfo}</p>}
+          </div>
+        )}
+
+        {/* Tombol WA (Khusus Kategori Pertama) */}
         {hasContact && (
-          <div style={{ marginTop: "15px" }}>
-            <a 
-              href="https://wa.me/6285282773811?text=Halo%20Doger%20Interior,%20saya%20tertarik%20untuk%20konsultasi%20proyek." 
-              target="_blank" 
+          <div className="cat-action">
+            <a
+              href="https://wa.me/6285282773811?text=Halo%20Doger%20Interior,%20saya%20tertarik%20melihat%20portfolio%20Kitchen%20Set."
+              target="_blank"
               rel="noreferrer"
-              className="btn-wa-small"
-              style={{ display: 'inline-flex', alignItems: 'center', gap: '8px', textDecoration: 'none', fontWeight: 'bold' }}
+              className="btn-gold-outline"
             >
-              <MessageCircle size={16} /> Konsultasi Project Ini
+              <MessageCircle size={18} /> Hubungi Kami via WhatsApp
             </a>
           </div>
         )}
       </div>
 
+      {/* Slider Area */}
       <div className="slider-container-relative">
-        <button onClick={prevSlide} className="btn-nav-abs left"><ChevronLeft size={24} /></button>
+        <button onClick={prevSlide} className="btn-nav-abs left">
+          <ChevronLeft size={28} />
+        </button>
+
         <div className="carousel-window-small">
-          <div className="carousel-track" style={{ transform: `translateX(-${current * (100 / itemsPerPage)}%)` }}>
+          <div
+            className="carousel-track"
+            style={{
+              transform: `translateX(-${current * (100 / itemsPerPage)}%)`,
+            }}
+          >
             {items.map((item, i) => (
-              <div key={i} className="carousel-card-small" style={{ minWidth: `${100 / itemsPerPage}%` }}>
+              <div
+                key={i}
+                className="carousel-card-small"
+                style={{ minWidth: `${100 / itemsPerPage}%` }}
+              >
                 <div className="gal-item-card-small">
                   <img src={item.img} alt={item.title} />
-                  <div className="gal-overlay-small">
+                  <div className="gal-overlay-gradient"></div>{" "}
+                  <div className="gal-content-bottom">
+                    <span className="gal-cat-badge">{item.cat}</span>
                     <h4>{item.title}</h4>
-                    <span>{item.cat}</span>
                   </div>
                 </div>
               </div>
             ))}
           </div>
         </div>
-        <button onClick={nextSlide} className="btn-nav-abs right"><ChevronRight size={24} /></button>
+
+        <button onClick={nextSlide} className="btn-nav-abs right">
+          <ChevronRight size={28} />
+        </button>
       </div>
     </div>
   );
 };
 
-// --- MAIN COMPONENT ---
+// --- MAIN LANDING PAGE COMPONENT ---
 function LandingPage() {
   const [menuOpen, setMenuOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
@@ -215,18 +272,44 @@ function LandingPage() {
       {/* 1. NAVBAR */}
       <nav className={`op10-nav ${scrolled ? "scrolled" : ""}`}>
         <div className="op10-container nav-flex">
-          <div className="nav-brand"><Link to="/">DOGER<span>.STUDIO</span></Link></div>
+          <div className="nav-brand">
+            <Link to="/">
+              DOGER<span>.INTERIOR</span>
+            </Link>
+          </div>
           <div className={`nav-links ${menuOpen ? "active" : ""}`}>
-            <a href="#hero" onClick={() => setMenuOpen(false)}>Home</a>
-            <Link to="/about">Tentang</Link>
-            <Link to="/services">Layanan</Link>
-            <a href="#gallery" onClick={() => setMenuOpen(false)}>Projek</a>
-            <a href="#contact" onClick={() => setMenuOpen(false)}>Kontak</a>
-            <span className="close-menu mobile-only" onClick={() => setMenuOpen(false)}><X /></span>
+            <Link to="/" onClick={() => setMenuOpen(false)}>
+              Home
+            </Link>
+            <Link to="/about" onClick={() => setMenuOpen(false)}>
+              Tentang
+            </Link>
+            <Link to="/services" onClick={() => setMenuOpen(false)}>
+              Layanan
+            </Link>
+            <a href="/projek" onClick={() => setMenuOpen(false)}>
+              Proyek
+            </a>
+            <Link to="/contact" onClick={() => setMenuOpen(false)}>
+              Kontak
+            </Link>
+            <span
+              className="close-menu mobile-only"
+              onClick={() => setMenuOpen(false)}
+            >
+              <X />
+            </span>
           </div>
           <div className="nav-actions">
-            <Link to="/contact" className="btn-nav-cta">Konsultasi</Link>
-            <button className="burger-menu" onClick={() => setMenuOpen(!menuOpen)}><Menu /></button>
+            <Link to="/contact" className="btn-nav-cta">
+              Konsultasi
+            </Link>
+            <button
+              className="burger-menu"
+              onClick={() => setMenuOpen(!menuOpen)}
+            >
+              <Menu />
+            </button>
           </div>
         </div>
       </nav>
@@ -235,52 +318,187 @@ function LandingPage() {
       <header id="hero" className="op10-hero-split">
         <div className="hero-left">
           <div className="hl-content fade-up">
-            <span className="badge-hero">EST. 2004 — DEPOK</span>
-            <h1 className="hero-title">Wujudkan Interior <br /><span className="text-highlight">Impian Anda</span></h1>
+            <span className="badge-hero">EST. 2024 — DEPOK</span>
+            <h1 className="hero-title">
+              Wujudkan Interior <br />
+              <span className="text-highlight">Impian Anda</span>
+            </h1>
             <p className="hero-desc">
-              Spesialis Kitchen Set & Interior Custom dengan material premium anti-rayap. Berbekal pengalaman lebih dari 20 tahun menghadirkan solusi ruang presisi.
+              Spesialis Kitchen Set & Interior Custom dengan material premium
+              anti-rayap. Desain mewah, harga transparan, dan bergaransi.
             </p>
             <div className="hero-btns">
-              <a href="#contact" className="btn-primary">Hubungi Kami <ArrowRight size={18} /></a>
-              <a href="#gallery" className="btn-secondary">Lihat Karya</a>
+              <Link to="/contact" className="btn-primary">
+                Hubungi Kami <ArrowRight size={18} />
+              </Link>
+              <a href="/projek" className="btn-secondary">
+                Lihat Karya
+              </a>
+            </div>
+            <div className="hero-stats">
+              <div>
+                <strong>300+</strong>
+                <span>Proyek</span>
+              </div>
+              <div className="sep"></div>
+              <div>
+                <strong>100%</strong>
+                <span>Custom</span>
+              </div>
             </div>
           </div>
         </div>
         <div className="hero-right fade-in">
           <img src={heroImg} alt="Luxury Kitchen Set" />
+          <div className="hero-overlay-deco"></div>
         </div>
       </header>
 
-      {/* 3. ABOUT SECTION */}
+      {/* --- NEW WELCOME SECTION --- */}
+      <section className="welcome-section bg-white">
+        <div className="op10-container">
+          {/* Top Bar with Ribbon */}
+          <div className="welcome-top fade-up">
+            <div className="welcome-ribbon">
+              <h2>Welcome To Our Website</h2>
+            </div>
+            <div className="welcome-brand">
+              <div className="wb-logo">
+                DOGER <span>INTERIOR</span>
+              </div>
+              <div className="wb-divider"></div>
+              <Link to="/contact" className="btn-consult-small">
+                Konsultasi
+              </Link>
+            </div>
+          </div>
+
+          {/* Main Content */}
+          <div className="welcome-main-card fade-up delay-1">
+            <div className="wm-header">
+              <h1>
+                <span className="accent-text">Doger Interior</span> - Jasa
+                Interior Kitchen Set
+              </h1>
+              <div className="wm-line"></div>
+            </div>
+            <div className="wm-body">
+              <p className="lead-paragraph">
+                <strong>Doger Interior</strong> merupakan spesialis{" "}
+                <em>jasa Interior Kitchen Set</em>. Kami melayani jasa pembuatan
+                kitchen set aluminium minimalis baik untuk rumah, kantor, hotel,
+                apartemen, restaurant dan lainnya.
+              </p>
+              <p className="secondary-paragraph">
+                Di sini, Anda dapat memilih bentuk layout dapur yang bisa Anda
+                terapkan pada kitchen set rumah Anda. Mulai dari{" "}
+                <strong>bentuk C, I ,G, L</strong> atau{" "}
+                <strong>bentuk U</strong>. Untuk harga kitchen set per meter,
+                harga kitchen set aluminium, harga kitchen set di Jakarta, kami
+                memberikan harga murah dan terjangkau untuk para customer.
+              </p>
+            </div>
+          </div>
+        </div>
+
+        {/* Floating WA Button */}
+        <a
+          href="https://wa.me/6285282773811"
+          target="_blank"
+          rel="noreferrer"
+          className="float-wa"
+          aria-label="WhatsApp"
+        >
+          <MessageCircle size={32} />
+        </a>
+      </section>
+
+      {/* 3. ABOUT SECTION (MENGAPA MEMILIH...) */}
       <section id="about" className="op10-section bg-cream">
         <div className="op10-container grid-2">
           <div className="about-img-wrap fade-up delay-1">
             <img src={img2} alt="About Us" />
-            <div className="exp-badge"><span>20+ TH</span><small>PENGALAMAN</small></div>
+            <div className="exp-badge">
+              <span>5+ TH</span>
+              <small>PENGALAMAN</small>
+            </div>
           </div>
+
           <div className="about-text fade-up delay-2">
             <span className="sub-head">TENTANG KAMI</span>
             <h2>MENGAPA MEMILIH DOGER INTERIOR?</h2>
+            <p
+              style={{
+                marginBottom: "30px",
+                fontSize: "0.95rem",
+                color: "#666",
+              }}
+            >
+              Kami memahami bahwa rumah adalah investasi jangka panjang, itulah
+              sebabnya kami berkomitmen memberikan yang terbaik melalui:
+            </p>
+
+            {/* 5 POINT CARDS (VERTIKAL) */}
             <div className="vertical-features-list">
               <div className="v-feature-card">
-                <div className="v-icon-circle"><ShieldCheck size={28} /></div>
+                <div className="v-icon-circle">
+                  <ShieldCheck size={28} />
+                </div>
                 <div className="v-card-text">
                   <h4>Opsi Material Beragam</h4>
-                  <p>Mulai dari Aluminium (anti-rayap), Multiplek, hingga PVC Board berkualitas tinggi.</p>
+                  <p>
+                    Pilih material yang dapat disesuaikan mulai dari Aluminium
+                    (anti-rayap), Multiplek, maupun PVC Board.
+                  </p>
                 </div>
               </div>
+
               <div className="v-feature-card">
-                <div className="v-icon-circle"><Star size={28} /></div>
+                <div className="v-icon-circle">
+                  <Star size={28} />
+                </div>
                 <div className="v-card-text">
                   <h4>Transparansi Proyek</h4>
-                  <p>Update perkembangan pengerjaan secara nyata dan berkala untuk ketenangan pikiran Anda.</p>
+                  <p>
+                    Update perkembangan pengerjaan secara berkala agar hasil
+                    selalu terpantau dan sesuai ekspektasi.
+                  </p>
                 </div>
               </div>
+
               <div className="v-feature-card">
-                <div className="v-icon-circle"><DollarSign size={28} /></div>
+                <div className="v-icon-circle">
+                  <DollarSign size={28} />
+                </div>
                 <div className="v-card-text">
-                  <h4>Custom & Personal</h4>
-                  <p>Desain fleksibel mengikuti preferensi estetika anda dan kebutuhan fungsional harian.</p>
+                  <h4>Harga Terbaik</h4>
+                  <p>Penawaran harga yang kompetitif dan transparan.</p>
+                </div>
+              </div>
+
+              <div className="v-feature-card">
+                <div className="v-icon-circle">
+                  <PenTool size={28} />
+                </div>
+                <div className="v-card-text">
+                  <h4>Custom Sesuai Keinginan</h4>
+                  <p>
+                    Desain fleksibel mengikuti preferensi estetika anda
+                    (Minimalis, Klasik, dll).
+                  </p>
+                </div>
+              </div>
+
+              <div className="v-feature-card">
+                <div className="v-icon-circle">
+                  <MessageSquare size={28} />
+                </div>
+                <div className="v-card-text">
+                  <h4>Konsultasi Fleksibel</h4>
+                  <p>
+                    Layanan diskusi dua arah yang dapat dilakukan secara
+                    online/offline.
+                  </p>
                 </div>
               </div>
             </div>
@@ -297,36 +515,135 @@ function LandingPage() {
           </div>
           <div className="services-grid-cards">
             {SERVICES_DATA.map((srv, index) => (
-              <div key={srv.id} className="srv-card fade-up" style={{ animationDelay: `${index * 0.1}s` }}>
+              <div
+                key={srv.id}
+                className="srv-card fade-up"
+                style={{ animationDelay: `${index * 0.1}s` }}
+              >
                 <div className="srv-img">
                   <img src={srv.img} alt={srv.title} />
                   <div className="srv-icon-box">{srv.icon}</div>
                 </div>
-                <div className="srv-body"><h3>{srv.title}</h3><p>{srv.desc}</p></div>
+                <div className="srv-body">
+                  <h3>{srv.title}</h3>
+                  <p>{srv.desc}</p>
+                </div>
               </div>
             ))}
           </div>
         </div>
       </section>
 
-      {/* 5. PROCESS SECTION */}
-      <section id="process" className="op10-section bg-white">
-        <div className="op10-container">
-          <div className="section-head center fade-up">
-            <span className="sub-head">ALUR KERJA</span>
-            <h2>6 TAHAPAN PEMESANAN</h2>
+      {/* SECTION 1: SPESIALIS BAHAN */}
+      <section className="op10-section bg-cream">
+        <div className="op10-container grid-2">
+          <div className="specialist-content fade-up">
+            <span className="sub-head">MATERIAL & KUALITAS</span>
+            <h2>SPESIALIS PEMAKAIAN BAHAN</h2>
+            <p>
+              Kami mengutamakan durabilitas dan estetika. Material yang kami
+              gunakan dipilih secara ketat.
+            </p>
+            <ul className="check-list">
+              <li>
+                <CheckCircle size={18} className="icon-check" />{" "}
+                <strong>Kayu Solid & Plywood Grade A</strong>
+              </li>
+              <li>
+                <CheckCircle size={18} className="icon-check" />{" "}
+                <strong>Finishing HPL Premium</strong>
+              </li>
+              <li>
+                <CheckCircle size={18} className="icon-check" />{" "}
+                <strong>Aksesoris Berkualitas</strong>
+              </li>
+            </ul>
+            <Link to="/contact" className="btn-primary mt-20">
+              Hubungi Kami
+            </Link>
           </div>
-          <div className="process-grid">
-            {PROCESS_DATA.map((item, index) => (
-              <div key={item.id} className="process-item fade-up" style={{ animationDelay: `${index * 0.15}s` }}>
-                <div className="process-num-wrap">
-                  <span className="process-num">{item.id}</span>
-                  <div className="process-icon-small">{item.icon}</div>
-                </div>
-                <h3>{item.title}</h3>
-                <p>{item.desc}</p>
-              </div>
-            ))}
+          <div className="specialist-img fade-up delay-1">
+            <img src={img10} alt="Detail Material Kayu" />
+            <div className="material-badge">
+              <span>PREMIUM</span>
+              <small>QUALITY</small>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* SECTION 2: DESAIN & PRESISI */}
+      <section className="op10-section bg-cream">
+        <div className="op10-container grid-2-reverse">
+          <div className="specialist-img fade-up delay-1">
+            <img src={img10} alt="Detail Material Kayu" />
+            <div className="material-badge badge-left">
+              <span>PREMIUM</span>
+              <small>QUALITY</small>
+            </div>
+          </div>
+          <div className="specialist-content fade-up">
+            <span className="sub-head">MATERIAL & KUALITAS</span>
+            <h2>SPESIALIS PEMAKAIAN BAHAN</h2>
+            <p>
+              Kami mengutamakan durabilitas dan estetika. Material yang kami
+              gunakan dipilih secara ketat.
+            </p>
+            <ul className="check-list">
+              <li>
+                <CheckCircle size={18} className="icon-check" />{" "}
+                <strong>Kayu Solid & Plywood Grade A</strong>
+              </li>
+              <li>
+                <CheckCircle size={18} className="icon-check" />{" "}
+                <strong>Finishing HPL Premium</strong>
+              </li>
+              <li>
+                <CheckCircle size={18} className="icon-check" />{" "}
+                <strong>Aksesoris Berkualitas</strong>
+              </li>
+            </ul>
+            <Link to="/contact" className="btn-primary mt-20">
+              Hubungi Kami
+            </Link>
+          </div>
+        </div>
+      </section>
+
+      {/* SECTION 3: FUNGSIONAL & RAPI */}
+      <section className="op10-section bg-cream">
+        <div className="op10-container grid-2">
+          <div className="specialist-content fade-up">
+            <span className="sub-head">FUNGSIONAL & RAPI</span>
+            <h2>RUANG PENYIMPANAN MAKSIMAL</h2>
+            <p>
+              Interior bukan hanya soal tampilan, tapi juga fungsi. Kami
+              merancang lemari dan kabinet dengan sistem penyimpanan cerdas.
+            </p>
+            <ul className="check-list">
+              <li>
+                <CheckCircle size={18} className="icon-check" />{" "}
+                <strong>Rak Adjustable</strong>
+              </li>
+              <li>
+                <CheckCircle size={18} className="icon-check" />{" "}
+                <strong>Hidden Storage</strong>
+              </li>
+              <li>
+                <CheckCircle size={18} className="icon-check" />{" "}
+                <strong>Lighting Integration</strong>
+              </li>
+            </ul>
+            <Link to="/contact" className="btn-primary mt-20">
+              Hubungi Kami
+            </Link>
+          </div>
+          <div className="specialist-img fade-up delay-1">
+            <img src={img8} alt="Fungsional Storage" />
+            <div className="material-badge">
+              <span>SMART</span>
+              <small>DESIGN</small>
+            </div>
           </div>
         </div>
       </section>
@@ -337,45 +654,97 @@ function LandingPage() {
           <div className="section-head center fade-up">
             <span className="sub-head text-cream">PORTOFOLIO</span>
             <h2>HASIL KARYA KAMI</h2>
+            <p style={{ maxWidth: "600px", margin: "0 auto", opacity: 0.8 }}>
+              Jelajahi berbagai kategori proyek.
+            </p>
           </div>
           <div className="multi-slider-wrapper">
             {PROJECT_CATEGORIES.map((category, idx) => (
-              <ProjectSlider key={idx} {...category} />
+              <ProjectSlider
+                key={idx}
+                title={category.title}
+                desc={category.desc}
+                projectInfo={category.projectInfo}
+                hasContact={category.hasContact}
+                items={category.items}
+              />
             ))}
+          </div>
+          <div className="center mt-30">
+            <a
+              href="https://instagram.com/doger.interior"
+              className="link-arrow justify-center"
+            >
+              Lihat Lebih Banyak di Instagram <ArrowUpRight size={18} />
+            </a>
           </div>
         </div>
       </section>
 
-      {/* 7. CONTACT & FAQ SECTION */}
+      {/* 7. FAQ & CONTACT */}
       <section id="contact" className="op10-section bg-cream">
-        <div className="op10-container contact-split-grid">
-          <div className="faq-side fade-up">
-            <span className="sub-head">HUBUNGI KAMI</span>
-            <h2>Konsultasi Gratis Sekarang</h2>
+        <div className="op10-container grid-2-faq">
+          <div className="faq-left fade-up">
+            <span className="sub-head">PERTANYAAN UMUM</span>
+            <h2>YANG SERING DITANYAKAN</h2>
             <div className="faq-wrapper">
               {FAQ_DATA.map((faq, i) => (
-                <div key={i} className={`faq-box ${openFaq === i ? "open" : ""}`} onClick={() => setOpenFaq(openFaq === i ? null : i)}>
+                <div
+                  key={i}
+                  className={`faq-box ${openFaq === i ? "open" : ""}`}
+                  onClick={() => setOpenFaq(openFaq === i ? null : i)}
+                >
                   <div className="faq-head">
-                    {faq.q} {openFaq === i ? <ChevronUp size={20} /> : <ChevronDown size={20} />}
+                    {faq.q}{" "}
+                    {openFaq === i ? (
+                      <ChevronUp size={20} />
+                    ) : (
+                      <ChevronDown size={20} />
+                    )}
                   </div>
                   {openFaq === i && <div className="faq-body">{faq.a}</div>}
                 </div>
               ))}
             </div>
-            <div className="contact-info-footer">
-              <div className="info-item-row"><Phone size={18} /> 0852-8277-3811</div>
-              <div className="info-item-row"><Mail size={18} /> doger.interior@gmail.com</div>
-              <div className="info-item-row"><MapPin size={18} /> Grogol, Limo, Kota Depok, Jawa Barat</div>
-            </div>
           </div>
-          <div className="contact-form-side fade-up delay-1">
-            <div className="form-card-glass">
-              <h3>Kirim Pesan</h3>
+          <div className="contact-right fade-up delay-2">
+            <div className="form-card">
+              <h3>Mulai Konsultasi Gratis</h3>
+              <p>Isi form di bawah, kami akan membalas via WhatsApp.</p>
               <form onSubmit={kirimKeWA}>
-                <div className="form-group"><label>Nama Lengkap</label><input type="text" name="nama" onChange={handleInput} required /></div>
-                <div className="form-group"><label>Nomor WhatsApp</label><input type="tel" name="wa" onChange={handleInput} required /></div>
-                <div className="form-group"><label>Kebutuhan Anda</label><textarea name="pesan" rows="3" onChange={handleInput} required></textarea></div>
-                <button type="submit" className="btn-primary w-100">KIRIM PESAN <Send size={18} /></button>
+                <div className="form-group">
+                  <label>Nama Lengkap</label>
+                  <input
+                    type="text"
+                    name="nama"
+                    placeholder="Contoh: Bpk. Budi"
+                    onChange={handleInput}
+                    required
+                  />
+                </div>
+                <div className="form-group">
+                  <label>Nomor WhatsApp</label>
+                  <input
+                    type="tel"
+                    name="wa"
+                    placeholder="08xxxxx"
+                    onChange={handleInput}
+                    required
+                  />
+                </div>
+                <div className="form-group">
+                  <label>Kebutuhan Anda</label>
+                  <textarea
+                    name="pesan"
+                    rows="3"
+                    placeholder="Saya mau buat kitchen set ukuran..."
+                    onChange={handleInput}
+                    required
+                  ></textarea>
+                </div>
+                <button type="submit" className="btn-primary w-100">
+                  KIRIM PESAN SEKARANG
+                </button>
               </form>
             </div>
           </div>
@@ -386,20 +755,54 @@ function LandingPage() {
       <footer className="op10-footer">
         <div className="op10-container footer-content">
           <div className="f-brand">
-            <h2>DOGER<span>.STUDIO</span></h2>
+            <h2>
+              DOGER<span>.STUDIO</span>
+            </h2>
             <p>Jasa Interior & Kitchen Set Profesional Jabodetabek.</p>
+            <div className="f-sosmed">
+              <a href="#">
+                <Instagram size={20} />
+              </a>
+              <a href="#">
+                <Phone size={20} />
+              </a>
+              <a href="#">
+                <Mail size={20} />
+              </a>
+            </div>
+          </div>
+          <div className="f-info">
+            <h5>ALAMAT WORKSHOP</h5>
+            <p>
+              Jl. H. Ahmad Nado 1 No.126,
+              <br />
+              Grogol, Limo, Kota Depok, Jawa Barat
+            </p>
+            <div className="map-frame">
+              <iframe
+                title="Lokasi"
+                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3965.234!2d106.77!3d-6.36!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zNsKwMjEnMzYuMCJTIDEwNsKwNDYnMTIuMCJF!5e0!3m2!1sen!2sid!4v1600000000000!5m2!1sen!2sid"
+                width="100%"
+                height="100"
+                style={{ border: 0 }}
+                allowFullScreen=""
+                loading="lazy"
+              ></iframe>
+            </div>
           </div>
           <div className="f-contact">
-            <h5>WORKSHOP</h5>
-            <p>Jl. H. Ahmad Nado 1 No.126, Depok.</p>
-          </div>
-          <div className="f-social">
-            <a href="https://instagram.com/doger.interior" target="_blank" rel="noreferrer"><Instagram /></a>
-            <a href="https://wa.me/6285282773811"><MessageCircle /></a>
+            <h5>KONTAK CEPAT</h5>
+            <p>WA: 0852-8277-3811</p>
+            <p>Email: doger.interior@gmail.com</p>
           </div>
         </div>
-        <div className="footer-copyright">© 2026 Doger Interior. All Rights Reserved.</div>
+        <div className="footer-copyright">
+          © 2026 Doger Interior. All Rights Reserved.
+        </div>
       </footer>
+
+      {/* Floating Back Button (To Home is unnecessary on Home, but for consistency if reused) */}
+      {/* <Link to="/" className="op10-back-float"><ArrowLeft /></Link> */}
     </div>
   );
 }

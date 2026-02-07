@@ -30,7 +30,7 @@ const Navbar = () => {
           <Link to="/" onClick={closeMenu}>Home</Link>
           <Link to="/about" onClick={closeMenu}>Tentang</Link>
           <Link to="/services" onClick={closeMenu}>Layanan</Link>
-          <Link to="/projects" onClick={closeMenu}>Projek</Link>
+          <Link to="/projek" onClick={closeMenu}>Projek</Link>
           <Link to="/contact" onClick={closeMenu}>Kontak</Link>
           
           {/* Bagian tanda silang <X /> di sini telah dihapus agar tampilan lebih bersih */}

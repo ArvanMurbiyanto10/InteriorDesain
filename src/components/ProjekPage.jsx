@@ -1,14 +1,10 @@
-import React, { useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
-import { ArrowLeft, ArrowUpRight, ZoomIn } from "lucide-react"; 
+import { ArrowLeft, ArrowUpRight, Camera, Filter } from "lucide-react";
+import Navbar from "./Navbar";
+import "./ProjekPage.css";
 
-// Import CSS
-import "../LandingPage.css"; 
-
-// --- Import Komponen Navbar Global ---
-import Navbar from "./Navbar"; 
-
-// --- Import Assets (Pastikan path sesuai) ---
+// Import aset foto Anda di sini
 import img1 from "../assets/foto-1.jpg";
 import img2 from "../assets/foto-2.jpg";
 import img3 from "../assets/foto-3.jpg";
@@ -18,88 +14,118 @@ import img7 from "../assets/foto-7.jpg";
 import img8 from "../assets/foto-8.jpg";
 import img10 from "../assets/foto-10.jpg";
 
-// Data Galeri Lengkap
-const PROJECT_GALLERY = [
-  { img: img7, title: "Minimalist Kitchen", cat: "Kitchen Set" },
-  { img: img8, title: "Luxury Wardrobe", cat: "Bedroom" },
-  { img: img3, title: "Warm Living Room", cat: "Living" },
-  { img: img5, title: "Modern Office", cat: "Commercial" },
-  { img: img1, title: "Dry Pantry", cat: "Kitchen Set" },
-  { img: img2, title: "Walk-in Closet", cat: "Bedroom" },
-  { img: img10, title: "Coffee Shop Bar", cat: "Commercial" },
-  { img: img6, title: "Reception Area", cat: "Office" },
+const ALL_PROJECTS = [
+  { id: 1, title: "Modern Minibar", cat: "Kitchen", img: img1 },
+  { id: 2, title: "Scandinavian Kitchen", cat: "Kitchen", img: img7 },
+  { id: 3, title: "Walk-in Closet Luxury", cat: "Wardrobe", img: img8 },
+  { id: 4, title: "Backdrop TV Marmer", cat: "Living Room", img: img3 },
+  { id: 5, title: "Master Bedroom Suite", cat: "Bedroom", img: img2 },
+  { id: 6, title: "Office Meeting Room", cat: "Commercial", img: img5 },
+  { id: 7, title: "Lemari Bawah Tangga", cat: "Wardrobe", img: img6 },
+  { id: 8, title: "Classic Kitchen Set", cat: "Kitchen", img: img10 },
 ];
 
-function ProjekPage() {
-  
-  // Scroll ke atas saat halaman dibuka
+const CATEGORIES = ["Semua", "Kitchen", "Wardrobe", "Living Room", "Bedroom", "Commercial"];
+
+const ProjekPage = () => {
+  const [filter, setFilter] = useState("Semua");
+
+  // FIX: Menghapus useState dan useEffect untuk filteredProjects.
+  // Gunakan "Derived State" (dihitung langsung saat render).
+  const filteredProjects = filter === "Semua" 
+    ? ALL_PROJECTS 
+    : ALL_PROJECTS.filter((p) => p.cat === filter);
+
   useEffect(() => {
     window.scrollTo(0, 0);
   }, []);
 
   return (
-    <div className="op10-root">
-      
-      {/* 1. PANGGIL NAVBAR GLOBAL (Otomatis Putih & Rapi) */}
+    <div className="projek-root">
       <Navbar />
 
-      {/* 2. KONTEN HALAMAN */}
-      {/* Gunakan bg-dark agar galeri terlihat elegan (opsional, bisa bg-white juga) */}
-      <section className="op10-section bg-dark text-cream" style={{ paddingTop: "140px", minHeight: "100vh" }}>
+      {/* HEADER SECTION */}
+      <section className="projek-header">
         <div className="op10-container">
-          
-          {/* Header Section */}
-          <div className="center fade-up" style={{ marginBottom: "60px" }}>
-            <span className="sub-head text-cream">PORTOFOLIO KAMI</span>
-            <h1>GALERI PROYEK</h1>
-            <p style={{ opacity: 0.8 }}>Kumpulan hasil karya terbaik yang telah kami kerjakan dengan sepenuh hati.</p>
-          </div>
+          <span className="subtitle">Portofolio Kami</span>
+          <h1>Eksplorasi <br /><span className="italic-text">Karya & Kreasi</span>.</h1>
+          <p className="header-desc">
+            Kumpulan proyek interior pilihan yang telah kami selesaikan dengan ketelitian 20 tahun pengalaman. 
+            Setiap karya adalah perpaduan antara fungsi ruang dan kepribadian pemiliknya.
+          </p>
+        </div>
+      </section>
 
-          {/* Grid Galeri */}
-          <div className="gallery-grid-simple">
-            {PROJECT_GALLERY.map((item, index) => (
-              <div 
-                key={index} 
-                className="gal-item fade-up"
-                style={{ animationDelay: `${index * 0.1}s` }}
-              >
-                <img src={item.img} alt={item.title} loading="lazy" />
-                
-                {/* Overlay Hover */}
-                <div className="gal-overlay">
-                  <div style={{ marginBottom: "10px" }}>
-                    <h4 style={{ margin: 0, fontSize: "1.1rem" }}>{item.title}</h4>
-                    <span style={{ fontSize: "0.85rem", opacity: 0.8, textTransform: "uppercase", letterSpacing: "1px" }}>
-                      {item.cat}
-                    </span>
-                  </div>
-                  {/* Ikon Zoom/Arrow sekedar hiasan */}
-                  <div style={{ background: "white", color: "#333", padding: "8px", borderRadius: "50%", display: "flex" }}>
-                     <ArrowUpRight size={18} />
+      {/* FILTER SECTION */}
+      <section className="filter-section">
+        <div className="op10-container">
+          <div className="filter-flex">
+            <div className="filter-label">
+              <Filter size={18} /> <span>Filter:</span>
+            </div>
+            <div className="filter-buttons">
+              {CATEGORIES.map((c) => (
+                <button 
+                  key={c} 
+                  className={filter === c ? "active" : ""} 
+                  onClick={() => setFilter(c)}
+                >
+                  {c}
+                </button>
+              ))}
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* GALLERY GRID */}
+      <section className="projek-gallery">
+        <div className="op10-container">
+          <div className="gallery-grid">
+            {filteredProjects.map((project) => (
+              <div key={project.id} className="gallery-item">
+                <div className="img-container">
+                  <img src={project.img} alt={project.title} loading="lazy" />
+                  <div className="item-overlay">
+                    <div className="overlay-content">
+                      <span>{project.cat}</span>
+                      <h3>{project.title}</h3>
+                      <Link to="/contact" className="btn-view-detail">
+                        Konsultasi Projek <ArrowUpRight size={16} />
+                      </Link>
+                    </div>
                   </div>
                 </div>
               </div>
             ))}
           </div>
+          
+          {filteredProjects.length === 0 && (
+            <div className="empty-state">
+              <Camera size={48} />
+              <p>Belum ada foto untuk kategori ini.</p>
+            </div>
+          )}
+        </div>
+      </section>
 
-          {/* CTA Bawah */}
-          <div className="center fade-up" style={{ marginTop: "80px", borderTop: "1px solid rgba(255,255,255,0.1)", paddingTop: "50px" }}>
-             <h3 style={{ marginBottom: "20px" }}>Tertarik dengan desain seperti ini?</h3>
-             <Link to="/contact" className="btn-primary" style={{ border: "1px solid white" }}>
-               Mulai Proyek Anda Sekarang
-             </Link>
+      {/* CALL TO ACTION */}
+      <section className="projek-cta">
+        <div className="op10-container">
+          <div className="cta-card">
+            <h2>Punya Visi Untuk Ruangan Anda?</h2>
+            <p>Mari diskusikan konsep interior impian Anda bersama tim ahli kami di Depok.</p>
+            <Link to="/contact" className="btn-cta-gold">Mulai Konsultasi</Link>
           </div>
-
         </div>
       </section>
 
       {/* Floating Back Button */}
-      <Link to="/" className="op10-back-float">
-        <ArrowLeft />
+      <Link to="/" className="btn-back-float">
+        <ArrowLeft size={24} />
       </Link>
-      
     </div>
   );
-}
+};
 
 export default ProjekPage;
