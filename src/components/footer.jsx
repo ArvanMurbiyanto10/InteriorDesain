@@ -1,6 +1,5 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
-import { Instagram, Facebook, Mail, MapPin, Phone, ArrowRight } from 'lucide-react';
+import { Instagram, Phone, Mail } from 'lucide-react';
 import './Footer.css';
 
 const Footer = () => {
@@ -10,66 +9,64 @@ const Footer = () => {
     <footer className="footer-root">
       <div className="footer-container">
         
-        {/* --- BAGIAN ATAS (Grid Utama) --- */}
-        <div className="footer-grid">
+        <div className="footer-content">
           
-          {/* Kolom 1: Brand & About */}
-          <div className="footer-brand">
-            <h2 className="footer-logo">DOGER<span className="text-accent">.INTERIOR</span></h2>
-            <p className="footer-desc">
-              Mewujudkan ruang impian dengan harmoni material berkualitas tinggi dan desain fungsional yang berkarakter sejak 2004.
+          {/* KOLOM 1: BRAND & SOSMED */}
+          <div className="f-col-brand">
+            <h2 className="footer-logo">DOGER<span>.STUDIO</span></h2>
+            <p className="footer-tagline">
+              Jasa Interior & Kitchen Set Profesional Jabodetabek.
             </p>
             <div className="footer-socials">
-              <a href="#" className="social-link" aria-label="Instagram"><Instagram size={18} /></a>
-              <a href="#" className="social-link" aria-label="Facebook"><Facebook size={18} /></a>
-              <a href="mailto:info@dogerinterior.com" className="social-link" aria-label="Email"><Mail size={18} /></a>
+              <a href="https://instagram.com/doger.interior" target="_blank" rel="noreferrer" aria-label="Instagram">
+                <Instagram size={24} />
+              </a>
+              <a href="https://wa.me/6285282773811" target="_blank" rel="noreferrer" aria-label="WhatsApp">
+                <Phone size={24} />
+              </a>
+              <a href="mailto:doger.interior@gmail.com" aria-label="Email">
+                <Mail size={24} />
+              </a>
             </div>
           </div>
 
-          {/* Kolom 2: Navigasi Cepat */}
-          <div className="footer-links">
-            <h3 className="footer-heading">Jelajahi</h3>
-            <ul>
-              <li><Link to="/">Beranda</Link></li>
-              <li><Link to="/about">Tentang Kami</Link></li>
-              <li><Link to="/services">Layanan & Harga</Link></li>
-              <li><Link to="/portfolio">Portofolio</Link></li>
-              <li><Link to="/contact">Hubungi Kami</Link></li>
-            </ul>
+          {/* KOLOM 2: ALAMAT & PETA */}
+          <div className="f-col-address">
+            <h3 className="footer-heading">ALAMAT WORKSHOP</h3>
+            <p>
+              Jl. H. Ahmad Nado 1 No.126,<br />
+              Grogol, Limo, Kota Depok, Jawa Barat
+            </p>
+            <div className="footer-map">
+              {/* Google Maps Embed */}
+              <iframe 
+                title="Lokasi Workshop Doger Interior"
+                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3965.372274435372!2d106.7797743!3d-6.3457448!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x2e69ee804245763b%3A0x6c6c67530663737c!2sJl.%20H.%20Ahmad%20Nado%20No.126%2C%20Grogol%2C%20Kec.%20Limo%2C%20Kota%20Depok%2C%20Jawa%20Barat%2016512!5e0!3m2!1sen!2sid!4v1700000000000!5m2!1sen!2sid"
+                width="100%" 
+                height="100" 
+                style={{ border: 0 }} 
+                allowFullScreen="" 
+                loading="lazy"
+                referrerPolicy="no-referrer-when-downgrade">
+              </iframe>
+            </div>
           </div>
 
-          {/* Kolom 3: Kontak & Lokasi */}
-          <div className="footer-contact">
-            <h3 className="footer-heading">Kantor & Workshop</h3>
-            
-            <div className="contact-item">
-              <MapPin size={20} className="contact-icon" />
-              <span>
-                Jl. Margonda Raya No. 123<br/>
-                Depok, Jawa Barat 16424
-              </span>
-            </div>
-            
-            <div className="contact-item">
-              <Phone size={20} className="contact-icon" />
-              <span>
-                +62 812-3456-7890 (WhatsApp)<br/>
-                (021) 7788-9900
-              </span>
-            </div>
-
-            <div className="contact-item">
-              <Mail size={20} className="contact-icon" />
-              <span>consult@dogerinterior.com</span>
+          {/* KOLOM 3: KONTAK CEPAT */}
+          <div className="f-col-contact">
+            <h3 className="footer-heading">KONTAK CEPAT</h3>
+            <div className="contact-list">
+              <p>WA: 0852-8277-3811</p>
+              <p>Email: doger.interior@gmail.com</p>
+              <p className="mt-2">Jam Kerja: Senin - Sabtu (08.00 - 17.00)</p>
             </div>
           </div>
 
         </div>
 
-        {/* --- BAGIAN BAWAH (Copyright) --- */}
+        {/* COPYRIGHT */}
         <div className="footer-bottom">
-          <p>&copy; {currentYear} Doger Interior. All rights reserved.</p>
-          <p style={{ opacity: 0.6 }}>Designed with precision in Depok.</p>
+          <p>&copy; {currentYear} Doger Interior. All Rights Reserved.</p>
         </div>
 
       </div>

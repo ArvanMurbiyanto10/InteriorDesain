@@ -1,0 +1,18 @@
+.admin-layout { display: flex; min-height: 100vh; background: #f4f6f9; font-family: sans-serif; }
+.sidebar { width: 240px; background: #1a252f; color: white; padding: 20px; display: flex; flex-direction: column; }
+.menu-item { padding: 12px; margin-bottom: 5px; cursor: pointer; border-radius: 4px; }
+.menu-item.active { background: #34495e; color: #3498db; }
+.menu-logout { margin-top: auto; padding: 10px; background: #c0392b; color: white; border: none; cursor: pointer; }
+.main-content { flex: 1; padding: 30px; }
+.card { background: white; padding: 20px; border-radius: 8px; box-shadow: 0 2px 4px rgba(0,0,0,0.1); margin-bottom: 20px; }
+.form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-bottom: 15px; }
+.form-control { width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 4px; box-sizing: border-box; margin-bottom: 10px; }
+.btn-primary { background: #3498db; color: white; border: none; padding: 10px 20px; border-radius: 4px; cursor: pointer; }
+.btn-cancel { background: #95a5a6; color: white; border: none; padding: 10px 20px; border-radius: 4px; cursor: pointer; margin-left: 10px; }
+.data-table { width: 100%; border-collapse: collapse; margin-top: 15px; }
+.data-table th, .data-table td { padding: 12px; text-align: left; border-bottom: 1px solid #eee; }
+.thumb-img { width: 60px; height: 60px; object-fit: cover; border-radius: 4px; }
+.btn-edit { background: #f1c40f; color: black; border: none; padding: 5px 10px; border-radius: 4px; cursor: pointer; }
+.btn-delete { background: #e74c3c; color: white; border: none; padding: 8px 15px; border-radius: 4px; cursor: pointer; }
+.table-header { display: flex; justify-content: space-between; align-items: center; }
+tr.selected { background: #fff5f5; }
