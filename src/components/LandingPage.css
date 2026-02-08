@@ -1,4 +1,4 @@
-@import url("https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Playfair+Display:ital,wght@1,400;1,500;1,600&display=swap");
 
 /* --- 1. GLOBAL RESET --- */
 * {
@@ -13,17 +13,19 @@ html {
   width: 100%;
   overflow-x: hidden;
 }
+
 :root {
   --c-brown: #533f31;
   --c-brown-dark: #3e2e24;
   --c-cream: #eddcc2;
-  --c-cream-bg: #f9f6f2;
+  --c-cream-bg: #f9f6f2; /* Warna Background Utama Cream */
   --c-offwhite: #fcfcfc;
   --c-white: #ffffff;
   --font-main: "Plus Jakarta Sans", sans-serif;
   --radius: 12px;
   --shadow: 0 10px 30px rgba(83, 63, 49, 0.08);
 }
+
 .op10-root {
   font-family: var(--font-main);
   background-color: var(--c-white);
@@ -32,6 +34,7 @@ html {
   min-height: 100vh;
   line-height: 1.6;
 }
+
 .op10-container {
   max-width: 1600px;
   width: 94%;
@@ -102,7 +105,9 @@ html {
   animation: fadeIn 1.5s ease forwards;
 }
 
-/* NAVBAR */
+/* ----------------------------------------------------------- */
+/* NAVBAR (DIPERBAIKI AGAR TIDAK TABRAKAN) */
+/* ----------------------------------------------------------- */
 .op10-nav {
   position: fixed;
   top: 0;
@@ -119,16 +124,19 @@ html {
   padding: 15px 0;
   box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
 }
+
 .nav-flex {
   display: flex;
   justify-content: space-between;
   align-items: center;
 }
+
 .nav-brand {
   font-size: 1.6rem;
   font-weight: 800;
   color: var(--c-brown);
-}
+  white-space: nowrap;
+} /* Mencegah logo turun baris */
 .nav-brand a {
   text-decoration: none;
   color: var(--c-brown);
@@ -138,17 +146,27 @@ html {
   opacity: 0.6;
   font-weight: 400;
 }
+
 .nav-links {
   display: flex;
-  gap: 40px;
+  gap: 30px;
+  /* Memastikan menu ada di tengah/kanan tapi tidak menumpuk */
+  margin-left: auto;
+  margin-right: 30px;
 }
+
 .nav-links a {
   text-decoration: none;
   color: var(--c-brown);
   font-weight: 600;
   font-size: 0.95rem;
   transition: 0.3s;
+  white-space: nowrap; /* Mencegah teks menu turun baris */
 }
+.nav-links a:hover {
+  color: #888;
+}
+
 .btn-nav-cta {
   background: var(--c-brown);
   color: var(--c-white);
@@ -158,10 +176,12 @@ html {
   font-size: 0.9rem;
   text-decoration: none;
   transition: 0.3s;
+  white-space: nowrap;
 }
 .btn-nav-cta:hover {
   background: var(--c-brown-dark);
 }
+
 .burger-menu,
 .close-menu {
   display: none;
@@ -171,28 +191,34 @@ html {
   color: var(--c-brown);
 }
 
-/* HERO */
+/* ----------------------------------------------------------- */
+/* HERO SECTION (DENGAN EFEK BLUR YANG LEBIH KUAT) */
+/* ----------------------------------------------------------- */
 .op10-hero-split {
   display: grid;
-  grid-template-columns: 1fr 1.3fr;
+  /* Kiri lebih kecil sedikit dari kanan untuk estetika */
+  grid-template-columns: 0.9fr 1.1fr;
   min-height: 100vh;
   width: 100%;
   background: var(--c-cream-bg);
   position: relative;
   overflow: hidden;
 }
+
 .hero-left {
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 50px;
+  padding: 50px 0 50px 5%; /* Padding kiri disesuaikan */
   position: relative;
   z-index: 2;
 }
+
 .hl-content {
-  max-width: 600px;
+  max-width: 650px;
   width: 100%;
 }
+
 .badge-hero {
   font-size: 0.85rem;
   letter-spacing: 2px;
@@ -207,19 +233,25 @@ html {
   margin-bottom: 25px;
   color: var(--c-brown);
 }
+
+/* FONT KHUSUS "IMPIAN ANDA" */
 .text-highlight {
-  color: #888;
+  font-family: "Playfair Display", serif;
   font-style: italic;
+  color: #888;
+  font-weight: 400;
 }
+
 .hero-desc {
   font-size: 1.2rem;
   color: #666;
   margin-bottom: 40px;
+  max-width: 90%;
 }
 .hero-btns {
   display: flex;
   gap: 20px;
-  margin-bottom: 50px;
+  margin-bottom: 40px;
 }
 .btn-primary {
   background: var(--c-brown);
@@ -235,6 +267,10 @@ html {
   cursor: pointer;
   border: none;
 }
+.btn-primary:hover {
+  background: var(--c-brown-dark);
+  transform: translateY(-3px);
+}
 .btn-secondary {
   border: 1px solid var(--c-brown);
   color: var(--c-brown);
@@ -244,22 +280,70 @@ html {
   font-weight: 700;
   transition: 0.3s;
 }
+.btn-secondary:hover {
+  background: var(--c-brown);
+  color: white;
+}
+
+.hero-stats {
+  display: flex;
+  gap: 40px;
+  align-items: center;
+  border-top: 1px solid rgba(83, 63, 49, 0.1);
+  padding-top: 25px;
+}
+.stat-item strong {
+  font-size: 1.8rem;
+  display: block;
+  line-height: 1;
+  color: var(--c-brown);
+}
+.stat-item span {
+  font-size: 0.85rem;
+  color: #888;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+.stat-sep {
+  width: 1px;
+  height: 40px;
+  background: #ddd;
+}
+
+.hero-right {
+  position: relative;
+  height: 100%;
+  width: 100%;
+}
 .hero-right img {
   width: 100%;
   height: 100%;
   object-fit: cover;
   display: block;
 }
+
+/* --- PERBAIKAN UTAMA EFEK BLUR --- */
 .hero-overlay-deco {
   position: absolute;
   top: 0;
-  left: 0;
-  width: 100%;
+  left: 0; /* Mulai dari paling kiri container gambar */
+  width: 50%; /* Lebar gradasi diperbesar agar transisi lebih halus */
   height: 100%;
-  background: linear-gradient(to right, var(--c-cream-bg) 0%, transparent 20%);
+  /* Gradasi 3 langkah: Solid (Krem) -> Semi Transparan -> Transparan */
+  background: linear-gradient(
+    to right,
+    var(--c-cream-bg) 0%,
+    var(--c-cream-bg) 15%,
+    rgba(249, 246, 242, 0.7) 40%,
+    transparent 100%
+  );
+  pointer-events: none; /* Agar klik tembus ke bawah jika diperlukan */
+  z-index: 10;
 }
 
+/* ----------------------------------------------------------- */
 /* WELCOME */
+/* ----------------------------------------------------------- */
 .welcome-section {
   padding: 80px 0;
   background: linear-gradient(120deg, #ffffff 30%, var(--c-cream-bg) 100%);
@@ -298,6 +382,19 @@ html {
   color: var(--c-brown);
   line-height: 1;
 }
+.wb-logo span {
+  display: block;
+  font-size: 0.8rem;
+  color: #888;
+  font-weight: 500;
+  letter-spacing: 2px;
+  margin-top: 4px;
+}
+.wb-divider {
+  width: 1px;
+  height: 50px;
+  background: rgba(0, 0, 0, 0.1);
+}
 .btn-consult-small {
   background: transparent;
   color: var(--c-brown);
@@ -308,6 +405,11 @@ html {
   font-weight: 700;
   font-size: 0.9rem;
   transition: 0.3s;
+}
+.btn-consult-small:hover {
+  background: var(--c-brown);
+  color: white;
+  transform: translateY(-2px);
 }
 .welcome-main-card {
   max-width: 1200px;
@@ -324,6 +426,16 @@ html {
   font-weight: 800;
   letter-spacing: -1px;
 }
+.accent-text {
+  color: var(--c-brown);
+}
+.wm-line {
+  width: 80px;
+  height: 4px;
+  background: var(--c-brown);
+  margin: 0 auto 40px;
+  border-radius: 2px;
+}
 .wm-body {
   background: #ffffff;
   padding: 60px 80px;
@@ -333,8 +445,21 @@ html {
     0 5px 20px -5px rgba(0, 0, 0, 0.05);
   border: 1px solid rgba(255, 255, 255, 0.8);
 }
+.lead-paragraph {
+  font-size: 1.25rem;
+  color: #444;
+  margin-bottom: 25px;
+  line-height: 1.7;
+}
+.secondary-paragraph {
+  font-size: 1.05rem;
+  color: #777;
+  line-height: 1.8;
+}
 
+/* ----------------------------------------------------------- */
 /* ABOUT & SERVICES */
+/* ----------------------------------------------------------- */
 .op10-section {
   padding: 100px 0;
 }
@@ -373,10 +498,16 @@ html {
   right: auto;
   left: -30px;
 }
-.exp-badge span {
+.exp-badge span,
+.material-badge span {
   font-size: 1.5rem;
   font-weight: 800;
   display: block;
+}
+.exp-badge small,
+.material-badge small {
+  font-size: 0.8rem;
+  letter-spacing: 1px;
 }
 .sub-head {
   color: #999;
@@ -387,7 +518,8 @@ html {
   margin-bottom: 10px;
 }
 .about-text h2,
-.section-head h2 {
+.section-head h2,
+.specialist-content h2 {
   font-size: 2.8rem;
   margin-bottom: 25px;
   line-height: 1.2;
@@ -406,9 +538,30 @@ html {
   display: flex;
   align-items: center;
   gap: 25px;
-  transition: 0.3s;
+  transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
   border: 1px solid #f0f0f0;
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.02);
+  position: relative;
+  overflow: hidden;
+}
+.v-feature-card:hover {
+  transform: translateY(-3px) translateX(5px);
+  box-shadow: 0 15px 30px rgba(83, 63, 49, 0.08);
+  border-color: rgba(83, 63, 49, 0.2);
+}
+.v-feature-card::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 0;
+  height: 100%;
+  width: 5px;
+  background: var(--c-brown);
+  opacity: 0;
+  transition: 0.3s;
+}
+.v-feature-card:hover::before {
+  opacity: 1;
 }
 .v-icon-circle {
   flex-shrink: 0;
@@ -420,12 +573,27 @@ html {
   display: flex;
   align-items: center;
   justify-content: center;
+  transition: 0.3s;
+}
+.v-feature-card:hover .v-icon-circle {
+  background: var(--c-brown);
+  color: #fff;
+  transform: rotate(5deg);
+}
+.v-card-text {
+  flex: 1;
 }
 .v-card-text h4 {
   margin: 0 0 6px 0;
   font-size: 1.2rem;
   font-weight: 700;
   color: #333;
+}
+.v-card-text p {
+  margin: 0;
+  font-size: 1rem;
+  color: #666;
+  line-height: 1.5;
 }
 .services-grid-cards {
   display: grid;
@@ -439,6 +607,10 @@ html {
   border-radius: var(--radius);
   overflow: hidden;
   transition: 0.3s;
+}
+.srv-card:hover {
+  transform: translateY(-10px);
+  box-shadow: var(--shadow);
 }
 .srv-img {
   height: 220px;
@@ -471,8 +643,12 @@ html {
   margin-bottom: 10px;
   font-size: 1.3rem;
 }
+.srv-body p {
+  font-size: 0.95rem;
+  color: #666;
+}
 
-/* CHECKLIST */
+/* CHECKLIST & MATERIAL */
 .check-list,
 .check-list-detailed {
   list-style: none;
@@ -486,6 +662,15 @@ html {
   margin-bottom: 15px;
   font-weight: 600;
   font-size: 1.1rem;
+}
+.icon-check {
+  color: var(--c-brown);
+}
+
+.check-list-detailed {
+  list-style: none;
+  padding: 0;
+  margin: 0;
 }
 .check-list-detailed li {
   display: flex;
@@ -503,6 +688,9 @@ html {
   align-items: center;
   justify-content: center;
 }
+.check-text {
+  flex: 1;
+}
 .check-text strong {
   display: block;
   font-size: 1.15rem;
@@ -518,25 +706,33 @@ html {
   margin: 0;
 }
 
-/* --- STYLE BARU: GALLERY LAYOUT SESUAI REFERENSI HIJAU --- */
+/* STYLE BARU UNTUK CONTENT TITLE (BAHAN MULTIPLEK, dll) */
+.content-title {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: var(--c-brown);
+  margin-bottom: 15px;
+  display: block;
+}
+
+/* ----------------------------------------------------------- */
+/* GALLERY (REFERENCE LAYOUT) */
+/* ----------------------------------------------------------- */
 #gallery.bg-offwhite {
   background-color: var(--c-offwhite);
   padding-top: 100px;
   padding-bottom: 100px;
 }
-
-/* 1. HEADER BANNER BLOCK */
 .ref-header-banner {
-  background-color: var(--c-brown); /* Warna blok tema kita (bukan hijau) */
+  background-color: var(--c-brown);
   color: white;
   padding: 30px 40px;
-  border-radius: 12px 12px 0 0; /* Rounded atas */
-  margin-bottom: 0; /* Nempel dengan slider */
+  border-radius: 12px 12px 0 0;
+  margin-bottom: 0;
   display: flex;
   align-items: center;
   justify-content: space-between;
 }
-
 .ref-text-content h3 {
   font-size: 1.8rem;
   font-weight: 800;
@@ -549,7 +745,6 @@ html {
   opacity: 0.9;
   margin-bottom: 0;
 }
-/* Tombol Hubungi Kami di Header Blok */
 .btn-ref-wa {
   display: inline-flex;
   align-items: center;
@@ -569,10 +764,9 @@ html {
   color: var(--c-brown);
 }
 
-/* 2. CAROUSEL CONTAINER */
 .ref-slider-container {
   position: relative;
-  background: #fff; /* Latar belakang area slider */
+  background: #fff;
   padding: 20px 0;
   border: 1px solid #eee;
   border-top: none;
@@ -580,12 +774,10 @@ html {
   display: flex;
   align-items: center;
 }
-
-/* TRACK */
 .ref-viewport {
   overflow: hidden;
   width: 100%;
-  margin: 0 50px; /* Memberi ruang untuk tombol panah */
+  margin: 0 50px;
 }
 .ref-track {
   display: flex;
@@ -595,8 +787,6 @@ html {
   display: flex;
   width: 100%;
 }
-
-/* CARD FOTO (POLOS) */
 .ref-card-item {
   box-sizing: border-box;
   padding: 0 5px;
@@ -604,9 +794,9 @@ html {
 }
 .ref-img-wrap {
   width: 100%;
-  aspect-ratio: 1 / 1; /* Kotak */
+  aspect-ratio: 1 / 1;
   overflow: hidden;
-  border-radius: 0; /* Kotak tajam atau kasih radius dikit */
+  border-radius: 0;
   background: #eee;
 }
 .ref-img-wrap img {
@@ -618,8 +808,6 @@ html {
 .ref-img-wrap:hover img {
   transform: scale(1.1);
 }
-
-/* TOMBOL NAVIGASI KANAN KIRI */
 .btn-ref-nav {
   position: absolute;
   top: 50%;
@@ -646,10 +834,9 @@ html {
 .btn-ref-nav.right {
   right: 10px;
 }
-
 .project-block-ref {
   margin-bottom: 80px;
-} /* Jarak antar kategori */
+}
 
 /* 9. FAQ & FORM */
 .grid-2-faq {
@@ -704,43 +891,10 @@ html {
   font-family: inherit;
   font-size: 1rem;
 }
-
-/* 10. FOOTER */
-.op10-footer {
-  background: var(--c-brown);
-  color: var(--c-white);
-  padding: 100px 0 40px;
-}
-.footer-content {
-  display: grid;
-  grid-template-columns: 1.5fr 1fr 1fr;
-  gap: 60px;
-  margin-bottom: 60px;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-  padding-bottom: 50px;
-}
-.f-brand h2 {
-  font-size: 2.2rem;
-  margin-bottom: 20px;
-}
-.f-sosmed {
-  display: flex;
-  gap: 20px;
-  margin-top: 25px;
-}
-.f-sosmed a {
-  color: var(--c-cream);
-}
-.map-frame {
-  margin-top: 20px;
-  border-radius: 8px;
-  overflow: hidden;
-  opacity: 0.8;
-}
-.footer-copyright {
-  text-align: center;
-  opacity: 0.4;
-  font-size: 0.9rem;
+.form-group input:focus,
+.form-group textarea:focus {
+  border-color: var(--c-brown);
+  outline: none;
 }
 
 /* FLOATING WA */
@@ -765,8 +919,10 @@ html {
   box-shadow: 0 10px 25px rgba(37, 211, 102, 0.5);
 }
 
-/* RESPONSIVE */
-@media (max-width: 1024px) {
+/* ----------------------------------------------------------- */
+/* RESPONSIVE BREAKPOINT UPDATED (1200px) */
+/* ----------------------------------------------------------- */
+@media (max-width: 1200px) {
   .op10-hero-split {
     grid-template-columns: 1fr;
     height: auto;
@@ -781,22 +937,8 @@ html {
     height: 450px;
     width: 100%;
   }
-  .grid-2 {
-    grid-template-columns: 1fr;
-  }
-  .about-img-wrap {
-    order: -1;
-    margin-bottom: 50px;
-  }
-  .services-grid-cards {
-    grid-template-columns: 1fr 1fr;
-  }
-  .footer-content {
-    grid-template-columns: 1fr;
-    text-align: center;
-    gap: 40px;
-  }
 
+  /* MENU NAVIGASI JADI BURGER LEBIH AWAL AGAR TIDAK TABRAKAN */
   .nav-links {
     position: fixed;
     top: 0;
@@ -808,6 +950,7 @@ html {
     justify-content: center;
     transition: 0.4s;
     z-index: 999;
+    margin: 0;
   }
   .nav-links.active {
     right: 0;
@@ -816,6 +959,7 @@ html {
     color: var(--c-white);
     font-size: 1.5rem;
   }
+
   .burger-menu,
   .close-menu {
     display: block;
@@ -832,6 +976,28 @@ html {
   }
   .welcome-ribbon {
     margin-left: 0;
+  }
+
+  .grid-2,
+  .grid-2-faq,
+  .grid-2-reverse {
+    grid-template-columns: 1fr;
+  }
+  .about-img-wrap,
+  .specialist-img {
+    order: -1;
+    margin-bottom: 50px;
+  }
+  .services-grid-cards {
+    grid-template-columns: 1fr 1fr;
+  }
+  .footer-content {
+    grid-template-columns: 1fr;
+    text-align: center;
+    gap: 40px;
+  }
+  .f-sosmed {
+    justify-content: center;
   }
 }
 
@@ -867,11 +1033,14 @@ html {
   .wm-header h1 {
     font-size: 2rem;
   }
+  .lead-paragraph {
+    font-size: 1.1rem;
+  }
 
   /* Slider Mobile */
   .ref-viewport {
     margin: 0 0;
-  } /* Hilangkan margin di HP */
+  }
   .ref-track {
     width: auto;
   }
@@ -891,12 +1060,22 @@ html {
   }
   .btn-ref-nav {
     display: none;
-  } /* Sembunyikan panah di HP, pakai scroll jari */
-  /* Stack Header Block di HP */
+  }
   .ref-header-banner {
     flex-direction: column;
     text-align: center;
     gap: 15px;
+  }
+
+  .check-list-detailed li {
+    gap: 12px;
+    margin-bottom: 25px;
+  }
+  .check-icon-box {
+    margin-top: 3px;
+  }
+  .check-text strong {
+    font-size: 1.05rem;
   }
 }
 
@@ -904,7 +1083,31 @@ html {
   .services-grid-cards {
     grid-template-columns: 1fr;
   }
+  .v-feature-card {
+    padding: 15px;
+    align-items: flex-start;
+  }
+  .v-icon-circle {
+    width: 40px;
+    height: 40px;
+    margin-top: 2px;
+  }
   .hero-title {
     font-size: 2.8rem;
   }
+
+  .head-left h2 {
+    font-size: 2.2rem;
+  }
+  .cat-title-simple {
+    font-size: 1.5rem;
+  }
+}
+.op10-section {
+  padding-top: 90px;
+  padding-bottom: 90px;
+}
+.section-sub {
+  padding-top: 50px; /* jarak agak nempel */
+  margin-top: -30px; /* bikin nyatu tapi tetap kebaca */
 }
