@@ -1,6 +1,9 @@
 import React, { useState, useEffect } from "react";
 import { Link, useLocation } from "react-router-dom";
-import { Menu } from "lucide-react"; // Hanya mengimport Menu
+import { Menu } from "lucide-react";
+
+// Pastikan path ini sesuai dengan lokasi file Anda
+import logoDogger from "../assets/logo-dogger.jpg";
 
 const Navbar = () => {
   const [menuOpen, setMenuOpen] = useState(false);
@@ -19,14 +22,17 @@ const Navbar = () => {
   return (
     <nav className={`op10-nav ${scrolled || !isHome ? "scrolled" : ""}`}>
       <div className="op10-container nav-flex">
-        {/* KIRI: Logo */}
+        {/* BAGIAN KIRI: Logo */}
         <div className="nav-brand">
-          <Link to="/" onClick={closeMenu}>
-            DOGER<span>.INTERIOR</span>
+          <Link to="/" onClick={closeMenu} className="brand-link">
+            <img src={logoDogger} alt="Doger Interior" className="logo-img" />
+            <div className="brand-text">
+              DOGER<span>.INTERIOR</span>
+            </div>
           </Link>
         </div>
 
-        {/* TENGAH: Menu (Tanda silang sudah dihapus) */}
+        {/* BAGIAN TENGAH: Menu */}
         <div className={`nav-links ${menuOpen ? "active" : ""}`}>
           <Link to="/" onClick={closeMenu}>
             Home
@@ -43,11 +49,9 @@ const Navbar = () => {
           <Link to="/contact" onClick={closeMenu}>
             Kontak
           </Link>
-
-          {/* Bagian tanda silang <X /> di sini telah dihapus agar tampilan lebih bersih */}
         </div>
 
-        {/* KANAN: Tombol Konsultasi & Burger Menu */}
+        {/* BAGIAN KANAN: Tombol Konsultasi */}
         <div className="nav-actions">
           <Link to="/contact" className="btn-nav-cta" onClick={closeMenu}>
             Konsultasi
@@ -55,11 +59,10 @@ const Navbar = () => {
 
           <button
             className="burger-menu"
-            aria-label="Toggle Menu"
+            aria-label="Menu"
             onClick={() => setMenuOpen(!menuOpen)}
           >
-            {/* Menggunakan ikon Menu saja tanpa berubah menjadi X saat terbuka */}
-            <Menu />
+            <Menu size={28} />
           </button>
         </div>
       </div>

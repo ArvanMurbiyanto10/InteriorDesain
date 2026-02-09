@@ -25,7 +25,7 @@ import {
 
 import "./LandingPage.css";
 
-// --- IMPORT ASSETS ---
+// --- IMPORT ASSETS UMUM ---
 import heroImg from "../assets/foto-9.jpg";
 import img1 from "../assets/foto-1.jpg";
 import img2 from "../assets/foto-2.jpg";
@@ -36,10 +36,10 @@ import img7 from "../assets/foto-7.jpg";
 import img8 from "../assets/foto-8.jpg";
 import img10 from "../assets/foto-10.jpg";
 
-// --- FOTO MATERIAL BARU --- (Tambahkan ini)
+// --- IMPORT MATERIAL (SUDAH DIAKTIFKAN) ---
 import imgMultiplek from "../assets/bahan-multiplek.jpg";
 import imgPVC from "../assets/bahan-pvc.jpg";
-import imgAlumunium from "../assets/bahan-alumunium.jpg";
+import imgAluminium from "../assets/bahan-alumunium.jpg"; // Sesuai nama file Anda (pakai 'u')
 
 // --- DATA SERVICES ---
 const SERVICES_DATA = [
@@ -235,7 +235,7 @@ function LandingPage() {
       <header id="hero" className="op10-hero-split">
         <div className="hero-left">
           <div className="hl-content fade-up">
-            <span className="badge-hero">EST. 2024 — DEPOK</span>
+            <span className="badge-hero">EST. 2019 — DEPOK</span>
             <h1 className="hero-title">
               Wujudkan Interior <br />{" "}
               <span className="text-highlight">Impian Anda</span>
@@ -326,7 +326,6 @@ function LandingPage() {
             </div>
           </div>
           <div className="about-text fade-up delay-2">
-            <span className="sub-head">TENTANG KAMI</span>
             <h2>MENGAPA MEMILIH DOGER INTERIOR?</h2>
             <p
               style={{
@@ -378,7 +377,10 @@ function LandingPage() {
                 </div>
                 <div className="v-card-text">
                   <h4>Custom Sesuai Keinginan</h4>
-                  <p>Desain fleksibel mengikuti preferensi estetika anda.</p>
+                  <p>
+                    Desain fleksibel mengikuti preferensi estetika anda
+                    (Minimalis, Klasik, dll).
+                  </p>
                 </div>
               </div>
               <div className="v-feature-card">
@@ -436,14 +438,11 @@ function LandingPage() {
           <div className="grid-2">
             <div className="specialist-content fade-up">
               <h3 className="content-title">Bahan Multiplek</h3>
-
               <p className="content-desc">
                 Material favorit karena kepadatannya yang stabil dan daya tahan
                 yang kuat. Material ini pilihan terbaik untuk unit yang
-                membutuhkan kekuatan ekstra namun tetap fleksibel secara desain,
-                seperti kitchen set, wardrobe, hingga backdrop TV.
+                membutuhkan kekuatan ekstra namun tetap fleksibel secara desain.
               </p>
-
               <ul className="check-list-detailed">
                 <li>
                   <div className="check-icon-box">
@@ -453,12 +452,10 @@ function LandingPage() {
                     <strong>Lapis HPL (High Pressure Laminate)</strong>
                     <p>
                       Pilihan praktis dengan ribuan motif, mulai dari tekstur
-                      kayu alami hingga warna solid modern. Daya tahan tinggi
-                      dan mudah dibersihkan.
+                      kayu alami hingga warna solid modern.
                     </p>
                   </div>
                 </li>
-
                 <li>
                   <div className="check-icon-box">
                     <CheckCircle size={20} />
@@ -467,11 +464,10 @@ function LandingPage() {
                     <strong>Lapis Cat Duco (Doff / Glossy)</strong>
                     <p>
                       Finishing sangat mulus dan seamless. Glossy memberi kesan
-                      mewah, doff tampil elegan dan berkelas.
+                      mewah, doff tampil elegan.
                     </p>
                   </div>
                 </li>
-
                 <li>
                   <div className="check-icon-box">
                     <CheckCircle size={20} />
@@ -480,18 +476,18 @@ function LandingPage() {
                     <strong>Kombinasi Material</strong>
                     <p>
                       Perpaduan berbagai material dan finishing untuk tampilan
-                      interior yang lebih personal dan artistik.
+                      interior yang lebih personal.
                     </p>
                   </div>
                 </li>
               </ul>
-
               <a href="#contact" className="btn-primary mt-30">
                 Konsultasi Material
               </a>
             </div>
 
             <div className="specialist-img fade-up delay-1">
+              {/* GAMBAR DIGANTI KE FILE ASLI */}
               <img src={imgMultiplek} alt="Material Multiplek" />
               <div className="material-badge">
                 <span>PREMIUM</span>
@@ -509,6 +505,7 @@ function LandingPage() {
       <section className="op10-section bg-cream">
         <div className="op10-container grid-2-reverse">
           <div className="specialist-img fade-up delay-1">
+            {/* GAMBAR DIGANTI KE FILE ASLI */}
             <img src={imgPVC} alt="Material PVC Board" />
             <div className="material-badge badge-left">
               <span>ANTI</span>
@@ -518,14 +515,10 @@ function LandingPage() {
 
           <div className="specialist-content fade-up">
             <h3 className="content-title">Bahan PVC Board</h3>
-
             <p className="content-desc">
               Jawaban terbaik untuk area yang rentan lembap atau serangan hama.
-              Ringan namun stabil, menjaga furniture tetap awet dan tidak
-              mengalami pelapukan. Cocok untuk kabinet dapur bawah dan area
-              lembap.
+              Ringan namun stabil, menjaga furniture tetap awet.
             </p>
-
             <ul className="check-list-detailed">
               <li>
                 <div className="check-icon-box">
@@ -535,11 +528,10 @@ function LandingPage() {
                   <strong>HPL Taco</strong>
                   <p>
                     Motif kayu atau solid yang aesthetic, tahan lama, mudah
-                    dirawat, serta perlindungan maksimal dari air dan rayap.
+                    dirawat.
                   </p>
                 </div>
               </li>
-
               <li>
                 <div className="check-icon-box">
                   <CheckCircle size={20} />
@@ -548,11 +540,10 @@ function LandingPage() {
                   <strong>Cat Duco (Doff / Glossy)</strong>
                   <p>
                     Finishing mulus tanpa sambungan. Glossy terlihat mewah, doff
-                    terasa elegan dan tenang.
+                    terasa elegan.
                   </p>
                 </div>
               </li>
-
               <li>
                 <div className="check-icon-box">
                   <CheckCircle size={20} />
@@ -566,7 +557,6 @@ function LandingPage() {
                 </div>
               </li>
             </ul>
-
             <a href="#contact" className="btn-primary mt-30">
               Konsultasi Material
             </a>
@@ -582,20 +572,18 @@ function LandingPage() {
         <div className="op10-container grid-2">
           <div className="specialist-content fade-up">
             <h3 className="content-title">Bahan Aluminium</h3>
-
             <p className="content-desc">
               Material dengan ketahanan seumur hidup, kebal terhadap air, api,
-              dan rayap. Memberikan kesan kokoh, presisi, dan modern. Ideal
-              untuk outdoor kitchen dan area luar ruangan.
+              dan rayap. Memberikan kesan kokoh, presisi, dan modern.
             </p>
-
             <a href="#contact" className="btn-primary mt-30">
               Konsultasi Material
             </a>
           </div>
 
           <div className="specialist-img fade-up delay-1">
-            <img src={imgAlumunium} alt="Material Aluminium" />
+            {/* GAMBAR DIGANTI KE FILE ASLI */}
+            <img src={imgAluminium} alt="Material Aluminium" />
             <div className="material-badge">
               <span>LIFETIME</span>
               <small>MATERIAL</small>
@@ -604,7 +592,7 @@ function LandingPage() {
         </div>
       </section>
 
-      {/* 8. GALLERY SECTION */}
+      {/* 8. GALLERY */}
       <section id="gallery" className="op10-section bg-offwhite">
         <div className="op10-container">
           <div className="section-head center fade-up mb-50">
@@ -629,7 +617,7 @@ function LandingPage() {
         </div>
       </section>
 
-      {/* 9. CONTACT SECTION */}
+      {/* 9. FAQ & CONTACT */}
       <section id="contact" className="op10-section bg-cream">
         <div className="op10-container grid-2-faq">
           <div className="faq-left fade-up">
@@ -689,9 +677,6 @@ function LandingPage() {
         </div>
       </section>
 
-      {/* FOOTER REMOVED AS REQUESTED */}
-
-      {/* Floating WA */}
       <a
         href="https://wa.me/6285282773811"
         target="_blank"
