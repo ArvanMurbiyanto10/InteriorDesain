@@ -11,7 +11,7 @@ import ContactPage from "./components/ContactPage";
 // --- IMPORT ADMIN & LOGIN PAGES ---
 import AdminPage from "./components/AdminPage";
 import LoginPage from "./components/LoginPage";
-
+import EditProjectPage from "./components/EditProjectPage";
 // --- IMPORT GLOBAL COMPONENTS ---
 import Navbar from "./components/Navbar";
 import Footer from "./components/Footer";
@@ -54,7 +54,7 @@ function App() {
         <Route path="/services" element={<ServicesPage />} />
         <Route path="/projek" element={<ProjekPage />} />      
         <Route path="/contact" element={<ContactPage />} />
-        
+        <Route path="/admin/edit/:id" element={<EditProjectPage />} />
         {/* RUTE LOGIN */}
         <Route path="/login" element={<LoginPage />} />
 

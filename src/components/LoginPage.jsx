@@ -1,77 +1,83 @@
-// src/components/LoginPage.jsx
 import React, { useState } from 'react';
 import axios from 'axios';
-import { useNavigate, Link } from 'react-router-dom'; // Tambahkan Link
-import './LoginPage.css'; // Ganti CSS ke file baru agar spesifik
+import { useNavigate } from 'react-router-dom';
+import './LoginPage.css';
+
+const API_URL = "http://localhost:5000"; 
 
 const LoginPage = () => {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
+  const [loading, setLoading] = useState(false);
+  
   const navigate = useNavigate();
 
   const handleLogin = async (e) => {
     e.preventDefault();
+    setLoading(true);
     setError('');
 
     try {
-      const res = await axios.post('http://localhost:5000/api/login', {
-        username,
-        password
-      });
-
+      const res = await axios.post(`${API_URL}/api/login`, { username, password });
+      
       if (res.data.success) {
         localStorage.setItem('isAdminLoggedIn', 'true');
-        localStorage.setItem('adminName', res.data.user.nama);
         navigate('/admin');
+      } else {
+        setError('Kredensial tidak valid.');
       }
     } catch (err) {
-      if (err.response) {
-        setError(err.response.data.message);
-      } else {
-        setError("Gagal terhubung ke server");
-      }
+      console.error("Login Error:", err);
+      setError('Gagal masuk. Periksa koneksi server Anda.');
+    } finally {
+      setLoading(false);
     }
   };
 
   return (
-    <div className="login-page-container">
-      {/* Overlay Gelap untuk background image */}
-      <div className="login-overlay"></div> 
-      
-      <div className="login-glass-card">
-        <h2 className="login-title">LOGIN</h2>
-        
-        {/* Garis ungu di bawah judul (opsional, sesuai tema) */}
-        <div className="title-divider"></div>
-
-        {error && <div className="login-error-message">{error}</div>}
-
-        <form onSubmit={handleLogin}>
-          <div className="input-group">
-            <label>Username</label>
-            <input 
-              type="text" 
-              placeholder="Username" // Placeholder sesuai gambar
-              value={username}
-              onChange={(e) => setUsername(e.target.value)}
-              required
-            />
+    <div className="login-overlay">
+      <div className="login-box">
+        <div className="login-content">
+          <div className="brand-logo">
+            <h1>DOGER<span>.INTERIOR</span></h1>
+            <p>ADMINISTRATION PANEL</p>
           </div>
 
-          <div className="input-group">
-            <label>Password</label>
-            <input 
-              type="password" 
-              placeholder="Password"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              required
-            />
-          </div>
+          {error && <div className="error-message">{error}</div>}
 
-          <button type="submit" className="btn-login">Log in</button>
-        </form>
+          <form onSubmit={handleLogin} className="login-form">
+            <div className="form-field">
+              <label>Username</label>
+              <input 
+                type="text" 
+                value={username} 
+                onChange={(e) => setUsername(e.target.value)}
+                placeholder="Masukkan username"
+                required 
+              />
+            </div>
+
+            <div className="form-field">
+              <label>Password</label>
+              <input 
+                type="password" 
+                value={password} 
+                onChange={(e) => setPassword(e.target.value)}
+                placeholder="Masukkan password"
+                required 
+              />
+            </div>
+
+            <button type="submit" className="login-submit" disabled={loading}>
+              {loading ? 'AUTHENTICATING...' : 'LOG IN'}
+            </button>
+          </form>
+
+          <div className="login-copy">
+            <p>&copy; {new Date().getFullYear()} Doger Interior Design</p>
+          </div>
+        </div>
       </div>
     </div>
   );
