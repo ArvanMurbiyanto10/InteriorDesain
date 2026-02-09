@@ -15,10 +15,10 @@ html {
 }
 
 :root {
-  --c-brown: #533f31;
-  --c-brown-dark: #3e2e24;
-  --c-cream: #eddcc2;
-  --c-cream-bg: #f9f6f2;
+  --c-brown: #533f31; /* Coklat Tua */
+  --c-brown-dark: #3e2e24; /* Coklat Lebih Gelap */
+  --c-cream: #eddcc2; /* Cream/Emas Muda */
+  --c-cream-bg: #f9f6f2; /* Background Cream Pucat */
   --c-offwhite: #fcfcfc;
   --c-white: #ffffff;
   --font-main: "Plus Jakarta Sans", sans-serif;
@@ -106,7 +106,7 @@ html {
 }
 
 /* ----------------------------------------------------------- */
-/* NAVBAR FINAL (FIXED LAYOUT & NO CIRCLE LOGO) */
+/* NAVBAR FINAL (DARK MODE ON SCROLL) */
 /* ----------------------------------------------------------- */
 .op10-nav {
   position: fixed;
@@ -119,23 +119,23 @@ html {
   background: transparent;
 }
 
+/* SAAT DI-SCROLL: Background Coklat Tua (#533F31) */
 .op10-nav.scrolled {
-  background: rgba(255, 255, 255, 0.98);
+  background: #533f31;
   backdrop-filter: blur(10px);
   padding: 10px 0;
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
 }
 
 .nav-flex {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  position: relative; /* Penting untuk layout absolute center */
+  position: relative;
 }
 
 /* --- KIRI: LOGO --- */
 .nav-brand {
-  /* Flex 1 agar mendorong konten tengah */
   flex: 1;
   display: flex;
   justify-content: flex-start;
@@ -148,15 +148,20 @@ html {
   gap: 12px;
   text-decoration: none;
   color: var(--c-brown);
+  transition: 0.3s;
 }
 
-/* Style Foto Logo (KOTAK/ASLI) */
+/* Ubah warna teks logo jadi putih saat scroll */
+.op10-nav.scrolled .brand-link {
+  color: #ffffff;
+}
+
+/* FOTO LOGO (Asli/Kotak) */
 .logo-img {
   width: 45px !important;
   height: 45px !important;
-  object-fit: contain; /* Agar gambar utuh */
+  object-fit: contain; /* Gambar utuh */
   display: block;
-  /* Tidak ada border-radius atau border */
 }
 
 .brand-text {
@@ -170,14 +175,21 @@ html {
   color: var(--c-brown);
   opacity: 0.6;
   font-weight: 400;
+  transition: 0.3s;
 }
 
-/* --- TENGAH: MENU LINKS (ABSOLUTE CENTER) --- */
+/* Ubah 'INTERIOR' jadi cream saat scroll */
+.op10-nav.scrolled .brand-text span {
+  color: #eddcc2;
+  opacity: 0.9;
+}
+
+/* --- TENGAH: MENU LINKS (Absolute Center) --- */
 .nav-links {
   position: absolute;
   left: 50%;
   top: 50%;
-  transform: translate(-50%, -50%); /* Trik agar benar-benar di tengah */
+  transform: translate(-50%, -50%);
   display: flex;
   gap: 30px;
   align-items: center;
@@ -191,15 +203,24 @@ html {
   transition: 0.3s;
 }
 
+/* Warna menu jadi putih saat scroll */
+.op10-nav.scrolled .nav-links a {
+  color: #ffffff;
+}
+
 .nav-links a:hover {
   color: #888;
+}
+
+.op10-nav.scrolled .nav-links a:hover {
+  color: #eddcc2; /* Hover cream saat background gelap */
 }
 
 /* --- KANAN: ACTIONS --- */
 .nav-actions {
   flex: 1;
   display: flex;
-  justify-content: flex-end; /* Rata kanan */
+  justify-content: flex-end;
   align-items: center;
   gap: 15px;
   z-index: 20;
@@ -215,10 +236,23 @@ html {
   text-decoration: none;
   transition: 0.3s;
   white-space: nowrap;
+  border: 1px solid transparent;
+}
+
+/* Tombol jadi Putih Teks Coklat saat scroll */
+.op10-nav.scrolled .btn-nav-cta {
+  background: #ffffff;
+  color: #533f31;
 }
 
 .btn-nav-cta:hover {
   background: var(--c-brown-dark);
+  color: #fff;
+}
+
+.op10-nav.scrolled .btn-nav-cta:hover {
+  background: #eddcc2;
+  color: #533f31;
 }
 
 .burger-menu {
@@ -227,6 +261,60 @@ html {
   border: none;
   cursor: pointer;
   color: var(--c-brown);
+  transition: 0.3s;
+}
+
+.op10-nav.scrolled .burger-menu {
+  color: #ffffff;
+}
+
+/* --- RESPONSIVE (HP) --- */
+@media (max-width: 1200px) {
+  .nav-links {
+    position: fixed;
+    top: 0;
+    right: -100%;
+    left: auto;
+    transform: none;
+    width: 100%;
+    height: 100vh;
+    background: var(--c-brown); /* Sidebar tetap coklat */
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    transition: 0.4s;
+    z-index: 999;
+    margin: 0;
+  }
+
+  .nav-links.active {
+    right: 0;
+  }
+
+  /* Menu di dalam sidebar HP selalu putih */
+  .nav-links a,
+  .op10-nav.scrolled .nav-links a {
+    color: #ffffff;
+    font-size: 1.5rem;
+    margin: 15px 0;
+  }
+
+  .burger-menu {
+    display: block;
+  }
+  .btn-nav-cta {
+    display: none;
+  }
+}
+
+@media (max-width: 480px) {
+  .logo-img {
+    width: 35px !important;
+    height: 35px !important;
+  }
+  .brand-text {
+    font-size: 1.2rem;
+  }
 }
 
 /* ----------------------------------------------------------- */
@@ -290,7 +378,7 @@ html {
   margin-bottom: 40px;
 }
 
-/* --- TOMBOL COKLAT FIX --- */
+/* TOMBOL UTAMA */
 .btn-primary {
   background-color: var(--c-brown) !important;
   color: white !important;
@@ -333,6 +421,7 @@ html {
   color: white !important;
 }
 
+/* HERO STATS */
 .hero-stats {
   display: flex;
   gap: 40px;
@@ -962,194 +1051,6 @@ html {
 .float-wa:hover {
   transform: scale(1.1) translateY(-5px);
   box-shadow: 0 10px 25px rgba(37, 211, 102, 0.5);
-}
-
-/* ----------------------------------------------------------- */
-/* RESPONSIVE BREAKPOINT (1200px) */
-/* ----------------------------------------------------------- */
-@media (max-width: 1200px) {
-  .op10-hero-split {
-    grid-template-columns: 1fr;
-    height: auto;
-    display: flex;
-    flex-direction: column-reverse;
-  }
-  .hero-left {
-    padding: 60px 24px;
-    text-align: center;
-  }
-  .hero-right {
-    height: 450px;
-    width: 100%;
-  }
-
-  /* MENU NAVIGASI JADI SIDEBAR */
-  .nav-links {
-    position: fixed;
-    top: 0;
-    right: -100%; /* Sembunyi */
-    left: auto; /* Reset center */
-    transform: none; /* Reset center */
-
-    width: 100%;
-    height: 100vh;
-    background: var(--c-brown);
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    transition: 0.4s;
-    z-index: 999;
-    margin: 0;
-  }
-  .nav-links.active {
-    right: 0;
-  }
-  .nav-links a {
-    color: var(--c-white);
-    font-size: 1.5rem;
-    margin: 15px 0;
-  }
-
-  .burger-menu {
-    display: block;
-  }
-  .btn-nav-cta {
-    display: none;
-  }
-  .welcome-ribbon {
-    margin-left: 0;
-  }
-
-  .grid-2,
-  .grid-2-faq,
-  .grid-2-reverse {
-    grid-template-columns: 1fr;
-  }
-  .about-img-wrap,
-  .specialist-img {
-    order: -1;
-    margin-bottom: 50px;
-  }
-  .services-grid-cards {
-    grid-template-columns: 1fr 1fr;
-  }
-  .footer-content {
-    grid-template-columns: 1fr;
-    text-align: center;
-    gap: 40px;
-  }
-  .f-sosmed {
-    justify-content: center;
-  }
-}
-
-@media (max-width: 768px) {
-  .welcome-ribbon {
-    position: relative;
-    left: auto;
-    transform: none;
-    margin: 0 auto 20px;
-    border-radius: 8px;
-    width: fit-content;
-    text-align: center;
-  }
-  .welcome-top {
-    justify-content: center;
-    flex-direction: column;
-    align-items: flex-start;
-  }
-  .welcome-brand {
-    width: 100%;
-    justify-content: space-between;
-    border-top: 1px solid #eee;
-    padding-top: 20px;
-  }
-  .float-wa {
-    bottom: 20px;
-    left: auto;
-    right: 20px;
-  }
-  .wm-body {
-    padding: 30px 20px;
-  }
-  .wm-header h1 {
-    font-size: 2rem;
-  }
-  .lead-paragraph {
-    font-size: 1.1rem;
-  }
-
-  /* Slider Mobile */
-  .ref-viewport {
-    margin: 0 0;
-  }
-  .ref-track {
-    width: auto;
-  }
-  .ref-slider-container {
-    display: block;
-    overflow-x: scroll;
-    scroll-snap-type: x mandatory;
-    padding: 10px;
-  }
-  .ref-slide-page {
-    width: auto;
-    display: flex;
-  }
-  .ref-card-item {
-    min-width: 80vw;
-    scroll-snap-align: center;
-  }
-  .btn-ref-nav {
-    display: none;
-  }
-  .ref-header-banner {
-    flex-direction: column;
-    text-align: center;
-    gap: 15px;
-  }
-
-  .check-list-detailed li {
-    gap: 12px;
-    margin-bottom: 25px;
-  }
-  .check-icon-box {
-    margin-top: 3px;
-  }
-  .check-text strong {
-    font-size: 1.05rem;
-  }
-}
-
-@media (max-width: 600px) {
-  .services-grid-cards {
-    grid-template-columns: 1fr;
-  }
-  .v-feature-card {
-    padding: 15px;
-    align-items: flex-start;
-  }
-  .v-icon-circle {
-    width: 40px;
-    height: 40px;
-    margin-top: 2px;
-  }
-  .hero-title {
-    font-size: 2.8rem;
-  }
-
-  .cat-title-simple {
-    font-size: 1.5rem;
-  }
-
-  /* Ukuran logo di HP kecil */
-  .logo-img {
-    width: 35px !important;
-    height: 35px !important;
-  }
-  .brand-text {
-    font-size: 1.2rem;
-  }
 }
 
 .op10-section {

@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { Link, useLocation } from "react-router-dom";
 import { Menu } from "lucide-react";
 
-// Pastikan path ini sesuai dengan lokasi file Anda
+// Pastikan file ini ada di folder src/assets/
 import logoDogger from "../assets/logo-dogger.jpg";
 
 const Navbar = () => {
@@ -32,7 +32,7 @@ const Navbar = () => {
           </Link>
         </div>
 
-        {/* BAGIAN TENGAH: Menu */}
+        {/* BAGIAN TENGAH: Menu Link */}
         <div className={`nav-links ${menuOpen ? "active" : ""}`}>
           <Link to="/" onClick={closeMenu}>
             Home
@@ -51,7 +51,7 @@ const Navbar = () => {
           </Link>
         </div>
 
-        {/* BAGIAN KANAN: Tombol Konsultasi */}
+        {/* BAGIAN KANAN: Tombol & Burger */}
         <div className="nav-actions">
           <Link to="/contact" className="btn-nav-cta" onClick={closeMenu}>
             Konsultasi
