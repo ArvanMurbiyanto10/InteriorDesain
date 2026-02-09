@@ -1,5 +1,5 @@
-/* --- 1. LUXURY VARIABLES & RESET --- */
-:root {
+/* --- 1. LUXURY VARIABLES & RESET (SCOPED TO ADMIN) --- */
+.admin-layout {
   /* Colors */
   --bg-dark: #1e1e1e;
   --bg-gradient-start: #2b2118;
@@ -22,37 +22,32 @@
 
   /* Animation */
   --ease-out-back: cubic-bezier(0.175, 0.885, 0.32, 1.275);
-}
 
-* {
-  box-sizing: border-box;
-  margin: 0;
-  padding: 0;
-}
-
-body {
-  font-family: var(--font-sans);
-  background-color: #fdfcf8;
-  color: var(--text-main);
-  overflow-x: hidden;
-}
-
-/* --- 2. ANIMATED BACKGROUND BLOBS --- */
-.admin-layout {
+  /* Layout settings */
   position: relative;
   min-height: 100vh;
   overflow: hidden;
+  font-family: var(--font-sans);
+  background-color: #fdfcf8;
+  color: var(--text-main);
 }
 
-.bg-blob {
+/* Reset box-sizing hanya untuk children admin-layout agar aman */
+.admin-layout * {
+  box-sizing: border-box;
+}
+
+/* --- 2. ANIMATED BACKGROUND BLOBS --- */
+.admin-layout .bg-blob {
   position: absolute;
   filter: blur(80px);
-  z-index: -1;
+  z-index: 0; /* Pastikan di belakang konten tapi di depan background dasar */
   opacity: 0.6;
   animation: floatBlob 10s infinite alternate;
+  pointer-events: none;
 }
 
-.blob-1 {
+.admin-layout .blob-1 {
   width: 400px;
   height: 400px;
   background: rgba(212, 175, 55, 0.15); /* Gold Blob */
@@ -60,7 +55,7 @@ body {
   left: -100px;
 }
 
-.blob-2 {
+.admin-layout .blob-2 {
   width: 500px;
   height: 500px;
   background: rgba(43, 33, 24, 0.08); /* Brown Blob */
@@ -79,7 +74,7 @@ body {
 }
 
 /* --- 3. GLASS NAVBAR (TOP) --- */
-.admin-navbar {
+.admin-layout .admin-navbar {
   position: fixed;
   top: 20px;
   left: 50%;
@@ -103,13 +98,13 @@ body {
   transition: all 0.3s ease;
 }
 
-.nav-brand {
+.admin-layout .nav-brand {
   display: flex;
   align-items: center;
   gap: 12px;
 }
 
-.brand-icon {
+.admin-layout .brand-icon {
   background: var(--gold);
   width: 36px;
   height: 36px;
@@ -120,18 +115,19 @@ body {
   box-shadow: 0 4px 10px rgba(212, 175, 55, 0.4);
 }
 
-.nav-brand h2 {
+.admin-layout .nav-brand h2 {
   font-family: var(--font-serif);
   color: #fff;
   font-size: 1.4rem;
   letter-spacing: 0.5px;
+  margin: 0;
 }
-.nav-brand h2 span {
+.admin-layout .nav-brand h2 span {
   color: var(--gold);
   font-weight: 300;
 }
 
-.btn-logout {
+.admin-layout .btn-logout {
   background: rgba(255, 255, 255, 0.1);
   color: #fff;
   border: 1px solid rgba(255, 255, 255, 0.2);
@@ -145,21 +141,23 @@ body {
   gap: 8px;
   transition: all 0.3s;
 }
-.btn-logout:hover {
+.admin-layout .btn-logout:hover {
   background: #e74c3c;
   border-color: #e74c3c;
   box-shadow: 0 4px 15px rgba(231, 76, 60, 0.4);
 }
 
 /* --- 4. MAIN CONTENT --- */
-.main-content {
+.admin-layout .main-content {
   margin-top: 110px;
   padding: 20px;
   display: flex;
   justify-content: center;
+  position: relative;
+  z-index: 1;
 }
 
-.content-container {
+.admin-layout .content-container {
   width: 100%;
   max-width: 900px;
   display: flex;
@@ -168,22 +166,24 @@ body {
 }
 
 /* Header Text */
-.dashboard-header {
+.admin-layout .dashboard-header {
   text-align: center;
   margin-bottom: 10px;
 }
-.dashboard-header h1 {
+.admin-layout .dashboard-header h1 {
   font-family: var(--font-serif);
   font-size: 2.5rem;
   color: var(--text-main);
   margin-bottom: 5px;
+  margin-top: 0;
 }
-.dashboard-header p {
+.admin-layout .dashboard-header p {
   color: var(--text-muted);
+  margin: 0;
 }
 
 /* --- 5. CARDS (GLASS STYLE) --- */
-.card {
+.admin-layout .card {
   background: rgba(255, 255, 255, 0.8);
   backdrop-filter: blur(20px);
   border-radius: 24px;
@@ -193,48 +193,73 @@ body {
   position: relative;
 }
 
-.card-header {
+.admin-layout .card-header {
   padding: 25px 30px;
   border-bottom: 1px solid rgba(0, 0, 0, 0.05);
   background: rgba(255, 255, 255, 0.5);
 }
 
-.card-header h3 {
+.admin-layout .card-header h3 {
   display: flex;
   align-items: center;
   gap: 10px;
   font-family: var(--font-serif);
   color: var(--brown-text);
   font-size: 1.2rem;
+  margin: 0;
 }
-.icon-gold {
+.admin-layout .icon-gold {
   color: var(--gold);
 }
 
 /* --- 6. FORM LAYOUT (SPLIT) --- */
-.form-grid {
+.admin-layout .form-grid {
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 0;
 }
 
-.input-section {
+.admin-layout .input-section {
   padding: 30px;
   border-right: 1px solid rgba(0, 0, 0, 0.05);
 }
 
-.upload-section {
+/* ARCHITECTURAL GRID PATTERN FOR UPLOAD SECTION */
+.admin-layout .upload-section {
   padding: 30px;
-  background: rgba(249, 246, 242, 0.5); /* Slight tint */
   display: flex;
   flex-direction: column;
+  background-color: #fdfbf7;
+  /* Pola Garis Arsitek */
+  background-image:
+    linear-gradient(rgba(212, 175, 55, 0.07) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(212, 175, 55, 0.07) 1px, transparent 1px);
+  background-size: 25px 25px;
+  border-left: 1px solid rgba(212, 175, 55, 0.15);
+  position: relative;
 }
 
-.form-group {
+/* Vignette Effect */
+.admin-layout .upload-section::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: radial-gradient(
+    circle at center,
+    transparent 50%,
+    rgba(43, 33, 24, 0.03) 100%
+  );
+  pointer-events: none;
+}
+
+.admin-layout .form-group {
   margin-bottom: 20px;
 }
-.form-group label,
-.upload-section label {
+.admin-layout .form-group label,
+.admin-layout .upload-section label {
   display: block;
   font-size: 0.75rem;
   font-weight: 700;
@@ -242,9 +267,11 @@ body {
   letter-spacing: 1px;
   color: #999;
   margin-bottom: 8px;
+  position: relative;
+  z-index: 2;
 }
 
-.form-control {
+.admin-layout .form-control {
   width: 100%;
   padding: 14px 18px;
   background: #fff;
@@ -255,31 +282,33 @@ body {
   transition: all 0.3s;
   font-weight: 500;
 }
-.form-control:focus {
+.admin-layout .form-control:focus {
   outline: none;
   border-color: var(--gold);
   box-shadow: 0 0 0 4px rgba(212, 175, 55, 0.1);
 }
 
 /* Upload Area Scrollable */
-.photo-scroll-area {
+.admin-layout .photo-scroll-area {
   flex: 1;
   max-height: 200px;
   overflow-y: auto;
   margin-bottom: 15px;
   padding-right: 5px;
+  position: relative;
+  z-index: 2;
 }
 
 /* Custom Scrollbar */
-.photo-scroll-area::-webkit-scrollbar {
+.admin-layout .photo-scroll-area::-webkit-scrollbar {
   width: 4px;
 }
-.photo-scroll-area::-webkit-scrollbar-thumb {
+.admin-layout .photo-scroll-area::-webkit-scrollbar-thumb {
   background: #ccc;
   border-radius: 4px;
 }
 
-.file-input-row {
+.admin-layout .file-input-row {
   background: #fff;
   border: 1px solid #eee;
   padding: 8px 12px;
@@ -289,30 +318,31 @@ body {
   gap: 10px;
   margin-bottom: 8px;
   transition: transform 0.2s;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.02);
 }
-.file-input-row:hover {
+.admin-layout .file-input-row:hover {
   transform: translateX(5px);
   border-color: var(--gold);
 }
 
-.file-index {
+.admin-layout .file-index {
   font-size: 0.7rem;
   font-weight: 800;
   color: #ccc;
 }
-.file-wrapper {
+.admin-layout .file-wrapper {
   flex: 1;
   display: flex;
   align-items: center;
   gap: 10px;
 }
-.file-wrapper input {
+.admin-layout .file-wrapper input {
   font-size: 0.8rem;
   width: 100%;
   color: #555;
 }
 
-.btn-icon-danger {
+.admin-layout .btn-icon-danger {
   background: none;
   border: none;
   color: #ff6b6b;
@@ -323,18 +353,20 @@ body {
   align-items: center;
   justify-content: center;
 }
-.btn-icon-danger:hover {
+.admin-layout .btn-icon-danger:hover {
   background: #ffebeb;
 }
 
 /* Buttons */
-.form-actions {
+.admin-layout .form-actions {
   display: flex;
   gap: 10px;
   margin-top: auto;
+  position: relative;
+  z-index: 2;
 }
 
-.btn-secondary {
+.admin-layout .btn-secondary {
   flex: 1;
   background: #fff;
   border: 1px dashed #ccc;
@@ -349,12 +381,12 @@ body {
   gap: 5px;
   transition: all 0.3s;
 }
-.btn-secondary:hover {
+.admin-layout .btn-secondary:hover {
   border-color: var(--gold);
   color: var(--gold);
 }
 
-.btn-primary {
+.admin-layout .btn-primary {
   flex: 2;
   background: linear-gradient(135deg, var(--gold), #bfa13a);
   color: white;
@@ -370,38 +402,39 @@ body {
   box-shadow: 0 10px 20px -5px rgba(212, 175, 55, 0.4);
   transition: all 0.3s;
 }
-.btn-primary:hover {
+.admin-layout .btn-primary:hover {
   transform: translateY(-2px);
   box-shadow: 0 15px 30px -5px rgba(212, 175, 55, 0.5);
 }
 
 /* --- 7. TABLE LIST (MODERN) --- */
-.card-header-simple {
+.admin-layout .card-header-simple {
   padding: 25px 30px 10px;
 }
-.card-header-simple h3 {
+.admin-layout .card-header-simple h3 {
   font-family: var(--font-serif);
   font-size: 1.3rem;
   color: var(--brown-text);
+  margin: 0;
 }
-.card-header-simple span {
+.admin-layout .card-header-simple span {
   font-family: var(--font-sans);
   font-size: 0.9rem;
   color: #999;
   font-weight: 400;
 }
 
-.table-wrapper {
+.admin-layout .table-wrapper {
   padding: 10px 20px 20px;
 }
 
-.modern-table {
+.admin-layout .modern-table {
   width: 100%;
   border-collapse: separate;
   border-spacing: 0 12px;
 }
 
-.modern-table th {
+.admin-layout .modern-table th {
   text-align: left;
   color: #aaa;
   font-size: 0.75rem;
@@ -411,56 +444,56 @@ body {
   font-weight: 700;
 }
 
-.modern-table tbody tr {
+.admin-layout .modern-table tbody tr {
   transition: all 0.3s var(--ease-out-back);
 }
 
-.modern-table tbody tr:hover {
+.admin-layout .modern-table tbody tr:hover {
   transform: scale(1.01);
 }
 
-.modern-table td {
+.admin-layout .modern-table td {
   background: #fff;
   padding: 15px;
   border-top: 1px solid #f4f4f4;
   border-bottom: 1px solid #f4f4f4;
 }
-.modern-table td:first-child {
+.admin-layout .modern-table td:first-child {
   border-left: 1px solid #f4f4f4;
   border-top-left-radius: 16px;
   border-bottom-left-radius: 16px;
 }
-.modern-table td:last-child {
+.admin-layout .modern-table td:last-child {
   border-right: 1px solid #f4f4f4;
   border-top-right-radius: 16px;
   border-bottom-right-radius: 16px;
 }
 
-.img-frame {
+.admin-layout .img-frame {
   width: 60px;
   height: 60px;
   border-radius: 12px;
   overflow: hidden;
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
 }
-.img-frame img {
+.admin-layout .img-frame img {
   width: 100%;
   height: 100%;
   object-fit: cover;
 }
 
-.proj-title {
+.admin-layout .proj-title {
   font-weight: 700;
   color: var(--text-main);
   font-size: 1rem;
 }
-.proj-client {
+.admin-layout .proj-client {
   color: #888;
   font-size: 0.85rem;
   margin-top: 2px;
 }
 
-.pill-badge {
+.admin-layout .pill-badge {
   background: #fdf8e9;
   color: var(--gold);
   padding: 5px 12px;
@@ -470,12 +503,12 @@ body {
   border: 1px solid rgba(212, 175, 55, 0.2);
 }
 
-.action-buttons {
+.admin-layout .action-buttons {
   display: flex;
   justify-content: flex-end;
   gap: 8px;
 }
-.btn-action {
+.admin-layout .btn-action {
   width: 32px;
   height: 32px;
   border-radius: 8px;
@@ -486,39 +519,39 @@ body {
   justify-content: center;
   transition: all 0.2s;
 }
-.btn-action.edit {
+.admin-layout .btn-action.edit {
   background: #f0f4ff;
   color: #4b7bec;
 }
-.btn-action.edit:hover {
+.admin-layout .btn-action.edit:hover {
   background: #4b7bec;
   color: #fff;
 }
-.btn-action.delete {
+.admin-layout .btn-action.delete {
   background: #fff0f0;
   color: #ff6b6b;
 }
-.btn-action.delete:hover {
+.admin-layout .btn-action.delete:hover {
   background: #ff6b6b;
   color: #fff;
 }
 
-.empty-state {
+.admin-layout .empty-state {
   text-align: center;
   padding: 40px;
   color: #ccc;
 }
 
 /* --- 8. ANIMATIONS --- */
-.animate-fade-up {
+.admin-layout .animate-fade-up {
   animation: fadeUp 0.8s var(--ease-out-back) forwards;
   opacity: 0;
   transform: translateY(30px);
 }
-.delay-1 {
+.admin-layout .delay-1 {
   animation-delay: 0.1s;
 }
-.delay-2 {
+.admin-layout .delay-2 {
   animation-delay: 0.2s;
 }
 
@@ -531,29 +564,29 @@ body {
 
 /* --- 9. RESPONSIVE --- */
 @media (max-width: 768px) {
-  .admin-navbar {
+  .admin-layout .admin-navbar {
     width: 100%;
     top: 0;
     border-radius: 0;
     padding: 0 20px;
   }
-  .main-content {
+  .admin-layout .main-content {
     padding: 15px;
     margin-top: 80px;
   }
-  .form-grid {
+  .admin-layout .form-grid {
     grid-template-columns: 1fr;
   }
-  .input-section {
+  .admin-layout .input-section {
     border-right: none;
     border-bottom: 1px solid #eee;
     padding: 20px;
   }
-  .upload-section {
+  .admin-layout .upload-section {
     padding: 20px;
   }
 
-  .modern-table {
+  .admin-layout .modern-table {
     display: block;
     overflow-x: auto;
     white-space: nowrap;

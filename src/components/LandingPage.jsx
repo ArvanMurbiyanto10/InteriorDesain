@@ -304,15 +304,6 @@ function LandingPage() {
             </div>
           </div>
         </div>
-        <a
-          href="https://wa.me/6285282773811"
-          target="_blank"
-          rel="noreferrer"
-          className="float-wa"
-          aria-label="WhatsApp"
-        >
-          <MessageCircle size={32} />
-        </a>
       </section>
 
       {/* 3. ABOUT SECTION */}
@@ -676,15 +667,6 @@ function LandingPage() {
           </div>
         </div>
       </section>
-
-      <a
-        href="https://wa.me/6285282773811"
-        target="_blank"
-        rel="noreferrer"
-        className="float-wa"
-      >
-        <MessageCircle size={32} />
-      </a>
     </div>
   );
 }
