@@ -9,6 +9,7 @@ import { fileURLToPath } from 'url';
 const app = express();
 const PORT = 5000;
 
+// Konfigurasi Path & Folder Upload
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 const uploadDir = path.join(__dirname, 'uploads');
@@ -18,17 +19,39 @@ app.use(cors());
 app.use(express.json());
 app.use('/uploads', express.static(uploadDir));
 
+// Koneksi Database Doger Interior
 const db = mysql.createPool({
-    host: 'localhost', user: 'root', password: '', database: 'doger_interior'
+    host: 'localhost',
+    user: 'root',
+    password: '',
+    database: 'doger_interior'
 });
 
+// Konfigurasi Multer untuk Banyak Foto
 const storage = multer.diskStorage({
     destination: (req, file, cb) => cb(null, uploadDir),
     filename: (req, file, cb) => cb(null, Date.now() + '-' + file.originalname.replace(/\s/g, ''))
 });
 const upload = multer({ storage: storage });
 
-// API: AMBIL SEMUA
+// --- API LOGIN ---
+app.post('/api/login', (req, res) => {
+    const { username, password } = req.body;
+    const sql = "SELECT * FROM admin WHERE username = ? AND password = ?";
+    db.query(sql, [username, password], (err, result) => {
+        if (err) {
+            console.error(err); // Pakai err agar tidak error linter
+            return res.status(500).json(err);
+        }
+        if (result.length > 0) {
+            res.json({ success: true, message: "Login Berhasil" });
+        } else {
+            res.json({ success: false, message: "Username/Password Salah" });
+        }
+    });
+});
+
+// --- API GET PROJECTS (Untuk Tabel Admin) ---
 app.get('/api/projects', (req, res) => {
     const sql = `
         SELECT p.*, GROUP_CONCAT(g.nama_file) as gallery 
@@ -37,29 +60,37 @@ app.get('/api/projects', (req, res) => {
         GROUP BY p.id ORDER BY p.id DESC`;
     db.query(sql, (err, results) => {
         if (err) return res.status(500).json(err);
-        res.json(results.map(item => ({ ...item, gallery: item.gallery ? item.gallery.split(',') : [] })));
+        const formatted = results.map(item => ({
+            ...item,
+            gallery: item.gallery ? item.gallery.split(',') : []
+        }));
+        res.json(formatted);
     });
 });
 
-// API: SIMPAN (MULTIPLE)
+// --- API POST PROJECT (Multiple Upload) ---
 app.post('/api/projects', upload.array('images', 20), (req, res) => {
     const { judul, klien } = req.body;
     const files = req.files;
-    if (!files || files.length === 0) return res.status(400).json({message: "Minimal 1 foto"});
 
-    const thumbnail = files[0].filename;
-    db.query("INSERT INTO proyek (judul, klien, foto) VALUES (?, ?, ?)", [judul, klien, thumbnail], (err, result) => {
+    if (!files || files.length === 0) return res.status(400).send("Minimal 1 foto");
+
+    const sqlProyek = "INSERT INTO proyek (judul, klien, foto) VALUES (?, ?, ?)";
+    db.query(sqlProyek, [judul, klien, files[0].filename], (err, result) => {
         if (err) return res.status(500).json(err);
+
         const projectId = result.insertId;
+        const sqlGaleri = "INSERT INTO proyek_galeri (id_proyek, nama_file) VALUES ?";
         const values = files.map(file => [projectId, file.filename]);
-        db.query("INSERT INTO proyek_galeri (id_proyek, nama_file) VALUES ?", [values], (err) => {
+
+        db.query(sqlGaleri, [values], (err) => {
             if (err) return res.status(500).json(err);
             res.json({ success: true });
         });
     });
 });
 
-// API: DELETE
+// --- API DELETE PROJECT ---
 app.delete('/api/projects/:id', (req, res) => {
     db.query("DELETE FROM proyek WHERE id = ?", [req.params.id], (err) => {
         if (err) return res.status(500).json(err);
@@ -67,4 +98,4 @@ app.delete('/api/projects/:id', (req, res) => {
     });
 });
 
-app.listen(PORT, () => console.log(`🚀 Server on port ${PORT}`));
+app.listen(PORT, () => console.log(`Backend aktif di port ${PORT}`));

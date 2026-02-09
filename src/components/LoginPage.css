@@ -7,11 +7,12 @@
   align-items: center;
   justify-content: center;
   /* Gunakan gambar interior estetik sebagai background */
-  background: linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)), 
-              url('https://images.unsplash.com/photo-1618221195710-dd6b41faaea6?q=80&w=2000&auto=format&fit=crop');
+  background:
+    linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)),
+    url("https://images.unsplash.com/photo-1618221195710-dd6b41faaea6?q=80&w=2000&auto=format&fit=crop");
   background-size: cover;
   background-position: center;
-  font-family: 'Montserrat', sans-serif;
+  font-family: "Montserrat", sans-serif;
 }
 
 .login-box {
@@ -39,7 +40,7 @@
 }
 
 .brand-logo span {
-  color: #EBD9B4; /* Accent Gold dari desain ProjekPage */
+  color: #ebd9b4; /* Accent Gold dari desain ProjekPage */
   font-weight: 300;
 }
 
@@ -65,7 +66,7 @@
 }
 
 .form-field label {
-  color: #EBD9B4;
+  color: #ebd9b4;
   font-size: 12px;
   font-weight: 600;
   text-transform: uppercase;
@@ -84,7 +85,7 @@
 
 .form-field input:focus {
   outline: none;
-  border-color: #EBD9B4;
+  border-color: #ebd9b4;
   background: rgba(255, 255, 255, 0.15);
 }
 
@@ -94,8 +95,8 @@
 
 /* --- BUTTON --- */
 .login-submit {
-  background-color: #5D4037; /* Primary Brown */
-  color: #EBD9B4;
+  background-color: #5d4037; /* Primary Brown */
+  color: #ebd9b4;
   padding: 16px;
   border: none;
   border-radius: 8px;
@@ -108,7 +109,7 @@
 }
 
 .login-submit:hover {
-  background-color: #4E342E;
+  background-color: #4e342e;
   transform: translateY(-2px);
   box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
 }
