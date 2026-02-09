@@ -11,13 +11,13 @@ import ContactPage from "./components/ContactPage";
 // --- IMPORT ADMIN & LOGIN PAGES ---
 import AdminPage from "./components/AdminPage";
 import LoginPage from "./components/LoginPage";
+import EditProjectPage from "./components/EditProjectPage";
 
 // --- IMPORT GLOBAL COMPONENTS ---
 import Navbar from "./components/Navbar";
 import Footer from "./components/Footer";
 
 // --- UTILITY: SCROLL TO TOP ---
-// Fungsi agar setiap pindah halaman, tampilan otomatis ke atas
 const ScrollToTop = () => {
   const { pathname } = useLocation();
   useEffect(() => {
@@ -27,39 +27,38 @@ const ScrollToTop = () => {
 };
 
 // --- PROTEKSI RUTE (SATIPAM) ---
-// Komponen ini memastikan hanya yang sudah login bisa masuk ke /admin
+// Memastikan akses admin aman berdasarkan status login
 const PrivateRoute = ({ children }) => {
   const isAuthenticated = localStorage.getItem('isAdminLoggedIn') === 'true';
-  return isAuthenticated ? children : <Navigate to="/login" />;
+  return isAuthenticated ? children : <Navigate to="/login" replace />;
 };
 
 function App() {
   const location = useLocation();
 
-  // Logika untuk menyembunyikan Navbar dan Footer di halaman Admin atau Login
-  // agar tampilan dashboard lebih fokus dan bersih.
+  // Menyembunyikan Navbar dan Footer di halaman Admin atau Login agar lebih fokus
   const isHideLayout = location.pathname.startsWith("/admin") || location.pathname === "/login";
 
   return (
     <div className="app-main-wrapper">
       <ScrollToTop />
       
-      {/* Navbar hanya muncul jika bukan di halaman admin/login */}
+      {/* Navbar hanya muncul di halaman publik */}
       {!isHideLayout && <Navbar />}
 
       <Routes>
-        {/* RUTE PUBLIK (Bisa diakses siapa saja) */}
+        {/* --- RUTE PUBLIK --- */}
         <Route path="/" element={<LandingPage />} />
         <Route path="/about" element={<AboutPage />} />
         <Route path="/services" element={<ServicesPage />} />
         <Route path="/projek" element={<ProjekPage />} />      
         <Route path="/contact" element={<ContactPage />} />
-        
-        {/* RUTE LOGIN */}
+
+        {/* --- RUTE LOGIN --- */}
         <Route path="/login" element={<LoginPage />} />
 
-        {/* RUTE ADMIN (DIPROTEKSI) */}
-        {/* Jika user mencoba akses /admin tanpa login, akan dilempar ke /login */}
+        {/* --- RUTE ADMIN (SEMUA DIPROTEKSI) --- */}
+        {/* Dashboard Utama Admin */}
         <Route 
           path="/admin" 
           element={
@@ -68,9 +67,22 @@ function App() {
             </PrivateRoute>
           } 
         />
+        
+        {/* Halaman Edit (DIPINDAHKAN KE SINI AGAR AMAN) */}
+        <Route 
+          path="/admin/edit/:id" 
+          element={
+            <PrivateRoute>
+              <EditProjectPage />
+            </PrivateRoute>
+          } 
+        />
+
+        {/* Fallback jika rute tidak ditemukan */}
+        <Route path="*" element={<Navigate to="/" replace />} />
       </Routes>
 
-      {/* Footer hanya muncul jika bukan di halaman admin/login */}
+      {/* Footer hanya muncul di halaman publik */}
       {!isHideLayout && <Footer />}
     </div>
   );

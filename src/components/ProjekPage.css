@@ -1,187 +1,116 @@
-/* --- PROJEK PAGE STYLES --- */
+/* --- LAYOUT UTAMA --- */
 .projek-root {
   background-color: #fdfbf7;
-  color: #1a1a1a;
-  padding-bottom: 100px;
+  padding-bottom: 80px;
 }
 
-.container {
+.container-proyek {
   max-width: 1100px;
   margin: 0 auto;
   padding: 0 20px;
 }
 
-/* Page Header */
-.page-header {
-  padding: 120px 0 60px;
-  text-align: center;
-}
+.head-section { text-align: center; padding: 70px 0 50px; }
+.mini-head { font-size: 13px; font-weight: 700; letter-spacing: 3px; color: #8d6e63; }
+.head-section h1 { font-size: 38px; font-weight: 800; color: #3e2723; margin-top: 10px; }
 
-.page-header h1 {
-  font-size: clamp(2.5rem, 6vw, 3.5rem);
-  font-weight: 900;
-  line-height: 1.1;
-  color: #3e2723;
-}
+/* --- CARD STYLE (Bentuk Card Image_6915bb) --- */
+.list-wrapper { display: flex; flex-direction: column; gap: 60px; }
 
-.page-header .italic {
-  font-style: italic;
-  font-weight: 300;
-  color: #5d4037;
-}
-
-.subtitle {
-  text-transform: uppercase;
-  letter-spacing: 4px;
-  font-weight: 700;
-  color: #5d4037;
-  font-size: 0.9rem;
-  display: block;
-  margin-bottom: 15px;
-}
-
-/* Project List Layout */
-.projects-wrapper {
-  display: flex;
-  flex-direction: column;
-  gap: 80px; /* Jarak antar proyek besar */
-}
-
-/* --- CARD STYLE (Header Cokelat) --- */
-.project-card {
-  background: #ffffff;
+.card-proyek-premium {
+  background: white;
   border-radius: 12px;
   overflow: hidden;
-  box-shadow: 0 15px 40px rgba(0,0,0,0.06);
+  box-shadow: 0 10px 30px rgba(62, 39, 35, 0.05); /* Shadow cokelat tipis */
 }
 
-.card-header-brown {
-  background-color: #4e362e; /* Warna Cokelat sesuai referensi */
-  padding: 40px;
-  color: #ffffff;
-  display: flex;
-  justify-content: space-between;
+/* Header Cokelat */
+.card-header-premium {
+  background-color: #5D4037; 
+  padding: 30px 40px;
+  color: white;
+}
+
+.title-proyek { font-size: 24px; font-weight: 800; text-transform: uppercase; margin: 0; }
+.subtitle-proyek { font-size: 14px; opacity: 0.8; margin: 5px 0 20px 0; }
+
+.btn-hubungi-outline {
+  display: inline-flex;
   align-items: center;
-  flex-wrap: wrap;
-  gap: 20px;
-}
-
-.project-title {
-  font-size: 1.8rem;
-  font-weight: 800;
-  margin: 0;
-  text-transform: uppercase;
-  letter-spacing: 1px;
-}
-
-.project-subtitle {
-  margin: 5px 0 0;
-  color: #d7ccc8;
-  font-size: 1rem;
-}
-
-.btn-contact-outline {
-  display: flex;
-  align-items: center;
-  gap: 10px;
+  gap: 8px;
+  padding: 8px 18px;
   border: 1px solid rgba(255,255,255,0.4);
-  padding: 12px 24px;
   color: white;
   text-decoration: none;
-  font-weight: 700;
-  font-size: 0.85rem;
+  font-size: 13px;
+  font-weight: 600;
   border-radius: 4px;
-  transition: 0.3s;
 }
 
-.btn-contact-outline:hover {
+/* --- GALLERY STRIP --- */
+.card-body-gallery {
+  padding: 30px 45px 40px;
   background: white;
-  color: #4e362e;
 }
 
-/* Image Strip (Horizontal Galeri) */
-.card-image-strip {
-  padding: 25px 0;
-  background: #fff;
-}
-
-.image-scroll-container {
+.relative-container {
+  position: relative;
   display: flex;
-  gap: 15px;
-  overflow-x: auto;
-  padding: 0 25px 15px;
-  scrollbar-width: thin;
-  scrollbar-color: #d7ccc8 transparent;
+  align-items: center;
 }
 
-.image-scroll-container::-webkit-scrollbar {
-  height: 6px;
+/* Navigasi Bulat di Sisi */
+.nav-arrow {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 10;
+  background-color: #5D4037;
+  color: white;
+  border: none;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.2);
 }
 
-.image-scroll-container::-webkit-scrollbar-thumb {
-  background-color: #d7ccc8;
-  border-radius: 10px;
+.nav-arrow.left { left: -20px; }
+.nav-arrow.right { right: -20px; }
+
+/* Masking & Scroll Area */
+.horizontal-scroll-mask {
+  display: flex;
+  gap: 15px; /* Jarak antar foto */
+  overflow-x: hidden; /* Sembunyikan scrollbar agar rapi */
+  scroll-behavior: smooth;
+  width: 100%;
 }
 
-.strip-item {
-  min-width: 320px;
-  height: 240px;
-  flex-shrink: 0;
+/* Ukuran Foto yang Dikunci */
+.square-item {
+  flex: 0 0 auto;
+  width: 185px;  /* Ukuran presisi agar muat banyak */
+  height: 185px; 
   border-radius: 6px;
   overflow: hidden;
-  box-shadow: 0 4px 10px rgba(0,0,0,0.08);
 }
 
-.strip-item img {
+.square-item img {
   width: 100%;
   height: 100%;
   object-fit: cover;
   transition: 0.5s ease;
 }
 
-.strip-item:hover img {
-  transform: scale(1.08);
-}
+.square-item:hover img { transform: scale(1.1); }
 
-/* Footer Card */
-.card-footer-desc {
-  padding: 0 40px 40px;
-}
-
-.card-footer-desc p {
-  color: #666;
-  line-height: 1.6;
-  margin-bottom: 20px;
-}
-
-.view-detail-link {
-  color: #5d4037;
-  text-decoration: none;
-  font-weight: 800;
-  font-size: 0.9rem;
-  border-bottom: 2px solid #ebd9b4;
-}
-
-/* Loading & Empty States */
-.loading-state {
-  text-align: center;
-  padding: 100px 0;
-  color: #5d4037;
-}
-
-.spin-icon {
-  animation: spin 1s linear infinite;
-  margin-bottom: 15px;
-}
-
-@keyframes spin {
-  to { transform: rotate(360deg); }
-}
-
-/* Responsive */
-@media (max-width: 768px) {
-  .card-header-brown { padding: 25px; }
-  .project-title { font-size: 1.4rem; }
-  .strip-item { min-width: 260px; height: 180px; }
-  .card-footer-desc { padding: 0 25px 30px; }
-}
+/* --- UTILS --- */
+.center-loading { text-align: center; padding: 100px 0; color: #8d6e63; }
+.spin { animation: spin 1s linear infinite; }
+@keyframes spin { 100% { transform: rotate(360deg); } }
+.fade-up { animation: fadeUp 0.8s ease forwards; }
+@keyframes fadeUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }

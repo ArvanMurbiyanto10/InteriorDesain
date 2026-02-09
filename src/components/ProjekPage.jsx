@@ -1,102 +1,132 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import axios from "axios";
-import { Link } from "react-router-dom"; // Pastikan Link diimport jika mau dipakai (opsional)
-import { ArrowRight, Loader, Camera } from "lucide-react";
+import { ArrowRight, Loader, Camera, ChevronLeft, ChevronRight } from "lucide-react";
 import Navbar from "./Navbar";
 import "./ProjekPage.css";
 
 const API_URL = "http://localhost:5000";
+
+const ProjectCard = ({ item }) => {
+  const scrollRef = useRef(null);
+  
+  // Data dasar: Gabungkan thumbnail dan galeri
+  const baseImages = item.gallery && item.gallery.length > 0 ? item.gallery : [item.foto];
+  
+  // Trik Seamless: Lipat tiga array gambar agar tidak ada ujungnya
+  const infiniteImages = [...baseImages, ...baseImages, ...baseImages];
+
+  const scroll = (direction) => {
+  const { current } = scrollRef;
+  if (current) {
+    const itemWidth = 200; // Lebar foto + Gap
+    const maxScroll = current.scrollWidth;
+    const viewWidth = current.clientWidth;
+
+    if (direction === 'right') {
+      // JUMP LOGIC: Jika sudah sisa sedikit lagi mau habis (mendekati ujung kanan)
+      // Kita kembalikan ke area tengah secara instan sebelum geser lagi
+      if (current.scrollLeft + viewWidth >= maxScroll - (itemWidth * 2)) {
+        current.scrollLeft = maxScroll / 3; 
+      }
+      current.scrollBy({ left: itemWidth, behavior: 'smooth' });
+    } else {
+      // JUMP LOGIC: Jika sudah mau habis ke arah kiri
+      if (current.scrollLeft <= itemWidth * 2) {
+        current.scrollLeft = maxScroll / 3;
+      }
+      current.scrollBy({ left: -itemWidth, behavior: 'smooth' });
+    }
+  }
+};
+
+  // Saat pertama kali muncul, posisikan scroll di tengah (set ke-2 dari 3)
+  useEffect(() => {
+    if (scrollRef.current) {
+      const { current } = scrollRef;
+      current.scrollLeft = current.scrollWidth / 3;
+    }
+  }, []);
+
+  return (
+    <div className="card-proyek-premium fade-up">
+      {/* 1. Header Cokelat Sesuai Referensi */}
+      <div className="card-header-premium">
+        <div className="header-info">
+          <h2 className="title-proyek">{item.judul}</h2>
+          <p className="subtitle-proyek">Proyek: {item.klien || "Eksklusif"}</p>
+          <a 
+            href={`https://wa.me/6281234567890?text=Halo, saya tertarik dengan proyek ${item.judul}`} 
+            target="_blank" 
+            rel="noreferrer"
+            className="btn-hubungi-outline"
+          >
+            HUBUNGI KAMI <ArrowRight size={14}/>
+          </a>
+        </div>
+      </div>
+
+      {/* 2. Strip Galeri dengan Navigasi */}
+      <div className="card-body-gallery">
+        <div className="relative-container">
+          
+          <button className="nav-arrow left" onClick={() => scroll('left')}>
+            <ChevronLeft size={24} />
+          </button>
+
+          <div className="horizontal-scroll-mask" ref={scrollRef}>
+            {infiniteImages.map((foto, idx) => (
+              <div key={idx} className="square-item">
+                <img 
+                  src={`${API_URL}/uploads/${foto}`} 
+                  alt="interior" 
+                  onError={(e) => { e.target.src="https://placehold.co/400x400?text=Interior" }}
+                />
+              </div>
+            ))}
+          </div>
+
+          <button className="nav-arrow right" onClick={() => scroll('right')}>
+            <ChevronRight size={24} />
+          </button>
+          
+        </div>
+      </div>
+    </div>
+  );
+};
 
 const ProjekPage = () => {
   const [projects, setProjects] = useState([]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    axios.get(`${API_URL}/api/projects`)
+    axios.get(`${API_URL}/api/projects?t=${Date.now()}`)
       .then(res => { 
         setProjects(res.data); 
         setLoading(false); 
       })
-      .catch(err => {
-        console.error("Error fetching projects:", err); // Menggunakan variabel 'err' agar linter happy
-        setLoading(false);
-      });
+      .catch(() => setLoading(false));
   }, []);
 
   return (
     <div className="projek-root">
       <Navbar />
-
-      <section className="page-header">
-        <div className="container">
-            <span className="subtitle">Portofolio Kami</span>
-            <h1>PORTOFOLIO <span className="italic">KARYA KAMI</span></h1>
-        </div>
+      <section className="head-section center">
+         <span className="mini-head">PORTOFOLIO</span>
+         <h1>HASIL KARYA KAMI</h1>
       </section>
 
-      <div className="container">
+      <div className="container-proyek">
         {loading ? (
-          <div className="loading-state">
-            <Loader className="spin-icon" size={40} />
-            <p>Memuat portofolio...</p>
-          </div>
+          <div className="center-loading"><Loader className="spin" size={40} /></div>
         ) : (
-          <div className="projects-wrapper">
-            {projects.map((item) => (
-              <div key={item.id} className="project-card">
-                
-                {/* Header Cokelat */}
-                <div className="card-header-brown">
-                   <div className="header-info">
-                      <h2 className="project-title">{item.judul}</h2>
-                      <p className="project-subtitle">Proyek {item.klien || "Klien Kami"}</p>
-                   </div>
-                   <a 
-                      href={`https://wa.me/6281234567890?text=Halo, saya tertarik dengan proyek ${item.judul}`} 
-                      target="_blank" 
-                      rel="noreferrer"
-                      className="btn-contact-outline"
-                   >
-                      HUBUNGI KAMI <ArrowRight size={16}/>
-                   </a>
-                </div>
-
-                {/* Horizontal Galeri Scroll */}
-                <div className="card-image-strip">
-                   <div className="image-scroll-container">
-                      {item.gallery && item.gallery.length > 0 ? (
-                        item.gallery.map((foto, idx) => (
-                           <div key={idx} className="strip-item">
-                              <img 
-                                  src={`${API_URL}/uploads/${foto}`} 
-                                  alt={`Foto ${idx+1}`} 
-                                  loading="lazy"
-                                  onError={(e) => {
-                                      e.target.onerror = null; 
-                                      e.target.src="https://placehold.co/600x400?text=No+Image"
-                                  }}
-                              />
-                           </div>
-                        ))
-                      ) : (
-                        // Fallback jika tidak ada galeri (tampilkan foto utama saja)
-                        <div className="strip-item">
-                            <img src={`${API_URL}/uploads/${item.foto}`} alt="Main" onError={(e)=>e.target.src="https://placehold.co/600x400?text=No+Image"}/>
-                        </div>
-                      )}
-                   </div>
-                </div>
-
-              </div>
-            ))}
+          <div className="list-wrapper">
+            {projects.length > 0 ? (
+              projects.map((item) => <ProjectCard key={item.id} item={item} />)
+            ) : (
+              <div className="empty-msg"><Camera size={48} /><p>Belum ada proyek.</p></div>
+            )}
           </div>
-        )}
-
-        {!loading && projects.length === 0 && (
-            <div className="empty-state">
-                <Camera size={48} />
-                <p>Belum ada proyek yang ditampilkan.</p>
-            </div>
         )}
       </div>
     </div>
