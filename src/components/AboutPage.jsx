@@ -4,138 +4,166 @@ import {
   ArrowLeft,
   Home,
   Building2,
-  Utensils,
-  Coffee,
-  Briefcase,
   Palmtree,
-  CheckCircle2,
-  Clock,
-  Hammer,
+  Coffee,
+  Utensils,
+  Briefcase,
   Compass,
+  TrendingUp,
   PenTool,
   FileText,
-  Users,
-  Award,
-  TrendingUp,
+  Hammer,
+  CheckCircle2,
 } from "lucide-react";
-
 import Navbar from "./Navbar";
 import "./AboutPage.css";
+
+// --- IMPORT ASSETS ---
+import logoDoggerImg from "../assets/logo-dogger.jpg";
+import photo1 from "../assets/foto-1.jpg";
+import photo2 from "../assets/foto-2.jpg";
+import photo3 from "../assets/foto-3.jpg";
+import photo4 from "../assets/foto-4.jpg";
 
 const AboutPage = () => {
   useEffect(() => {
     window.scrollTo(0, 0);
   }, []);
 
+  // Data Statistik untuk Hero
+  const statsData = [
+    { number: "20+", label: "Tahun Pengalaman" },
+    { number: "300+", label: "Proyek Selesai" },
+    { number: "100%", label: "Klien Puas" },
+    { number: "A+", label: "Grade Material" },
+  ];
+
   return (
     <div className="op10-root">
       <Navbar />
 
       <main>
-        {/* --- SECTION 1: HERO --- */}
+        {/* --- SECTION 1: HERO (STAGGERED GRID & SPLIT TEXT) --- */}
         <section className="section-hero op10-container">
           <div className="hero-grid">
-            {/* Kolom Teks */}
+            {/* Kiri: Teks */}
             <div className="hero-text">
               <span className="sub-header">Profil Perusahaan</span>
               <h1 className="main-header">Doger Interior</h1>
-              <p className="text-paragraph">
-                Selama kami berkarya, kami percaya bahwa kualitas sejati adalah
-                harmoni antara ketahanan material dengan kenyamanan penghuninya.
-                Bagi kami, setiap proyek bukan hanya sekadar memproduksi
-                furniture, melainkan sebuah kolaborasi erat untuk menciptakan
-                ruangan yang benar-benar mewakili karakter Anda.
-              </p>
+
+              {/* Container Teks Rapi (Split Paragraphs) */}
+              <div className="text-content-wrapper">
+                <p className="text-paragraph">
+                  Selama kami berkarya, kami percaya bahwa kualitas sejati
+                  adalah harmoni antara ketahanan material dengan kenyamanan
+                  penghuninya. Bagi kami, setiap proyek bukan hanya sekadar
+                  memproduksi furniture, melainkan sebuah kolaborasi erat untuk
+                  menciptakan ruangan yang benar-benar mewakili karakter dan
+                  kebutuhan client.
+                </p>
+
+                <p className="text-paragraph">
+                  Kami percaya bahwa setiap ruang memiliki cerita unik. Oleh
+                  karena itu, <strong>Doger Interior</strong> hadir untuk
+                  mengintegrasikan keahlian teknis yang telah terasah selama 20
+                  tahun dengan detail desain yang dipersonalisasikan sepenuhnya.
+                  Kami menciptakan solusi ruang yang cerdas melalui penguasaan
+                  berbagai material unggulan – mulai dari{" "}
+                  <strong>Multiplek, PVC Board hingga Aluminium</strong>.
+                </p>
+
+                <p className="text-paragraph">
+                  Bersama kami, Anda mendapatkan jaminan kualitas melalui
+                  pengerjaan teliti di workshop kami serta pendampingan personal
+                  mulai dari desain hingga instalasi. Kami menjunjung tinggi
+                  profesionalisme melalui
+                  <strong> transparansi di setiap langkah</strong>, memberikan
+                  update berkala agar Anda memiliki ketenangan pikiran
+                  sepenuhnya.
+                </p>
+              </div>
+
+              <div className="est-badge-hero">Est. 2019 — Depok</div>
             </div>
-            {/* Kolom Foto */}
-            <div className="hero-image-wrapper">
-              <span style={{ textAlign: "center", padding: "20px" }}>
-                (Masukkan Foto Workshop/Interior Disini)
-                <br />
-                <small>Ukuran rekomendasi: 600x600px</small>
-              </span>
-              <div className="est-badge">Est. 2004 — Depok</div>
+
+            {/* Kanan: Foto Grid Staggered & Stats */}
+            <div className="hero-right-wrapper">
+              <div className="photo-grid-container">
+                <div className="four-photo-grid">
+                  {/* Foto 1: Kiri Atas */}
+                  <img
+                    src={photo1}
+                    alt="Project 1"
+                    className="grid-img grid-img-1"
+                  />
+
+                  {/* Foto 2: Kanan Atas (Turun Dikit) */}
+                  <img
+                    src={photo2}
+                    alt="Project 2"
+                    className="grid-img grid-img-2"
+                  />
+
+                  {/* Foto 3: Kiri Bawah */}
+                  <img
+                    src={photo3}
+                    alt="Project 3"
+                    className="grid-img grid-img-3"
+                  />
+
+                  {/* Foto 4: Kanan Bawah (Turun Dikit) */}
+                  <img
+                    src={photo4}
+                    alt="Project 4"
+                    className="grid-img grid-img-4"
+                  />
+                </div>
+
+                {/* Logo Mengapung di Tengah */}
+                <div className="center-logo-overlay">
+                  <img src={logoDoggerImg} alt="Logo Doger" />
+                </div>
+              </div>
+
+              {/* Statistik Kecil */}
+              <div className="hero-small-stats">
+                {statsData.map((item, index) => (
+                  <div key={index} className="small-stat-item">
+                    <strong>{item.number}</strong>
+                    <span>{item.label}</span>
+                  </div>
+                ))}
+              </div>
             </div>
           </div>
         </section>
 
-        {/* --- SECTION 2: STATISTIK --- */}
-        <section className="section-stats">
-          <div className="op10-container">
-            <div className="stats-grid">
-              <StatBox
-                icon={<TrendingUp size={32} />}
-                number="20+"
-                label="Tahun Pengalaman"
-              />
-              <StatBox
-                icon={<CheckCircle2 size={32} />}
-                number="300+"
-                label="Proyek Selesai"
-              />
-              <StatBox
-                icon={<Users size={32} />}
-                number="100%"
-                label="Klien Puas"
-              />
-              <StatBox
-                icon={<Award size={32} />}
-                number="A+"
-                label="Grade Material"
-              />
+        {/* --- SECTION 2: PROJECT SCOPE --- */}
+        <section className="section-scope">
+          <div className="op10-container center">
+            <div className="scope-heading-wrapper">
+              <h3 className="scope-heading">Project Scope</h3>
+              <div className="scope-line"></div>
+            </div>
+
+            <div className="scope-grid-original">
+              <ScopeItem icon={<Home size={32} />} label="Home" />
+              <ScopeItem icon={<Building2 size={32} />} label="Apartment" />
+              <ScopeItem icon={<Palmtree size={32} />} label="Villa" />
+              <ScopeItem icon={<Coffee size={32} />} label="Cafe" />
+              <ScopeItem icon={<Utensils size={32} />} label="Resto" />
+              <ScopeItem icon={<Briefcase size={32} />} label="Office" />
             </div>
           </div>
         </section>
 
-        {/* --- SECTION 3: FILOSOFI --- */}
-        <section className="section-philosophy op10-container">
-          <div
-            style={{ maxWidth: "800px", margin: "0 auto", textAlign: "center" }}
-          >
-            <h2 className="main-header" style={{ fontSize: "2.5rem" }}>
-              Standar & Filosofi Kami
-            </h2>
-            <div
-              style={{
-                width: "80px",
-                height: "4px",
-                backgroundColor: "var(--color-cream)",
-                margin: "0 auto",
-              }}
-            ></div>
-          </div>
-
-          <div className="philosophy-grid">
-            <div className="philosophy-card">
-              <h3>Material Adalah Kunci</h3>
-              <p className="text-paragraph">
-                Kami percaya setiap ruang memiliki cerita unik. Doger Interior
-                mengintegrasikan keahlian teknis yang terasah selama 20 tahun
-                dengan detail desain yang dipersonalisasikan sepenuhnya. Kami
-                menciptakan solusi ruang cerdas melalui penguasaan berbagai
-                material unggulan.
-              </p>
-            </div>
-            <div className="philosophy-card">
-              <h3>Transparansi Total</h3>
-              <p className="text-paragraph">
-                Kami menjunjung tinggi profesionalisme melalui transparansi di
-                setiap langkah. Kami memastikan Anda selalu mendapatkan update
-                perkembangan proyek secara nyata dan berkala sehingga Anda
-                memiliki ketenangan pikiran penuh selama proses produksi.
-              </p>
-            </div>
-          </div>
-        </section>
-
-        {/* --- SECTION 4: ALUR KERJA --- */}
+        {/* --- SECTION 3: ALUR KERJA --- */}
         <section className="section-process">
           <div className="op10-container">
-            <div style={{ marginBottom: "60px", textAlign: "center" }}>
+            <div className="center Heading-wrapper">
               <span className="sub-header">Tahapan Pemesanan</span>
-              <h2 className="main-header" style={{ fontSize: "2.5rem" }}>
-                Proses Terstruktur
-              </h2>
+              <h2 className="main-header">Proses Terstruktur</h2>
+              <div className="header-line"></div>
             </div>
 
             <div className="process-grid">
@@ -143,75 +171,38 @@ const AboutPage = () => {
                 step="01"
                 icon={<Compass size={28} />}
                 title="Konsultasi"
-                desc="Diskusikan kebutuhan, konsep, dan material bersama tim kami baik secara online atau offline."
+                desc="Diskusi kebutuhan & konsep."
               />
               <ProcessCard
                 step="02"
                 icon={<TrendingUp size={28} />}
                 title="Survey Lokasi"
-                desc="Tim kami melakukan pengukuran secara langsung di lokasi client untuk hasil presisi."
+                desc="Pengukuran presisi di lokasi."
               />
               <ProcessCard
                 step="03"
                 icon={<PenTool size={28} />}
                 title="Design 3D"
-                desc="Visualisasi professional untuk memastikan desain mencapai kesepakatan final."
+                desc="Visualisasi desain final."
               />
               <ProcessCard
                 step="04"
                 icon={<FileText size={28} />}
                 title="Invoice & DP"
-                desc="Pembayaran DP 1 untuk mengikat jadwal produksi dan pemesanan material."
+                desc="Administrasi & jadwal produksi."
               />
               <ProcessCard
                 step="05"
                 icon={<Hammer size={28} />}
                 title="Produksi"
-                desc="Pengerjaan interior di workshop kami sesuai spesifikasi teknis yang disetujui."
+                desc="Pengerjaan di workshop kami."
               />
               <ProcessCard
                 step="06"
                 icon={<CheckCircle2 size={28} />}
                 title="Instalasi"
-                desc="Proses pemasangan akhir di lokasi hingga proyek selesai sempurna."
+                desc="Pemasangan akhir di lokasi."
               />
-            </div>
-          </div>
-        </section>
-
-        {/* --- SECTION 5: TEAM / WORKSHOP --- */}
-        <section className="op10-container" style={{ padding: "100px 0" }}>
-          <div
-            className="hero-image-wrapper"
-            style={{ height: "400px", background: "#ddd" }}
-          >
-            <div style={{ textAlign: "center", zIndex: 1 }}>
-              (Foto Besar Suasana Workshop)
-              <br />
-              <small>Menunjukkan kesibukan dan alat-alat</small>
-            </div>
-          </div>
-        </section>
-
-        {/* --- SECTION 6: PROJECT SCOPE --- */}
-        <section className="section-scope">
-          <div className="op10-container" style={{ textAlign: "center" }}>
-            <h3
-              style={{
-                marginBottom: "40px",
-                fontSize: "1.5rem",
-                fontFamily: "var(--font-heading)",
-              }}
-            >
-              Project Scope
-            </h3>
-            <div className="scope-grid">
-              <ScopeItem icon={<Home size={28} />} label="Home" />
-              <ScopeItem icon={<Building2 size={28} />} label="Apartment" />
-              <ScopeItem icon={<Palmtree size={28} />} label="Villa" />
-              <ScopeItem icon={<Coffee size={28} />} label="Cafe" />
-              <ScopeItem icon={<Utensils size={28} />} label="Resto" />
-              <ScopeItem icon={<Briefcase size={28} />} label="Office" />
             </div>
           </div>
         </section>
@@ -224,25 +215,7 @@ const AboutPage = () => {
   );
 };
 
-// --- SUB-KOMPONEN (Updated) ---
-
-const StatBox = ({ icon, number, label }) => (
-  <div className="stat-box">
-    <div style={{ marginBottom: "15px", opacity: 0.8 }}>{icon}</div>
-    <div className="stat-number">{number}</div>
-    <div
-      style={{
-        fontSize: "0.9rem",
-        textTransform: "uppercase",
-        letterSpacing: "1px",
-        opacity: 0.9,
-      }}
-    >
-      {label}
-    </div>
-  </div>
-);
-
+// --- SUB-COMPONENTS ---
 const ProcessCard = ({ step, icon, title, desc }) => (
   <div className="process-card">
     <span className="process-step-number">{step}</span>

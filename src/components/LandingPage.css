@@ -106,7 +106,7 @@ html {
 }
 
 /* ----------------------------------------------------------- */
-/* NAVBAR FINAL (DARK MODE ON SCROLL) */
+/* NAVBAR FINAL (DARK MODE ON SCROLL & CLICKABLE MENU) */
 /* ----------------------------------------------------------- */
 .op10-nav {
   position: fixed;
@@ -139,7 +139,9 @@ html {
   flex: 1;
   display: flex;
   justify-content: flex-start;
-  z-index: 20;
+  z-index: 20; /* Logo layer */
+  position: relative; /* Penting agar z-index bekerja */
+  pointer-events: auto; /* Pastikan bisa diklik */
 }
 
 .brand-link {
@@ -151,16 +153,14 @@ html {
   transition: 0.3s;
 }
 
-/* Ubah warna teks logo jadi putih saat scroll */
 .op10-nav.scrolled .brand-link {
   color: #ffffff;
 }
 
-/* FOTO LOGO (Asli/Kotak) */
 .logo-img {
   width: 45px !important;
   height: 45px !important;
-  object-fit: contain; /* Gambar utuh */
+  object-fit: contain;
   display: block;
 }
 
@@ -178,13 +178,12 @@ html {
   transition: 0.3s;
 }
 
-/* Ubah 'INTERIOR' jadi cream saat scroll */
 .op10-nav.scrolled .brand-text span {
   color: #eddcc2;
   opacity: 0.9;
 }
 
-/* --- TENGAH: MENU LINKS (Absolute Center) --- */
+/* --- TENGAH: MENU LINKS (FIXED Z-INDEX) --- */
 .nav-links {
   position: absolute;
   left: 50%;
@@ -193,6 +192,10 @@ html {
   display: flex;
   gap: 30px;
   align-items: center;
+
+  /* PERBAIKAN UTAMA: Tambahkan z-index tinggi agar bisa diklik */
+  z-index: 100;
+  pointer-events: auto; /* Pastikan menerima klik */
 }
 
 .nav-links a {
@@ -201,11 +204,33 @@ html {
   font-weight: 600;
   font-size: 0.95rem;
   transition: 0.3s;
+  cursor: pointer;
+  position: relative;
 }
 
-/* Warna menu jadi putih saat scroll */
+/* Efek garis bawah saat hover */
+.nav-links a::after {
+  content: "";
+  position: absolute;
+  width: 0;
+  height: 2px;
+  bottom: -4px;
+  left: 0;
+  background-color: var(--c-brown);
+  transition: width 0.3s;
+}
+
+.nav-links a:hover::after {
+  width: 100%;
+}
+
+/* Warna menu saat scroll (putih) */
 .op10-nav.scrolled .nav-links a {
   color: #ffffff;
+}
+
+.op10-nav.scrolled .nav-links a::after {
+  background-color: #eddcc2; /* Garis bawah jadi cream */
 }
 
 .nav-links a:hover {
@@ -213,7 +238,7 @@ html {
 }
 
 .op10-nav.scrolled .nav-links a:hover {
-  color: #eddcc2; /* Hover cream saat background gelap */
+  color: #eddcc2;
 }
 
 /* --- KANAN: ACTIONS --- */
@@ -223,7 +248,9 @@ html {
   justify-content: flex-end;
   align-items: center;
   gap: 15px;
-  z-index: 20;
+  z-index: 20; /* Layer tombol */
+  position: relative;
+  pointer-events: auto;
 }
 
 .btn-nav-cta {
@@ -239,7 +266,6 @@ html {
   border: 1px solid transparent;
 }
 
-/* Tombol jadi Putih Teks Coklat saat scroll */
 .op10-nav.scrolled .btn-nav-cta {
   background: #ffffff;
   color: #533f31;
@@ -278,7 +304,7 @@ html {
     transform: none;
     width: 100%;
     height: 100vh;
-    background: var(--c-brown); /* Sidebar tetap coklat */
+    background: var(--c-brown);
     flex-direction: column;
     justify-content: center;
     align-items: center;
@@ -291,12 +317,15 @@ html {
     right: 0;
   }
 
-  /* Menu di dalam sidebar HP selalu putih */
   .nav-links a,
   .op10-nav.scrolled .nav-links a {
     color: #ffffff;
     font-size: 1.5rem;
     margin: 15px 0;
+  }
+
+  .nav-links a::after {
+    display: none; /* Hilangkan garis bawah di mobile */
   }
 
   .burger-menu {
