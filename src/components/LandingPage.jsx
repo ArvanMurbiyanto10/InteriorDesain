@@ -1,23 +1,20 @@
 import React, { useState, useEffect } from "react";
-import { Link } from "react-router-dom";
+import { Link } from "react-router-dom"; // Pastikan Anda sudah install react-router-dom
 import {
   ArrowRight,
   ArrowUpRight,
-  Menu,
-  X,
-  CheckCircle,
   Layout,
   Box,
   Layers,
   Globe,
   ChevronLeft,
   ChevronRight,
-  MessageCircle,
   ShieldCheck,
   Star,
   DollarSign,
   PenTool,
   MessageSquare,
+  CheckCircle,
   Send,
   ChevronUp,
   ChevronDown,
@@ -25,7 +22,7 @@ import {
 
 import "./LandingPage.css";
 
-// --- IMPORT ASSETS UMUM ---
+// --- IMPORT ASSETS (Sesuaikan path jika berbeda) ---
 import heroImg from "../assets/foto-9.jpg";
 import img1 from "../assets/foto-1.jpg";
 import img2 from "../assets/foto-2.jpg";
@@ -36,10 +33,10 @@ import img7 from "../assets/foto-7.jpg";
 import img8 from "../assets/foto-8.jpg";
 import img10 from "../assets/foto-10.jpg";
 
-// --- IMPORT MATERIAL (SUDAH DIAKTIFKAN) ---
+// --- IMPORT MATERIAL ---
 import imgMultiplek from "../assets/bahan-multiplek.jpg";
 import imgPVC from "../assets/bahan-pvc.jpg";
-import imgAluminium from "../assets/bahan-alumunium.jpg"; // Sesuai nama file Anda (pakai 'u')
+import imgAluminium from "../assets/bahan-alumunium.jpg";
 
 // --- DATA SERVICES ---
 const SERVICES_DATA = [
@@ -48,28 +45,28 @@ const SERVICES_DATA = [
     title: "Kitchen Set",
     desc: "Dapur ergonomis dengan material anti-rayap (PVC) atau HPL Premium.",
     img: img7,
-    icon: <Layout />,
+    icon: <Layout size={24} />,
   },
   {
     id: "wardrobe",
     title: "Wardrobe",
     desc: "Lemari pakaian full-plafon dengan desain mewah dan fungsional.",
     img: img8,
-    icon: <Box />,
+    icon: <Box size={24} />,
   },
   {
     id: "living",
     title: "Living Room",
     desc: "Backdrop TV dan partisi ruangan yang mempercantik hunian.",
     img: img3,
-    icon: <Layers />,
+    icon: <Layers size={24} />,
   },
   {
     id: "commercial",
     title: "Commercial",
     desc: "Interior kantor dan cafe yang meningkatkan citra bisnis Anda.",
     img: img5,
-    icon: <Globe />,
+    icon: <Globe size={24} />,
   },
 ];
 
@@ -117,96 +114,99 @@ const FAQ_DATA = [
   },
 ];
 
-// --- COMPONENT SLIDER KHUSUS ---
+// --- COMPONENT SLIDER KHUSUS (FIXED VERSION) ---
 const ProjectSlider = ({ title, clientName, items }) => {
   const [current, setCurrent] = useState(0);
-  const [itemsPerPage, setItemsPerPage] = useState(5);
+  const [itemsPerPage, setItemsPerPage] = useState(4); 
 
   useEffect(() => {
     const handleResize = () => {
-      if (window.innerWidth >= 1200) setItemsPerPage(5);
-      else if (window.innerWidth >= 768) setItemsPerPage(3);
+      if (window.innerWidth >= 1200) setItemsPerPage(4);
+      else if (window.innerWidth >= 768) setItemsPerPage(2);
       else setItemsPerPage(1);
+      setCurrent(0);
     };
     handleResize();
     window.addEventListener("resize", handleResize);
     return () => window.removeEventListener("resize", handleResize);
   }, []);
 
-  const maxIndex = Math.ceil(items.length / itemsPerPage) - 1;
-  const nextSlide = () =>
-    setCurrent((prev) => (prev >= maxIndex ? 0 : prev + 1));
-  const prevSlide = () =>
-    setCurrent((prev) => (prev <= 0 ? maxIndex : prev - 1));
+  const totalPages = Math.ceil(items.length / itemsPerPage);
+
+  // Manual Looping Logic
+  const nextSlide = () => setCurrent((prev) => (prev === totalPages - 1 ? 0 : prev + 1));
+  const prevSlide = () => setCurrent((prev) => (prev === 0 ? totalPages - 1 : prev - 1));
 
   const waLink = `https://wa.me/6285282773811?text=Halo%20Doger%20Interior,%20saya%20tertarik%20dengan%20${encodeURIComponent(title)}`;
 
   return (
-    <div className="project-block-ref fade-up">
+    <div className="project-block-ref">
+      {/* 1. Header Block (Judul & Tombol menyatu di atas) */}
       <div className="ref-header-banner">
         <div className="ref-text-content">
+          <p className="ref-sub-label">Project Terbaru Doger Interior</p>
           <h3>{title}</h3>
-          <p>{clientName}</p>
-          <a
-            href={waLink}
-            target="_blank"
-            rel="noreferrer"
-            className="btn-ref-wa"
-          >
-            HUBUNGI KAMI <ArrowRight size={16} />
-          </a>
+          <p className="ref-client-label">{clientName}</p>
         </div>
+        <a href={waLink} target="_blank" rel="noreferrer" className="btn-ref-wa">
+          HUBUNGI KAMI <ChevronRight size={16} />
+        </a>
       </div>
 
+      {/* 2. Slider Container (Gambar di bawah header) */}
       <div className="ref-slider-container">
         <button onClick={prevSlide} className="btn-ref-nav left">
           <ChevronLeft size={24} />
         </button>
+        
         <div className="ref-viewport">
           <div
             className="ref-track"
             style={{
               transform: `translateX(-${current * 100}%)`,
-              width: `${100 * Math.ceil(items.length / itemsPerPage)}%`,
               display: "flex",
-              transition: "transform 0.5s ease-in-out",
+              width: "100%",
+              transition: "transform 0.6s cubic-bezier(0.25, 1, 0.5, 1)",
             }}
           >
-            {Array.from({ length: Math.ceil(items.length / itemsPerPage) }).map(
-              (_, pageIndex) => (
-                <div
-                  key={pageIndex}
-                  className="ref-slide-page"
-                  style={{ width: "100%", display: "flex" }}
-                >
-                  {items
-                    .slice(
-                      pageIndex * itemsPerPage,
-                      (pageIndex + 1) * itemsPerPage,
-                    )
-                    .map((imgSrc, i) => (
-                      <div
-                        key={i}
-                        className="ref-card-item"
-                        style={{ width: `${100 / itemsPerPage}%` }}
-                      >
-                        <div className="ref-img-wrap">
-                          <img
-                            src={imgSrc}
-                            alt="Project Detail"
-                            loading="lazy"
-                          />
-                        </div>
+            {Array.from({ length: totalPages }).map((_, pageIndex) => (
+              <div
+                key={pageIndex}
+                className="ref-slide-page"
+                style={{ minWidth: "100%", display: "flex" }}
+              >
+                {items
+                  .slice(pageIndex * itemsPerPage, (pageIndex + 1) * itemsPerPage)
+                  .map((imgSrc, i) => (
+                    <div
+                      key={i}
+                      className="ref-card-item"
+                      style={{ width: `${100 / itemsPerPage}%`, padding: "0 5px" }}
+                    >
+                      <div className="ref-img-wrap">
+                        <img src={imgSrc} alt="Project" loading="lazy" />
                       </div>
-                    ))}
-                </div>
-              ),
-            )}
+                    </div>
+                  ))}
+              </div>
+            ))}
           </div>
         </div>
+
         <button onClick={nextSlide} className="btn-ref-nav right">
           <ChevronRight size={24} />
         </button>
+      </div>
+
+      {/* 3. Pagination Dots (Titik navigasi di paling bawah) */}
+      <div className="slider-dots">
+        {Array.from({ length: totalPages }).map((_, i) => (
+          <div 
+            key={i} 
+            className={`dot ${current === i ? 'active' : ''}`}
+            onClick={() => setCurrent(i)}
+          />
+        ))}
       </div>
     </div>
   );
@@ -214,7 +214,7 @@ const ProjectSlider = ({ title, clientName, items }) => {
 
 // --- MAIN PAGE ---
 function LandingPage() {
-  const [openFaq, setOpenFaq] = useState(0);
+  const [openFaq, setOpenFaq] = useState(null); // Default null biar tertutup semua
   const [formData, setFormData] = useState({ nama: "", wa: "", pesan: "" });
 
   const handleInput = (e) => {
@@ -231,13 +231,14 @@ function LandingPage() {
 
   return (
     <div className="op10-root">
+      
       {/* 1. HERO SECTION */}
       <header id="hero" className="op10-hero-split">
         <div className="hero-left">
           <div className="hl-content fade-up">
             <span className="badge-hero">EST. 2019 — DEPOK</span>
             <h1 className="hero-title">
-              Wujudkan Interior <br />{" "}
+              Wujudkan Interior <br />
               <span className="text-highlight">Impian Anda</span>
             </h1>
             <p className="hero-desc">
@@ -245,15 +246,14 @@ function LandingPage() {
               anti-rayap. Desain mewah, harga transparan, dan bergaransi.
             </p>
             <div className="hero-btns">
-              <Link to="/contact" className="btn-primary">
+              <a href="#contact" className="btn-primary">
                 Hubungi Kami <ArrowRight size={18} />
-              </Link>
+              </a>
               <a href="#gallery" className="btn-secondary">
                 Lihat Karya
               </a>
             </div>
 
-            {/* STATISTIK DI BAWAH TOMBOL */}
             <div className="hero-stats">
               <div className="stat-item">
                 <strong>300+</strong>
@@ -268,17 +268,17 @@ function LandingPage() {
           </div>
         </div>
         <div className="hero-right fade-in">
-          <img src={heroImg} alt="Hero" />
+          <img src={heroImg} alt="Interior Design Hero" />
           <div className="hero-overlay-deco"></div>
         </div>
       </header>
 
       {/* 2. WELCOME SECTION */}
-      <section className="welcome-section bg-white">
+      <section className="welcome-section">
         <div className="op10-container">
           <div className="welcome-top fade-up">
             <div className="welcome-ribbon">
-              <h2>Welcome To Our Website</h2>
+              <h2>WELCOME TO OUR WEBSITE</h2>
             </div>
             <div className="welcome-brand">
               <div className="wb-logo">
@@ -310,23 +310,17 @@ function LandingPage() {
       <section id="about" className="op10-section bg-cream">
         <div className="op10-container grid-2">
           <div className="about-img-wrap fade-up delay-1">
-            <img src={img2} alt="About" />
+            <img src={img2} alt="Tentang Doger Interior" />
             <div className="exp-badge">
               <span>5+ TH</span>
               <small>PENGALAMAN</small>
             </div>
           </div>
           <div className="about-text fade-up delay-2">
-            <h2>MENGAPA MEMILIH DOGER INTERIOR?</h2>
-            <p
-              style={{
-                marginBottom: "30px",
-                fontSize: "0.95rem",
-                color: "#666",
-              }}
-            >
-              Kami memahami bahwa rumah adalah investasi jangka panjang, itulah
-              sebabnya kami berkomitmen memberikan yang terbaik melalui:
+            <h2>MENGAPA MEMILIH KAMI?</h2>
+            <p className="secondary-paragraph">
+              Kami memahami bahwa rumah adalah investasi jangka panjang. Komitmen
+              kami adalah memberikan kualitas terbaik melalui:
             </p>
             <div className="vertical-features-list">
               <div className="v-feature-card">
@@ -335,10 +329,7 @@ function LandingPage() {
                 </div>
                 <div className="v-card-text">
                   <h4>Opsi Material Beragam</h4>
-                  <p>
-                    Pilih material mulai dari Aluminium (anti-rayap), Multiplek,
-                    maupun PVC Board.
-                  </p>
+                  <p>Aluminium (anti-rayap), Multiplek, atau PVC Board.</p>
                 </div>
               </div>
               <div className="v-feature-card">
@@ -347,10 +338,7 @@ function LandingPage() {
                 </div>
                 <div className="v-card-text">
                   <h4>Transparansi Proyek</h4>
-                  <p>
-                    Update perkembangan pengerjaan secara berkala agar hasil
-                    sesuai ekspektasi.
-                  </p>
+                  <p>Update progres berkala agar hasil sesuai ekspektasi.</p>
                 </div>
               </div>
               <div className="v-feature-card">
@@ -358,8 +346,8 @@ function LandingPage() {
                   <DollarSign size={28} />
                 </div>
                 <div className="v-card-text">
-                  <h4>Harga Terbaik</h4>
-                  <p>Penawaran harga yang kompetitif dan transparan.</p>
+                  <h4>Harga Kompetitif</h4>
+                  <p>Penawaran harga terbaik dengan kualitas premium.</p>
                 </div>
               </div>
               <div className="v-feature-card">
@@ -367,11 +355,8 @@ function LandingPage() {
                   <PenTool size={28} />
                 </div>
                 <div className="v-card-text">
-                  <h4>Custom Sesuai Keinginan</h4>
-                  <p>
-                    Desain fleksibel mengikuti preferensi estetika anda
-                    (Minimalis, Klasik, dll).
-                  </p>
+                  <h4>Custom Design</h4>
+                  <p>Desain fleksibel mengikuti selera (Minimalis, Klasik, dll).</p>
                 </div>
               </div>
               <div className="v-feature-card">
@@ -379,11 +364,8 @@ function LandingPage() {
                   <MessageSquare size={28} />
                 </div>
                 <div className="v-card-text">
-                  <h4>Konsultasi Fleksibel</h4>
-                  <p>
-                    Layanan diskusi dua arah yang dapat dilakukan secara
-                    online/offline.
-                  </p>
+                  <h4>Konsultasi Gratis</h4>
+                  <p>Diskusi kebutuhan interior Anda tanpa biaya.</p>
                 </div>
               </div>
             </div>
@@ -426,13 +408,13 @@ function LandingPage() {
             <h2>Pilihan Bahan / Material</h2>
           </div>
 
-          <div className="grid-2">
+          {/* Multiplek */}
+          <div className="grid-2 mb-50">
             <div className="specialist-content fade-up">
               <h3 className="content-title">Bahan Multiplek</h3>
-              <p className="content-desc">
-                Material favorit karena kepadatannya yang stabil dan daya tahan
-                yang kuat. Material ini pilihan terbaik untuk unit yang
-                membutuhkan kekuatan ekstra namun tetap fleksibel secara desain.
+              <p className="secondary-paragraph mb-50">
+                Pilihan favorit karena kepadatannya yang stabil dan daya tahan
+                kuat. Cocok untuk desain yang membutuhkan fleksibilitas tinggi.
               </p>
               <ul className="check-list-detailed">
                 <li>
@@ -441,10 +423,7 @@ function LandingPage() {
                   </div>
                   <div className="check-text">
                     <strong>Lapis HPL (High Pressure Laminate)</strong>
-                    <p>
-                      Pilihan praktis dengan ribuan motif, mulai dari tekstur
-                      kayu alami hingga warna solid modern.
-                    </p>
+                    <p>Ribuan motif tersedia, dari kayu alami hingga solid color.</p>
                   </div>
                 </li>
                 <li>
@@ -452,23 +431,8 @@ function LandingPage() {
                     <CheckCircle size={20} />
                   </div>
                   <div className="check-text">
-                    <strong>Lapis Cat Duco (Doff / Glossy)</strong>
-                    <p>
-                      Finishing sangat mulus dan seamless. Glossy memberi kesan
-                      mewah, doff tampil elegan.
-                    </p>
-                  </div>
-                </li>
-                <li>
-                  <div className="check-icon-box">
-                    <CheckCircle size={20} />
-                  </div>
-                  <div className="check-text">
-                    <strong>Kombinasi Material</strong>
-                    <p>
-                      Perpaduan berbagai material dan finishing untuk tampilan
-                      interior yang lebih personal.
-                    </p>
+                    <strong>Lapis Cat Duco</strong>
+                    <p>Finishing mulus (seamless), tersedia opsi Doff atau Glossy.</p>
                   </div>
                 </li>
               </ul>
@@ -476,9 +440,7 @@ function LandingPage() {
                 Konsultasi Material
               </a>
             </div>
-
             <div className="specialist-img fade-up delay-1">
-              {/* GAMBAR DIGANTI KE FILE ASLI */}
               <img src={imgMultiplek} alt="Material Multiplek" />
               <div className="material-badge">
                 <span>PREMIUM</span>
@@ -486,105 +448,78 @@ function LandingPage() {
               </div>
             </div>
           </div>
-        </div>
-      </section>
+          
+          <div className="section-divider mb-50"></div>
 
-      {/* DIVIDER */}
-      <div className="section-divider" />
-
-      {/* 6. PVC BOARD */}
-      <section className="op10-section bg-cream">
-        <div className="op10-container grid-2-reverse">
-          <div className="specialist-img fade-up delay-1">
-            {/* GAMBAR DIGANTI KE FILE ASLI */}
-            <img src={imgPVC} alt="Material PVC Board" />
-            <div className="material-badge badge-left">
-              <span>ANTI</span>
-              <small>LEMBAP</small>
+          {/* PVC Board */}
+          <div className="grid-2-reverse mb-50">
+            <div className="specialist-img fade-up delay-1">
+              <img src={imgPVC} alt="Material PVC Board" />
+              <div className="material-badge badge-left">
+                <span>ANTI</span>
+                <small>RAYAP & AIR</small>
+              </div>
+            </div>
+            <div className="specialist-content fade-up">
+              <h3 className="content-title">Bahan PVC Board</h3>
+              <p className="secondary-paragraph mb-50">
+                Solusi terbaik untuk area lembap. Material ini 100% anti rayap, 
+                tahan air, dan tidak lapuk seumur hidup.
+              </p>
+              <ul className="check-list-detailed">
+                <li>
+                  <div className="check-icon-box">
+                    <CheckCircle size={20} />
+                  </div>
+                  <div className="check-text">
+                    <strong>Awet Selamanya</strong>
+                    <p>Investasi sekali untuk pemakaian jangka panjang.</p>
+                  </div>
+                </li>
+                <li>
+                  <div className="check-icon-box">
+                    <CheckCircle size={20} />
+                  </div>
+                  <div className="check-text">
+                    <strong>Finishing Mewah</strong>
+                    <p>Bisa dilapisi HPL Taco atau Cat Duco sesuai selera.</p>
+                  </div>
+                </li>
+              </ul>
+              <a href="#contact" className="btn-primary mt-30">
+                Konsultasi PVC
+              </a>
             </div>
           </div>
 
-          <div className="specialist-content fade-up">
-            <h3 className="content-title">Bahan PVC Board</h3>
-            <p className="content-desc">
-              Jawaban terbaik untuk area yang rentan lembap atau serangan hama.
-              Ringan namun stabil, menjaga furniture tetap awet.
-            </p>
-            <ul className="check-list-detailed">
-              <li>
-                <div className="check-icon-box">
-                  <CheckCircle size={20} />
-                </div>
-                <div className="check-text">
-                  <strong>HPL Taco</strong>
-                  <p>
-                    Motif kayu atau solid yang aesthetic, tahan lama, mudah
-                    dirawat.
-                  </p>
-                </div>
-              </li>
-              <li>
-                <div className="check-icon-box">
-                  <CheckCircle size={20} />
-                </div>
-                <div className="check-text">
-                  <strong>Cat Duco (Doff / Glossy)</strong>
-                  <p>
-                    Finishing mulus tanpa sambungan. Glossy terlihat mewah, doff
-                    terasa elegan.
-                  </p>
-                </div>
-              </li>
-              <li>
-                <div className="check-icon-box">
-                  <CheckCircle size={20} />
-                </div>
-                <div className="check-text">
-                  <strong>Mix HPL Taco & Cat Duco</strong>
-                  <p>
-                    Kombinasi kekuatan HPL dan keindahan Cat Duco untuk hasil
-                    furniture yang eksklusif.
-                  </p>
-                </div>
-              </li>
-            </ul>
-            <a href="#contact" className="btn-primary mt-30">
-              Konsultasi Material
-            </a>
-          </div>
-        </div>
-      </section>
+          <div className="section-divider mb-50"></div>
 
-      {/* DIVIDER */}
-      <div className="section-divider" />
-
-      {/* 7. ALUMINIUM */}
-      <section className="op10-section bg-cream">
-        <div className="op10-container grid-2">
-          <div className="specialist-content fade-up">
-            <h3 className="content-title">Bahan Aluminium</h3>
-            <p className="content-desc">
-              Material dengan ketahanan seumur hidup, kebal terhadap air, api,
-              dan rayap. Memberikan kesan kokoh, presisi, dan modern.
-            </p>
-            <a href="#contact" className="btn-primary mt-30">
-              Konsultasi Material
-            </a>
-          </div>
-
-          <div className="specialist-img fade-up delay-1">
-            {/* GAMBAR DIGANTI KE FILE ASLI */}
-            <img src={imgAluminium} alt="Material Aluminium" />
-            <div className="material-badge">
-              <span>LIFETIME</span>
-              <small>MATERIAL</small>
+           {/* Aluminium */}
+           <div className="grid-2">
+            <div className="specialist-content fade-up">
+              <h3 className="content-title">Bahan Aluminium</h3>
+              <p className="secondary-paragraph mb-50">
+                Material metal yang memberikan kesan modern, kokoh, dan higienis.
+                Sangat mudah dibersihkan dan tahan terhadap segala cuaca.
+              </p>
+              <a href="#contact" className="btn-primary mt-30">
+                Konsultasi Aluminium
+              </a>
+            </div>
+            <div className="specialist-img fade-up delay-1">
+              <img src={imgAluminium} alt="Material Aluminium" />
+              <div className="material-badge">
+                <span>LIFETIME</span>
+                <small>WARRANTY</small>
+              </div>
             </div>
           </div>
+
         </div>
       </section>
 
-      {/* 8. GALLERY */}
-      <section id="gallery" className="op10-section bg-offwhite">
+      {/* 6. GALLERY / PORTFOLIO */}
+      <section id="gallery" className="bg-offwhite">
         <div className="op10-container">
           <div className="section-head center fade-up mb-50">
             <span className="sub-head">PORTOFOLIO</span>
@@ -608,12 +543,12 @@ function LandingPage() {
         </div>
       </section>
 
-      {/* 9. FAQ & CONTACT */}
+      {/* 7. FAQ & CONTACT */}
       <section id="contact" className="op10-section bg-cream">
         <div className="op10-container grid-2-faq">
           <div className="faq-left fade-up">
-            <h2>FAQ</h2>
-            <div className="faq-wrapper">
+            <h2>Pertanyaan Umum (FAQ)</h2>
+            <div className="faq-wrapper mt-30">
               {FAQ_DATA.map((faq, i) => (
                 <div
                   key={i}
@@ -621,7 +556,7 @@ function LandingPage() {
                   onClick={() => setOpenFaq(openFaq === i ? null : i)}
                 >
                   <div className="faq-head">
-                    {faq.q} {openFaq === i ? <ChevronUp /> : <ChevronDown />}
+                    {faq.q} {openFaq === i ? <ChevronUp size={20}/> : <ChevronDown size={20}/>}
                   </div>
                   {openFaq === i && <div className="faq-body">{faq.a}</div>}
                 </div>
@@ -631,12 +566,15 @@ function LandingPage() {
           <div className="contact-right fade-up delay-2">
             <div className="form-card">
               <h3>Mulai Konsultasi</h3>
+              <p className="mb-50 secondary-paragraph" style={{ fontSize: '0.9rem' }}>
+                Isi form di bawah, kami akan langsung terhubung ke WhatsApp Anda.
+              </p>
               <form onSubmit={kirimKeWA}>
                 <div className="form-group">
                   <input
                     type="text"
                     name="nama"
-                    placeholder="Nama"
+                    placeholder="Nama Lengkap"
                     onChange={handleInput}
                     required
                   />
@@ -645,7 +583,7 @@ function LandingPage() {
                   <input
                     type="tel"
                     name="wa"
-                    placeholder="WhatsApp"
+                    placeholder="Nomor WhatsApp (Contoh: 0812...)"
                     onChange={handleInput}
                     required
                   />
@@ -653,20 +591,29 @@ function LandingPage() {
                 <div className="form-group">
                   <textarea
                     name="pesan"
-                    rows="3"
-                    placeholder="Pesan"
+                    rows="4"
+                    placeholder="Ceritakan kebutuhan Anda (Ukuran ruangan, jenis furniture, budget, dll)"
                     onChange={handleInput}
                     required
                   ></textarea>
                 </div>
                 <button type="submit" className="btn-primary w-100">
-                  Kirim <Send size={16} />
+                  Kirim Pesan <Send size={16} />
                 </button>
               </form>
             </div>
           </div>
         </div>
       </section>
+
+      {/* Footer Simple */}
+      <footer className="bg-white" style={{ padding: '30px 0', borderTop: '1px solid #eee' }}>
+        <div className="op10-container center">
+          <p style={{ color: '#888', fontSize: '0.9rem' }}>
+            &copy; {new Date().getFullYear()} Doger Interior. All Rights Reserved.
+          </p>
+        </div>
+      </footer>
     </div>
   );
 }

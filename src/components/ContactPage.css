@@ -316,3 +316,107 @@ body, html {
   color: #ffffff;
   transform: scale(1.1);
 }
+/* --- RESPONSIVE MOBILE (ANDROID & iOS) --- */
+
+@media (max-width: 1024px) {
+  /* 1. Ubah Layout Split Screen Jadi Stack (Atas-Bawah) */
+  .fullscreen-split {
+    flex-direction: column-reverse; /* Form di atas, Info Kontak di bawah (opsional, bisa column biasa) */
+    min-height: auto; /* Tinggi otomatis mengikuti konten */
+  }
+
+  /* 2. Sesuaikan Padding Container */
+  .contact-side-left, 
+  .contact-side-right {
+    padding: 60px 25px; /* Kurangi padding samping agar tidak sempit */
+    justify-content: center; /* Pusatkan konten */
+    width: 100%; /* Lebar penuh */
+  }
+  
+  /* Reset lebar konten di dalam container */
+  .content-padding {
+    padding: 0; 
+    max-width: 100%;
+  }
+
+  /* 3. Typography Mobile */
+  .corporate-title {
+    font-size: 2.2rem; /* Kecilkan judul */
+    line-height: 1.2;
+  }
+  
+  .corporate-subtitle {
+    font-size: 1rem;
+  }
+
+  .timeline-header {
+    font-size: 1.8rem;
+    text-align: center;
+  }
+}
+
+@media (max-width: 768px) {
+  /* 4. Form Input Jadi 1 Kolom Penuh */
+  .form-row-dual {
+    grid-template-columns: 1fr; /* Stack input jadi satu kolom */
+    gap: 15px;
+  }
+
+  .btn-corporate-submit {
+    padding: 18px;
+    font-size: 0.9rem;
+  }
+
+  /* 5. Material Cards (Bagian Bawah) */
+  .material-fullbleed-section {
+    padding: 60px 0;
+  }
+
+  .material-content-center {
+    padding: 0 20px;
+  }
+
+  .material-intro h2 {
+    font-size: 2rem;
+  }
+
+  .material-cards-fluid {
+    grid-template-columns: 1fr; /* Kartu material jadi 1 kolom */
+    gap: 30px;
+  }
+
+  .material-card-item {
+    padding: 40px 30px; /* Padding kartu lebih kecil */
+  }
+  
+  /* 6. Tombol Back Floating (Pojok Kiri Bawah) */
+  .btn-float-back {
+    width: 50px;
+    height: 50px;
+    bottom: 25px;
+    left: 25px;
+  }
+  
+  /* 7. Quick Contact Links (Email/WA di bawah form) */
+  .quick-contact-row {
+    flex-direction: column; /* Susun vertikal */
+    gap: 15px;
+    align-items: flex-start;
+  }
+}
+
+/* --- KHUSUS LAYAR SANGAT KECIL (iPhone SE / Galaxy Fold) --- */
+@media (max-width: 380px) {
+  .corporate-title {
+    font-size: 1.8rem;
+  }
+  
+  .corporate-badge {
+    font-size: 0.7rem;
+    padding: 6px 15px;
+  }
+  
+  .btn-corporate-submit {
+    font-size: 0.85rem;
+  }
+}

@@ -1,9 +1,8 @@
 import React, { useState } from "react";
-import axios from "axios";
+import API from "../api";
 import { useNavigate } from "react-router-dom";
 import "./LoginPage.css";
 
-const API_URL = "http://localhost:5000";
 
 const LoginPage = () => {
   const [username, setUsername] = useState("");
@@ -19,7 +18,9 @@ const LoginPage = () => {
     setError("");
 
     try {
-      const res = await axios.post(`${API_URL}/api/login`, {
+      // GANTI: Gunakan API.post tanpa ${API_URL}
+      // API ini sudah otomatis mengarah ke link ngrok kamu
+      const res = await API.post("/api/login", {
         username,
         password,
       });
@@ -32,7 +33,8 @@ const LoginPage = () => {
       }
     } catch (err) {
       console.error("Login Error:", err);
-      setError("Gagal masuk. Periksa koneksi server Anda.");
+      // Pesan error lebih detail
+      setError("Gagal masuk. Pastikan Backend & Ngrok menyala.");
     } finally {
       setLoading(false);
     }

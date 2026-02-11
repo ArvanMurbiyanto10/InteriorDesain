@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
-import axios from "axios";
+// 1. GANTI: Import API dari file api.js
+import API from "../api"; 
 import { useNavigate } from "react-router-dom";
 import {
   Plus,
@@ -10,11 +11,12 @@ import {
   FolderOpen,
   Save,
   Edit3,
-  Settings // Import icon baru
+  Settings
 } from "lucide-react";
 import "./AdminPage.css";
 
-const API_URL = "http://localhost:5000";
+// 2. HAPUS: const API_URL = "http://localhost:5000"; 
+// Kita tidak butuh ini lagi karena URL sudah diatur di api.js
 
 const AdminPage = () => {
   // State untuk Proyek
@@ -33,15 +35,14 @@ const AdminPage = () => {
   // --- FETCH DATA (Proyek & Logo) ---
   const fetchData = async () => {
     try {
-      // Ambil Proyek
-      const resProjects = await axios.get(`${API_URL}/api/projects?t=${Date.now()}`);
+      // 3. GANTI: Gunakan API.get (URL otomatis dari api.js)
+      const resProjects = await API.get(`/api/projects?t=${Date.now()}`);
       setProjects(resProjects.data);
 
-      // Ambil Logo
-      const resLogo = await axios.get(`${API_URL}/api/settings/logo`);
+      const resLogo = await API.get(`/api/settings/logo`);
       setCurrentLogo(resLogo.data.key_value);
     } catch (err) {
-      console.error(err);
+      console.error("Gagal ambil data:", err);
     }
   };
 
@@ -59,10 +60,11 @@ const AdminPage = () => {
     formData.append('logo', newLogoFile);
 
     try {
-      await axios.post(`${API_URL}/api/settings/logo`, formData);
+      // 4. GANTI: Gunakan API.post
+      await API.post(`/api/settings/logo`, formData);
       alert("Logo Navbar Berhasil Diubah!");
-      setNewLogoFile(null); // Reset input
-      fetchData(); // Refresh tampilan logo
+      setNewLogoFile(null); 
+      fetchData(); 
     } catch (err) {
       console.error(err);
       alert("Gagal mengubah logo. Cek koneksi server.");
@@ -102,7 +104,8 @@ const AdminPage = () => {
     validFiles.forEach((file) => formData.append("images", file));
 
     try {
-      await axios.post(`${API_URL}/api/projects`, formData);
+      // 5. GANTI: Gunakan API.post
+      await API.post(`/api/projects`, formData);
       alert("Proyek berhasil disimpan!");
       setJudul("");
       setKlien("");
@@ -119,7 +122,8 @@ const AdminPage = () => {
   const handleDelete = async (id) => {
     if (!window.confirm("Hapus proyek ini secara permanen?")) return;
     try {
-      await axios.delete(`${API_URL}/api/projects/${id}`);
+      // 6. GANTI: Gunakan API.delete
+      await API.delete(`/api/projects/${id}`);
       fetchData();
     } catch (err) {
       console.error(err);
@@ -128,11 +132,9 @@ const AdminPage = () => {
 
   return (
     <div className="admin-layout">
-      {/* BACKGROUND DECORATION BLOB */}
       <div className="bg-blob blob-1"></div>
       <div className="bg-blob blob-2"></div>
 
-      {/* NAVBAR GLASS */}
       <nav className="admin-navbar glass">
         <div className="nav-brand">
           <div className="brand-icon">
@@ -159,7 +161,7 @@ const AdminPage = () => {
             <p>Kelola portofolio dan tampilan website Anda.</p>
           </div>
 
-          {/* 1. SECTION: PENGATURAN LOGO NAVBAR (BARU) */}
+          {/* 1. PENGATURAN LOGO */}
           <div className="card form-card animate-fade-up delay-1" style={{marginBottom: '30px'}}>
             <div className="card-header">
               <h3>
@@ -171,7 +173,8 @@ const AdminPage = () => {
                 <span style={{fontSize: '12px', color: '#888', display:'block', marginBottom:'5px'}}>Logo Saat Ini:</span>
                 <div className="img-frame" style={{width: '100px', height: '100px', border:'1px solid #ddd', padding:'5px', background:'#fff'}}>
                   <img 
-                    src={currentLogo ? `${API_URL}/uploads/${currentLogo}` : "https://placehold.co/100x100?text=No+Logo"} 
+                    // 7. URL GAMBAR: Gunakan baseURL dari axios defaults (karena API.defaults.baseURL menyimpan link ngrok)
+                    src={currentLogo ? `${API.defaults.baseURL}/uploads/${currentLogo}` : "https://placehold.co/100x100?text=No+Logo"} 
                     alt="Current Logo" 
                     style={{width:'100%', height:'100%', objectFit:'contain'}}
                   />
@@ -194,7 +197,7 @@ const AdminPage = () => {
             </form>
           </div>
 
-          {/* 2. SECTION: INPUT PROYEK (LAMA) */}
+          {/* 2. INPUT PROYEK */}
           <div className="card form-card animate-fade-up delay-2">
             <div className="card-header">
               <h3>
@@ -204,7 +207,6 @@ const AdminPage = () => {
 
             <form onSubmit={handleSubmit}>
               <div className="form-grid">
-                {/* Input Kiri: Teks */}
                 <div className="input-section">
                   <div className="form-group">
                     <label>Judul Proyek</label>
@@ -227,7 +229,6 @@ const AdminPage = () => {
                   </div>
                 </div>
 
-                {/* Input Kanan: Foto */}
                 <div className="upload-section">
                   <label>Galeri Foto</label>
                   <div className="photo-scroll-area">
@@ -275,7 +276,7 @@ const AdminPage = () => {
             </form>
           </div>
 
-          {/* 3. SECTION: DAFTAR PROYEK (LAMA) */}
+          {/* 3. DAFTAR PROYEK */}
           <div className="card table-card animate-fade-up delay-3">
             <div className="card-header-simple">
               <h3>
@@ -300,7 +301,8 @@ const AdminPage = () => {
                       <td width="100">
                         <div className="img-frame">
                           <img
-                            src={`${API_URL}/uploads/${item.foto}`}
+                            // 8. URL GAMBAR: Gunakan baseURL dari axios defaults
+                            src={`${API.defaults.baseURL}/uploads/${item.foto}`}
                             onError={(e) => (e.target.src = "https://placehold.co/60")}
                             alt="cover"
                           />

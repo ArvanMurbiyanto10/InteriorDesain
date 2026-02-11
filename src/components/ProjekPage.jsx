@@ -1,15 +1,26 @@
 import React, { useState, useEffect, useRef } from "react";
-import axios from "axios";
+// 1. GANTI: Import API dan IMAGE_URL dari file api.js
+import API, { IMAGE_URL } from "../api";
 import { ArrowRight, Loader, Camera, ChevronLeft, ChevronRight } from "lucide-react";
 import Navbar from "./Navbar";
 import "./ProjekPage.css";
 
-const API_URL = "http://localhost:5000";
+// 2. HAPUS: const API_URL = "http://localhost:5000"; 
+// Kita tidak butuh ini lagi
 
 const ProjectCard = ({ item }) => {
   const scrollRef = useRef(null);
-  const baseImages = item.gallery && item.gallery.length > 0 ? item.gallery : [item.foto];
-  const infiniteImages = baseImages.length < 4 ? [...baseImages, ...baseImages, ...baseImages] : baseImages;
+  
+  // Mengambil gambar dari API (foto utama + gallery)
+  // Gallery biasanya berupa string nama file, jadi tidak perlu path lengkap di database
+  const baseImages = item.gallery && item.gallery.length > 0 
+    ? [item.foto, ...item.gallery] 
+    : [item.foto];
+
+  // Efek infinite scroll (duplikasi gambar jika sedikit)
+  const infiniteImages = baseImages.length < 4 
+    ? [...baseImages, ...baseImages, ...baseImages] 
+    : baseImages;
 
   // Linktree resmi Doger Interior
   const linktreeUrl = "https://linktr.ee/doger.interior";
@@ -33,7 +44,6 @@ const ProjectCard = ({ item }) => {
           <h3 className="title-compact">{item.judul}</h3>
           <p className="subtitle-compact">{item.klien ? `Proyek ${item.klien}` : "Proyek Interior"}</p>
           
-          {/* Link diperbarui ke Linktree */}
           <a 
             href={linktreeUrl} 
             target="_blank" 
@@ -53,9 +63,15 @@ const ProjectCard = ({ item }) => {
             {infiniteImages.map((foto, idx) => (
               <div key={idx} className="img-item-compact">
                 <img 
-                  src={`${API_URL}/uploads/${foto}`} 
+                  // 3. GANTI: Gunakan IMAGE_URL dari api.js agar mengarah ke ngrok
+                  // Pastikan 'foto' hanya nama file (misal: '17823...jpg')
+                  src={foto ? (foto.startsWith('http') ? foto : IMAGE_URL + foto) : "https://placehold.co/300x300?text=No+Image"} 
                   alt="interior" 
-                  onError={(e) => { e.target.src="https://placehold.co/300x300?text=No+Image" }}
+                  onError={(e) => { 
+                    e.target.onerror = null; // Mencegah loop error
+                    e.target.src="https://placehold.co/300x300?text=No+Image"; 
+                  }}
+                  loading="lazy"
                 />
               </div>
             ))}
@@ -74,9 +90,18 @@ const ProjekPage = () => {
 
   useEffect(() => {
     window.scrollTo(0, 0);
-    axios.get(`${API_URL}/api/projects?t=${Date.now()}`)
-      .then(res => { setProjects(res.data); setLoading(false); })
-      .catch(() => setLoading(false));
+    
+    // 4. GANTI: Gunakan API.get
+    // Timestamp (?t=...) berguna agar data tidak dicache browser (selalu fresh)
+    API.get(`/api/projects?t=${Date.now()}`)
+      .then(res => { 
+        setProjects(res.data); 
+        setLoading(false); 
+      })
+      .catch((err) => {
+        console.error("Gagal load proyek:", err);
+        setLoading(false);
+      });
   }, []);
 
   return (
