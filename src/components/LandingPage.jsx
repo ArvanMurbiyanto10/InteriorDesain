@@ -163,16 +163,28 @@ const PROJECT_CATEGORIES = [
 
 const FAQ_DATA = [
   {
+    q: "Apakah Doger Interior melayani pengerjaan di luar kota?",
+    a: "Ya, kami melayani proyek di luar kota dengan syarat dan ketentuan tertentu mengenai biaya akomodasi dan transportasi tim lapangan.",
+  },
+  {
     q: "Berapa lama pengerjaan?",
-    a: "Estimasi 14-21 hari kerja setelah desain 3D disetujui.",
+    a: "Durasi pengerjaan sangat bergantung pada volume dan tingkat kesulitan desain. Secara umum, proses produksi di workshop memakan waktu sekitar 14 hingga 30 hari kerja setelah desain dan material disetujui.",
   },
   {
-    q: "Apakah survei gratis?",
-    a: "Ya, Survei & Konsultasi GRATIS untuk seluruh wilayah Jabodetabek.",
+    q: "Apakah bisa datang ke workshop secara langsung?",
+    a: "Tentu saja! Kami sangat mempersilakan Anda untuk berkunjung ke workshop kami untuk melihat langsung kualitas material, sampel finishing, serta proses produksi yang sedang berjalan. Mohon hubungi kami terlebih dahulu untuk membuat janji temu.",
   },
   {
-    q: "Material apa yang dipakai?",
-    a: "Kami menggunakan Multiplek, Blockmin, atau PVC Board (Anti Rayap) dengan finishing HPL/Duco.",
+    q: "Bagaimana jika saya sudah punya desain sendiri (ingin jasa produksi saja)?",
+    a: "Bisa. Tim kami akan tetap melakukan survey lokasi untuk memastikan ukuran presisi dan memberikan saran teknis agar desain yang Anda punya bisa diproduksi dengan aman dan fungsional.",
+  },
+  {
+    q: "Apakah ada batas maksimal revisi desain?",
+    a: "Kami memberikan fasilitas revisi hingga 2 kali sampai desain mencapai kesepakatan final sebelum masuk ke tahap produksi.",
+  },
+  {
+    q: "Apakah ada biaya tambahan untuk pengiriman dan pemasangan?",
+    a: "Biasanya kami sudah menyertakan biaya kirim dan pasang dalam penawaran. Namun, untuk lokasi di luar jangkauan standar atau kondisi akses yang sulit, akan didiskusikan di awal.",
   },
 ];
 
@@ -283,9 +295,38 @@ function LandingPage() {
 
   const kirimKeWA = (e) => {
     e.preventDefault();
-    const nomorHP = "6285282773811";
-    const text = `Halo Doger Interior, perkenalkan saya *${formData.nama}* (No.WA: ${formData.wa}).%0A%0ASaya ingin konsultasi: ${formData.pesan}`;
-    window.open(`https://wa.me/${nomorHP}?text=${text}`, "_blank");
+
+    // 1. Ambil Data dari Form
+    const { nama, wa, pesan } = formData;
+
+    // 2. Validasi Sederhana
+    if (!nama || !wa || !pesan) {
+      alert("Mohon lengkapi semua kolom form!");
+      return;
+    }
+
+    // 3. TARGET NOMOR (Sesuai Request)
+    // Format: Kode negara (62) + Nomor (81575897899) tanpa spasi/strip
+    const nomorTujuan = "6281575897899";
+
+    // 4. SUSUN PESAN OTOMATIS
+    // \n berfungsi sebagai Enter (baris baru)
+    const isiPesan =
+      `Halo Doger Interior, saya ingin konsultasi proyek.\n\n` +
+      `• Nama: *${nama}*\n` +
+      `• No. WA: ${wa}\n` +
+      `• Pesan/Kebutuhan: "${pesan}"\n\n` +
+      `Mohon info lebih lanjut. Terima kasih.`;
+
+    // 5. BUAT LINK WHATSAPP
+    // encodeURIComponent penting agar spasi & enter terbaca oleh browser
+    const linkWA = `https://wa.me/${nomorTujuan}?text=${encodeURIComponent(isiPesan)}`;
+
+    // 6. BUKA WHATSAPP
+    window.open(linkWA, "_blank");
+
+    // (Opsional) Reset form setelah kirim
+    // setFormData({ nama: "", wa: "", pesan: "" });
   };
 
   return (
@@ -705,35 +746,113 @@ function LandingPage() {
             <div className="form-card">
               <h3>Mulai Konsultasi</h3>
               <form onSubmit={kirimKeWA}>
+                {/* Input Nama */}
                 <div className="form-group">
+                  <label
+                    style={{
+                      fontSize: "12px",
+                      fontWeight: "bold",
+                      letterSpacing: "1px",
+                      marginBottom: "5px",
+                      display: "block",
+                      color: "#999",
+                    }}
+                  >
+                    NAMA LENGKAP
+                  </label>
                   <input
                     type="text"
                     name="nama"
-                    placeholder="Nama"
+                    value={formData.nama} /* PENTING: Agar data sinkron */
                     onChange={handleInput}
+                    placeholder="Nama Lengkap Anda"
+                    className="form-control"
+                    style={{
+                      width: "100%",
+                      padding: "12px",
+                      marginBottom: "15px",
+                      border: "1px solid #ddd",
+                      borderRadius: "5px",
+                    }}
                     required
                   />
                 </div>
+
+                {/* Input WhatsApp */}
                 <div className="form-group">
+                  <label
+                    style={{
+                      fontSize: "12px",
+                      fontWeight: "bold",
+                      letterSpacing: "1px",
+                      marginBottom: "5px",
+                      display: "block",
+                      color: "#999",
+                    }}
+                  >
+                    WHATSAPP
+                  </label>
                   <input
-                    type="tel"
+                    type="number" /* PENTING: Agar keyboard HP jadi angka */
                     name="wa"
-                    placeholder="WhatsApp"
+                    value={formData.wa} /* PENTING */
                     onChange={handleInput}
+                    placeholder="Contoh: 0815..."
+                    className="form-control"
+                    style={{
+                      width: "100%",
+                      padding: "12px",
+                      marginBottom: "15px",
+                      border: "1px solid #ddd",
+                      borderRadius: "5px",
+                    }}
                     required
                   />
                 </div>
+
+                {/* Input Pesan */}
                 <div className="form-group">
+                  <label
+                    style={{
+                      fontSize: "12px",
+                      fontWeight: "bold",
+                      letterSpacing: "1px",
+                      marginBottom: "5px",
+                      display: "block",
+                      color: "#999",
+                    }}
+                  >
+                    PESAN & KEBUTUHAN PROYEK
+                  </label>
                   <textarea
                     name="pesan"
-                    rows="3"
-                    placeholder="Pesan"
+                    value={formData.pesan} /* PENTING */
                     onChange={handleInput}
+                    rows="4"
+                    placeholder="Ceritakan kebutuhan interior Anda..."
+                    className="form-control"
+                    style={{
+                      width: "100%",
+                      padding: "12px",
+                      marginBottom: "20px",
+                      border: "1px solid #ddd",
+                      borderRadius: "5px",
+                    }}
                     required
                   ></textarea>
                 </div>
-                <button type="submit" className="btn-primary w-100">
-                  Kirim <Send size={16} />
+
+                <button
+                  type="submit"
+                  className="btn-primary w-100"
+                  style={{
+                    display: "flex",
+                    justifyContent: "center",
+                    alignItems: "center",
+                    gap: "10px",
+                  }}
+                >
+                  KIRIM KONSULTASI <Send size={18} />
                 </button>
               </form>
             </div>
