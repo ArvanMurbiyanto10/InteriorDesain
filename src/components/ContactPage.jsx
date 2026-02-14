@@ -34,9 +34,32 @@ function ContactPage() {
 
   const kirimKeWA = (e) => {
     e.preventDefault();
-    const nomorHP = "6285282773811";
-    const text = `Halo doger.interior, perkenalkan saya *${formData.nama}* (No.WA: ${formData.wa}).%0A%0ASaya ingin konsultasi mengenai: ${formData.pesan}`;
-    window.open(`https://wa.me/${nomorHP}?text=${text}`, "_blank");
+
+    // 1. Ambil Data
+    const { nama, wa, pesan } = formData;
+
+    // 2. Validasi
+    if (!nama || !wa || !pesan) {
+      alert("Mohon lengkapi semua data!");
+      return;
+    }
+
+    // 3. NOMOR TUJUAN BARU
+    const nomorHP = "6281575897899";
+
+    // 4. FORMAT PESAN
+    const text =
+      `Halo Doger Interior, saya ingin konsultasi proyek.\n\n` +
+      `• Nama: *${nama}*\n` +
+      `• No. WA: ${wa}\n` +
+      `• Pesan/Kebutuhan: "${pesan}"\n\n` +
+      `Mohon info lebih lanjut. Terima kasih.`;
+
+    // 5. BUKA WHATSAPP
+    window.open(
+      `https://wa.me/${nomorHP}?text=${encodeURIComponent(text)}`,
+      "_blank",
+    );
   };
 
   // Data Tahapan Pemesanan [cite: 85-101]
@@ -105,6 +128,7 @@ function ContactPage() {
                   <input
                     type="text"
                     name="nama"
+                    value={formData.nama} /* TAMBAHKAN INI */
                     placeholder="Bpk/Ibu..."
                     onChange={handleInput}
                     required
@@ -113,8 +137,9 @@ function ContactPage() {
                 <div className="input-group">
                   <label>WhatsApp</label>
                   <input
-                    type="tel"
+                    type="number" /* GANTI JADI NUMBER (Biar keyboard HP angka) */
                     name="wa"
+                    value={formData.wa} /* TAMBAHKAN INI */
                     placeholder="08xxxxxxxx"
                     onChange={handleInput}
                     required
@@ -125,6 +150,7 @@ function ContactPage() {
                 <label>Pesan & Kebutuhan Proyek</label>
                 <textarea
                   name="pesan"
+                  value={formData.pesan} /* TAMBAHKAN INI */
                   placeholder="Contoh: Saya ingin kustom kitchen set minimalis..."
                   onChange={handleInput}
                   required
