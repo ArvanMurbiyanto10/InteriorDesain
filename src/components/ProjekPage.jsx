@@ -10,7 +10,7 @@ import {
 import Navbar from "./Navbar";
 import "./ProjekPage.css";
 // Kembali menggunakan apartemen3.jpg
-import seamanan4 from "../assets/seamanan4.jpg";
+import seamanan4 from "../assets/homeee.jpg";
 
 const ProjectCard = ({ item }) => {
   const scrollRef = useRef(null);
