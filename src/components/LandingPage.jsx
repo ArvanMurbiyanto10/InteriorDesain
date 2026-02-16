@@ -187,572 +187,167 @@ const FAQ_DATA = [
 // --- COMPONENT SLIDER KHUSUS (GALLERY) ---
 
 const ProjectSlider = ({ title, clientName, items, onImageClick }) => {
-
   const scrollRef = useRef(null);
 
-
-
   const scroll = (direction) => {
-
     const { current } = scrollRef;
 
     if (current) {
-
       const itemWidth = 240; // width + gap
 
       if (direction === "right") {
-
         current.scrollBy({ left: itemWidth, behavior: "smooth" });
-
       } else {
-
         current.scrollBy({ left: -itemWidth, behavior: "smooth" });
-
       }
-
     }
-
   };
-
-
 
   const waLink = `https://wa.me/6281575897899?text=Halo%20Doger%20Interior,%20saya%20tertarik%20dengan%20${encodeURIComponent(title)}`;
 
-
-
   return (
-
-    <div className="card-proyek-compact fade-up" style={{ marginBottom: "30px" }}>
-
+    <div
+      className="card-proyek-compact fade-up"
+      style={{ marginBottom: "30px" }}
+    >
       <div className="card-header-compact">
-
         <div className="header-content">
-
           <h3 className="title-compact">{title}</h3>
 
           <p className="subtitle-compact">{clientName}</p>
-
         </div>
-
-
 
         <a
-
           href={waLink}
-
           target="_blank"
-
           rel="noreferrer"
-
           className="btn-hubungi-box"
-
         >
-
           HUBUNGI KAMI <ArrowRight size={14} style={{ marginLeft: 8 }} />
-
         </a>
-
       </div>
-
-
 
       <div className="card-body-compact">
-
         <div className="scroll-wrapper">
-
           <button className="nav-btn left" onClick={() => scroll("left")}>
-
             <ChevronLeft size={24} />
-
           </button>
-
-
 
           <div className="img-scroller" ref={scrollRef}>
-
             {items.map((imgSrc, i) => (
-
-              <div key={i} className="img-item-compact" onClick={() => onImageClick(imgSrc)}>
-
+              <div
+                key={i}
+                className="img-item-compact"
+                onClick={() => onImageClick(imgSrc)}
+              >
                 <img src={imgSrc} alt={`${title} detail`} loading="lazy" />
-
               </div>
-
             ))}
-
           </div>
 
-
-
           <button className="nav-btn right" onClick={() => scroll("right")}>
-
             <ChevronRight size={24} />
-
           </button>
-
         </div>
-
       </div>
-
     </div>
-
   );
-
 };
-
-
 
 // --- MAIN PAGE ---
 
-
-
-
-
-
-
 function LandingPage() {
-
-
-
   const [openFaq, setOpenFaq] = useState(0);
-
-
 
   const [formData, setFormData] = useState({ nama: "", wa: "", pesan: "" });
 
-
-
   const [selectedImg, setSelectedImg] = useState(null);
-
-
-
-
-
-
 
   // --- LOGIC MARQUEE LAYANAN ---
 
-
-
   const marqueeRef = useRef(null);
-
-
 
   const [isPaused, setIsPaused] = useState(false);
 
-
-
   const [isDragging, setIsDragging] = useState(false);
-
-
 
   const [startX, setStartX] = useState(0);
 
-
-
   const [scrollLeft, setScrollLeft] = useState(0);
 
-
-
-
-
-
-
   useEffect(() => {
-
-
-
     const marquee = marqueeRef.current;
-
-
 
     if (!marquee) return;
 
-
-
-
-
-
-
     let animationId;
-
-
 
     let lastTime = Date.now();
 
-
-
     const speed = 40; // pixels per second
 
-
-
-
-
-
-
     const animate = () => {
-
-
-
       const currentTime = Date.now();
-
-
 
       const deltaTime = (currentTime - lastTime) / 1000;
 
-
-
       lastTime = currentTime;
 
-
-
-
-
-
-
-                  if (!isPaused && !isDragging) {
-
-
-
-
-
-
-
-                    marquee.scrollLeft += speed * deltaTime;
-
-
-
-
-
-
-
-                  }
-
-
-
-
-
-
-
-            
-
-
-
-
-
-
-
-                  // Loop logic: Jika sudah mencapai setengah (karena data diduplikasi), reset ke 0
-
-
-
-
-
-
-
-                  // Berguna untuk autoscroll maupun manual scroll
-
-
-
-
-
-
-
-                  if (marquee.scrollWidth > 0) {
-
-
-
-
-
-
-
-                    if (marquee.scrollLeft >= marquee.scrollWidth / 2) {
-
-
-
-
-
-
-
-                      marquee.scrollLeft = 0;
-
-
-
-
-
-
-
-                    } else if (marquee.scrollLeft <= 0 && isDragging) {
-
-
-
-
-
-
-
-                      // Jika di ujung kiri dan sedang drag, lompat ke tengah agar bisa lanjut scroll ke kiri
-
-
-
-
-
-
-
-                      // marquee.scrollLeft = marquee.scrollWidth / 2;
-
-
-
-
-
-
-
-                      // Tapi scrollLeft native jarang bisa negatif.
-
-
-
-
-
-
-
-                    }
-
-
-
-
-
-
-
-                  }
-
-
-
-
-
-
-
-            
-
-
-
-
-
-
-
-      
-
-
+      if (!isPaused && !isDragging) {
+        marquee.scrollLeft += speed * deltaTime;
+      }
+
+      // Loop logic: Jika sudah mencapai setengah (karena data diduplikasi), reset ke 0
+
+      // Berguna untuk autoscroll maupun manual scroll
+
+      if (marquee.scrollWidth > 0) {
+        if (marquee.scrollLeft >= marquee.scrollWidth / 2) {
+          marquee.scrollLeft = 0;
+        } else if (marquee.scrollLeft <= 0 && isDragging) {
+          // Jika di ujung kiri dan sedang drag, lompat ke tengah agar bisa lanjut scroll ke kiri
+          // marquee.scrollLeft = marquee.scrollWidth / 2;
+          // Tapi scrollLeft native jarang bisa negatif.
+        }
+      }
 
       animationId = requestAnimationFrame(animate);
-
-
-
     };
-
-
-
-
-
-
 
     animationId = requestAnimationFrame(animate);
 
-
-
     return () => cancelAnimationFrame(animationId);
-
-
-
   }, [isPaused, isDragging]);
 
+  const handleMouseDown = (e) => {
+    setIsDragging(true);
 
+    setStartX(e.pageX - marqueeRef.current.getBoundingClientRect().left);
 
+    setScrollLeft(marqueeRef.current.scrollLeft);
+  };
 
+  const handleMouseLeave = () => {
+    setIsDragging(false);
+  };
 
+  const handleMouseUp = () => {
+    setIsDragging(false);
+  };
 
+  const handleMouseMove = (e) => {
+    if (!isDragging) return;
 
-    const handleMouseDown = (e) => {
+    e.preventDefault();
 
+    const x = e.pageX - marqueeRef.current.getBoundingClientRect().left;
 
+    const walk = (x - startX) * 1.5; // multiplier kecepatan scroll
 
-
-
-
-
-      setIsDragging(true);
-
-
-
-
-
-
-
-      setStartX(e.pageX - marqueeRef.current.getBoundingClientRect().left);
-
-
-
-
-
-
-
-      setScrollLeft(marqueeRef.current.scrollLeft);
-
-
-
-
-
-
-
-    };
-
-
-
-
-
-
-
-  
-
-
-
-
-
-
-
-    const handleMouseLeave = () => {
-
-
-
-
-
-
-
-      setIsDragging(false);
-
-
-
-
-
-
-
-    };
-
-
-
-
-
-
-
-  
-
-
-
-
-
-
-
-    const handleMouseUp = () => {
-
-
-
-
-
-
-
-      setIsDragging(false);
-
-
-
-
-
-
-
-    };
-
-
-
-
-
-
-
-  
-
-
-
-
-
-
-
-    const handleMouseMove = (e) => {
-
-
-
-
-
-
-
-      if (!isDragging) return;
-
-
-
-
-
-
-
-      e.preventDefault();
-
-
-
-
-
-
-
-      const x = e.pageX - marqueeRef.current.getBoundingClientRect().left;
-
-
-
-
-
-
-
-      const walk = (x - startX) * 1.5; // multiplier kecepatan scroll
-
-
-
-
-
-
-
-      marqueeRef.current.scrollLeft = scrollLeft - walk;
-
-
-
-
-
-
-
-    };
-
-
-
-
-
-
-
-  
-
-
-
-
-
-
+    marqueeRef.current.scrollLeft = scrollLeft - walk;
+  };
 
   const handleInput = (e) => {
-
-
-
-
-
-
     const { name, value } = e.target;
     setFormData({ ...formData, [name]: value });
   };
@@ -805,10 +400,6 @@ function LandingPage() {
               Wujudkan Interior <br />{" "}
               <span className="text-highlight">Impian Anda</span>
             </h1>
-            <p className="hero-desc">
-              Spesialis Kitchen Set & Interior Custom dengan material premium
-              anti-rayap. Desain mewah, harga transparan, dan bergaransi.
-            </p>
             <div className="hero-btns">
               <Link to="/contact" className="btn-primary">
                 Hubungi Kami <ArrowRight size={18} />
@@ -1198,12 +789,25 @@ function LandingPage() {
 
         {/* LIGHTBOX MODAL */}
         {selectedImg && (
-          <div className="lightbox-overlay" onClick={() => setSelectedImg(null)}>
-            <div className="lightbox-content" onClick={(e) => e.stopPropagation()}>
-              <button className="lightbox-close" onClick={() => setSelectedImg(null)}>
+          <div
+            className="lightbox-overlay"
+            onClick={() => setSelectedImg(null)}
+          >
+            <div
+              className="lightbox-content"
+              onClick={(e) => e.stopPropagation()}
+            >
+              <button
+                className="lightbox-close"
+                onClick={() => setSelectedImg(null)}
+              >
                 <X size={32} />
               </button>
-              <img src={selectedImg} alt="Enlarged project" className="lightbox-img" />
+              <img
+                src={selectedImg}
+                alt="Enlarged project"
+                className="lightbox-img"
+              />
             </div>
           </div>
         )}
