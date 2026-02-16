@@ -9,191 +9,209 @@ import { fileURLToPath } from "url";
 const app = express();
 const PORT = 5000;
 
-// --- 1. Konfigurasi Path (ES Modules) ---
+// Konfigurasi Path
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
-
-// Folder Uploads (Backend) - Tempat simpan gambar
 const uploadDir = path.join(__dirname, "uploads");
 if (!fs.existsSync(uploadDir)) fs.mkdirSync(uploadDir);
 
-// Folder Dist (Frontend) - Opsional jika ingin serve frontend dari sini
-const frontendBuildPath = path.join(__dirname, "../dist");
-
-// --- 2. Middleware ---
+// Middleware
 app.use(cors());
 app.use(express.json());
-
-// Serve File Gambar Uploads (Agar bisa diakses Frontend)
+app.use(express.urlencoded({ extended: true }));
 app.use("/uploads", express.static(uploadDir));
 
-// Serve File Statis Frontend (Jika ada build)
-app.use(express.static(frontendBuildPath));
-
-// --- 3. Koneksi Database ---
+// Database
 const db = mysql.createPool({
   host: "localhost",
   user: "root",
   password: "",
   database: "doger_interior",
+  waitForConnections: true,
+  connectionLimit: 10,
+  queueLimit: 0
 });
 
-// --- 4. Konfigurasi Multer (Upload) ---
+// Multer (Upload)
 const storage = multer.diskStorage({
   destination: (req, file, cb) => cb(null, uploadDir),
   filename: (req, file, cb) => {
-    // Bersihkan nama file dari spasi dan karakter aneh
-    const cleanName = file.originalname
-      .replace(/\s+/g, "-")
-      .replace(/[^a-zA-Z0-9.-]/g, "");
+    const cleanName = file.originalname.replace(/\s+/g, "-").replace(/[^a-zA-Z0-9.-]/g, "");
     cb(null, Date.now() + "-" + cleanName);
   },
 });
+const upload = multer({ storage, limits: { fileSize: 10 * 1024 * 1024 } });
 
-const upload = multer({
-  storage: storage,
-  limits: { fileSize: 5 * 1024 * 1024 }, // Limit 5MB per file
-});
+// --- API ENDPOINTS ---
 
-// ==========================================
-// API ENDPOINTS (Jalur Data)
-// ==========================================
-
-// --- Login Admin ---
-app.post("/api/login", (req, res) => {
-  const { username, password } = req.body;
-  const sql = "SELECT * FROM admin WHERE username = ? AND password = ?";
-  db.query(sql, [username, password], (err, result) => {
-    if (err) {
-      console.error("DB Error:", err);
-      return res.status(500).json({ error: "Database error" });
-    }
-    if (result.length > 0)
-      res.json({ success: true, message: "Login Berhasil" });
-    else
-      res
-        .status(401)
-        .json({ success: false, message: "Username/Password Salah" });
-  });
-});
-
-// --- Ambil Semua Proyek ---
+// 1. GET ALL (Fix Duplikat Foto)
 app.get("/api/projects", (req, res) => {
-  // Join tabel proyek dan galeri, ambil semua foto sebagai string dipisah koma
   const sql = `
-        SELECT p.*, GROUP_CONCAT(g.nama_file) as gallery 
-        FROM proyek p 
-        LEFT JOIN proyek_galeri g ON p.id = g.id_proyek 
-        GROUP BY p.id 
-        ORDER BY p.id DESC
-    `;
+    SELECT p.*, GROUP_CONCAT(g.nama_file) as gallery 
+    FROM projek p 
+    LEFT JOIN proyek_galeri g ON p.id = g.id_proyek 
+    GROUP BY p.id 
+    ORDER BY p.id DESC
+  `;
+  
   db.query(sql, (err, results) => {
-    if (err) {
-      console.error("Gagal fetch projects:", err);
-      return res.status(500).json(err);
-    }
+    if (err) return res.status(500).json({ error: err.message });
+    
+    const formatted = results.map(item => {
+      let galleryArray = item.gallery ? item.gallery.split(",") : [];
+      
+      // LOGIKA ANTI-DUPLIKAT: Buang foto cover dari list galeri
+      if (item.foto) {
+        galleryArray = galleryArray.filter(foto => foto !== item.foto);
+      }
 
-    const formatted = results.map((item) => ({
-      ...item,
-      // Ubah string "foto1.jpg,foto2.jpg" menjadi array ["foto1.jpg", "foto2.jpg"]
-      gallery: item.gallery ? item.gallery.split(",") : [],
-    }));
+      return {
+        ...item,
+        gallery: galleryArray
+      };
+    });
 
     res.json(formatted);
   });
 });
 
-// --- Tambah Proyek Baru (Upload Multiple) ---
-app.post("/api/projects", upload.array("images", 20), (req, res) => {
-  // 1. Cek Data Masuk
-  console.log("--- New Project Request ---");
-  const { judul, klien } = req.body;
-  const files = req.files;
+// 2. GET DETAIL (Fix Duplikat Foto)
+app.get("/api/projects/:id", (req, res) => {
+  const id = req.params.id;
+  const sql = `
+    SELECT p.*, GROUP_CONCAT(g.nama_file) as gallery 
+    FROM projek p 
+    LEFT JOIN proyek_galeri g ON p.id = g.id_proyek 
+    WHERE p.id = ?
+    GROUP BY p.id
+  `;
 
-  if (!files || files.length === 0) {
-    return res.status(400).json({ message: "Minimal 1 foto harus diupload" });
-  }
+  db.query(sql, [id], (err, result) => {
+    if (err) return res.status(500).json({ error: err.message });
+    if (result.length === 0) return res.status(404).json({ message: "Proyek tidak ditemukan" });
 
-  // 2. Insert ke Tabel Proyek (Gunakan foto pertama sebagai cover)
-  const sqlProyek = "INSERT INTO proyek (judul, klien, foto) VALUES (?, ?, ?)";
-  db.query(sqlProyek, [judul, klien, files[0].filename], (err, result) => {
-    if (err) {
-      console.error("❌ DB Error (Proyek):", err.sqlMessage);
-      return res.status(500).json(err);
+    const data = result[0];
+    let galleryArray = data.gallery ? data.gallery.split(",") : [];
+
+    // LOGIKA ANTI-DUPLIKAT: Hapus foto cover dari list galeri
+    if (data.foto) {
+        galleryArray = galleryArray.filter(foto => foto !== data.foto);
     }
 
-    const projectId = result.insertId;
-    console.log(`✅ Proyek tersimpan: ID ${projectId} - ${judul}`);
-
-    // 3. Insert ke Tabel Galeri (Bulk Insert)
-    const sqlGaleri =
-      "INSERT INTO proyek_galeri (id_proyek, nama_file) VALUES ?";
-    const values = files.map((file) => [projectId, file.filename]);
-
-    db.query(sqlGaleri, [values], (err) => {
-      if (err) {
-        console.error("❌ DB Error (Galeri):", err.sqlMessage);
-        // Note: Proyek tetap tersimpan, tapi galerinya gagal.
-        // Idealnya pakai Transaction, tapi utk mysql2 basic ini cukup.
-        return res.status(500).json(err);
-      }
-      res.json({ success: true, message: "Proyek & Galeri berhasil disimpan" });
-    });
+    data.gallery = galleryArray;
+    res.json(data);
   });
 });
 
-// --- Hapus Proyek ---
-app.delete("/api/projects/:id", (req, res) => {
-  const id = req.params.id;
+// 3. POST (TAMBAH)
+app.post("/api/projects", upload.array("images", 20), (req, res) => {
+  const { judul, klien } = req.body;
+  const files = req.files;
+  if (!files || files.length === 0) return res.status(400).json({ message: "Wajib upload foto!" });
 
-  // 1. Ambil nama file dulu untuk dihapus dari folder (Opsional tapi bersih)
-  db.query(
-    "SELECT nama_file FROM proyek_galeri WHERE id_proyek = ?",
-    [id],
-    (err, files) => {
-      if (!err && files.length > 0) {
-        files.forEach((f) => {
-          const filePath = path.join(uploadDir, f.nama_file);
-          if (fs.existsSync(filePath)) fs.unlinkSync(filePath); // Hapus file fisik
-        });
-      }
-    },
-  );
-
-  // 2. Hapus Data Database (Cascade delete di DB akan menghapus galeri otomatis jika disetting)
-  // Jika tidak cascade, hapus manual:
-  db.query("DELETE FROM proyek_galeri WHERE id_proyek = ?", [id], () => {
-    db.query("DELETE FROM proyek WHERE id = ?", [id], (err) => {
-      if (err) return res.status(500).json(err);
+  // Foto pertama otomatis jadi sampul
+  const sqlProyek = "INSERT INTO projek (judul, nama_klien, foto) VALUES (?, ?, ?)";
+  db.query(sqlProyek, [judul, klien, files[0].filename], (err, result) => {
+    if (err) return res.status(500).json({ error: err.message });
+    
+    const projectId = result.insertId;
+    const values = files.map(file => [projectId, file.filename]);
+    db.query("INSERT INTO proyek_galeri (id_proyek, nama_file) VALUES ?", [values], (err) => {
+      if (err) return res.status(500).json({ error: err.message });
       res.json({ success: true });
     });
   });
 });
 
-// ==========================================
-// HANDLE FRONTEND ROUTING (SPA Fallback)
-// ==========================================
-// Tangkap semua route lain dan arahkan ke index.html (untuk React Router)
-app.get("*", (req, res) => {
-  // Cek apakah request meminta file API atau gambar, jangan redirect ini
-  if (req.url.startsWith("/api") || req.url.startsWith("/uploads")) {
-    return res.status(404).json({ error: "Not Found" });
-  }
+// 4. PUT (EDIT) - UPDATE COVER OTOMATIS
+app.put("/api/projects/:id", upload.array("images", 20), (req, res) => {
+  const id = req.params.id;
+  const { judul, klien } = req.body;
+  const files = req.files;
 
-  if (fs.existsSync(path.join(frontendBuildPath, "index.html"))) {
-    res.sendFile(path.join(frontendBuildPath, "index.html"));
-  } else {
-    res.send("Backend Running. Frontend build not found.");
-  }
+  // Update Data Teks
+  const sqlUpdateText = "UPDATE projek SET judul = ?, nama_klien = ? WHERE id = ?";
+  db.query(sqlUpdateText, [judul, klien, id], (err) => {
+    if (err) return res.status(500).json({ error: "Gagal update teks" });
+
+    // Jika ada foto baru
+    if (files && files.length > 0) {
+      const values = files.map(file => [id, file.filename]);
+      const sqlInsertGallery = "INSERT INTO proyek_galeri (id_proyek, nama_file) VALUES ?";
+      
+      db.query(sqlInsertGallery, [values], (err) => {
+        if (err) return res.status(500).json({ error: "Gagal simpan galeri baru" });
+        
+        // UPDATE COVER DENGAN FOTO BARU
+        const newCover = files[0].filename;
+        const sqlUpdateCover = "UPDATE projek SET foto = ? WHERE id = ?";
+        
+        db.query(sqlUpdateCover, [newCover, id], () => {
+            res.json({ success: true, message: "Proyek diperbarui!" });
+        });
+      });
+    } else {
+      res.json({ success: true, message: "Data teks diperbarui!" });
+    }
+  });
 });
 
-// ==========================================
-// START SERVER
-// ==========================================
-app.listen(PORT, () => {
-  console.log(`
-    🚀 SERVER RUNNING ON PORT ${PORT}
-    📂 Uploads Directory: ${uploadDir}
-    🌐 Local URL: http://localhost:${PORT}
-    `);
+// 5. DELETE (HAPUS SATU FOTO)
+app.delete("/api/projects/gallery/:filename", (req, res) => {
+  const filename = req.params.filename;
+  console.log("Menghapus foto:", filename);
+
+  const sql = "DELETE FROM proyek_galeri WHERE nama_file = ?";
+  db.query(sql, [filename], (err) => {
+    if (err) return res.status(500).json({ error: "Database Error" });
+
+    const filePath = path.join(uploadDir, filename);
+    if (fs.existsSync(filePath)) {
+        try { fs.unlinkSync(filePath); } catch(e) { console.error(e); }
+    }
+    res.json({ success: true });
+  });
 });
+
+// 6. DELETE (HAPUS PROYEK FULL)
+app.delete("/api/projects/:id", (req, res) => {
+  const id = req.params.id;
+  const sqlGetFiles = "SELECT p.foto as main, g.nama_file as gal FROM projek p LEFT JOIN proyek_galeri g ON p.id = g.id_proyek WHERE p.id = ?";
+  
+  db.query(sqlGetFiles, [id], (err, results) => {
+    if (err) return res.status(500).json({ error: "DB Error" });
+
+    const filesToDelete = new Set();
+    results.forEach(row => {
+      if (row.main) filesToDelete.add(row.main);
+      if (row.gal) filesToDelete.add(row.gal);
+    });
+
+    filesToDelete.forEach(f => {
+      const p = path.join(uploadDir, f);
+      if (fs.existsSync(p)) fs.unlinkSync(p);
+    });
+
+    db.query("DELETE FROM projek WHERE id = ?", [id], (err) => {
+      if (err) return res.status(500).json({ error: "Gagal hapus data" });
+      res.json({ success: true });
+    });
+  });
+});
+
+// Login Admin
+app.post("/api/login", (req, res) => {
+  const { username, password } = req.body;
+  const sql = "SELECT * FROM admin WHERE username = ? AND password = ?";
+  
+  db.query(sql, [username, password], (err, result) => {
+    if (err) return res.status(500).json({ error: "Database error" });
+    if (result.length > 0) {
+      res.json({ success: true, message: "Login Berhasil" });
+    } else {
+      res.status(401).json({ success: false, message: "Username/Password Salah" });
+    }
+  });
+});
+
+app.listen(PORT, () => console.log(`🚀 SERVER RUNNING ON PORT ${PORT}`));
