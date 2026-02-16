@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { Link } from "react-router-dom";
 import {
   ArrowRight,
@@ -10,6 +10,7 @@ import {
   Globe,
   ChevronLeft,
   ChevronRight,
+  X,
   MessageCircle,
   ShieldCheck,
   Star,
@@ -41,6 +42,7 @@ import imgCommercial from "../assets/foto-10.jpg";
 import imgMultiplek from "../assets/bahan-multiplek.jpg";
 import imgPVC from "../assets/bahan-pvc.jpg";
 import imgAluminium from "../assets/bahan-alumunium.jpg"; // Pastikan ejaan file benar
+import logoDogger from "../assets/logo-dogger.jpg";
 
 // =================================================================
 // IMPORT FOTO PORTOFOLIO (SESUAI FOLDER ASSETS ANDA)
@@ -90,42 +92,36 @@ const SERVICES_DATA = [
     title: "Kitchen Set",
     desc: "Hadirkan kemewahan di setiap sudut dapur dengan berbagai opsi material (multiplek, PVC Board, & Aluminium).",
     img: imgKitchen,
-    features: ["Anti Rayap & Lembap", "Finishing HPL/Duco"],
   },
   {
     id: 2,
     title: "Wardrobe",
     desc: "Solusi penyimpanan cerdas, rapi, dan menawan untuk setiap koleksi pribadi Anda.",
     img: imgWardrobe,
-    features: ["Desain Full Plafon", "Pencahayaan LED"],
   },
   {
     id: 3,
     title: "Lemari Bawah Tangga",
     desc: "Manfaatkan area kosong bawah tangga menjadi storage multifungsi yang estetik.",
     img: imgTangga,
-    features: ["Space Saving", "Laci Multifungsi"],
   },
   {
     id: 4,
     title: "Backdrop TV",
     desc: "Area hiburan mewah dan tertata rapi tanpa drama kabel berantakan.",
     img: imgTV,
-    features: ["Kabel Tersembunyi", "Panel Marmer/Kayu"],
   },
   {
     id: 5,
     title: "Pintu Sliding Alumunium",
     desc: "Sekat ruangan fleksibel aluminium/kaca untuk privasi tanpa mengurangi cahaya.",
     img: imgSliding,
-    features: ["Frame Slim", "Kaca Tempered"],
   },
   {
     id: 6,
     title: "Kanopi WC Duma",
     desc: "Kombinasi atap kokoh dengan plafon motif kayu elegan dan anti-rayap.",
     img: imgCommercial,
-    features: ["Layout Efektif", "Branding Visual"],
   },
 ];
 
@@ -189,106 +185,574 @@ const FAQ_DATA = [
 ];
 
 // --- COMPONENT SLIDER KHUSUS (GALLERY) ---
-const ProjectSlider = ({ title, clientName, items }) => {
-  const [current, setCurrent] = useState(0);
-  const [itemsPerPage, setItemsPerPage] = useState(5);
 
-  useEffect(() => {
-    const handleResize = () => {
-      if (window.innerWidth >= 1200) setItemsPerPage(5);
-      else if (window.innerWidth >= 768) setItemsPerPage(3);
-      else setItemsPerPage(1);
-    };
-    handleResize();
-    window.addEventListener("resize", handleResize);
-    return () => window.removeEventListener("resize", handleResize);
-  }, []);
+const ProjectSlider = ({ title, clientName, items, onImageClick }) => {
 
-  const maxIndex = Math.ceil(items.length / itemsPerPage) - 1;
-  const nextSlide = () =>
-    setCurrent((prev) => (prev >= maxIndex ? 0 : prev + 1));
-  const prevSlide = () =>
-    setCurrent((prev) => (prev <= 0 ? maxIndex : prev - 1));
+  const scrollRef = useRef(null);
 
-  const waLink = `https://wa.me/6285282773811?text=Halo%20Doger%20Interior,%20saya%20tertarik%20dengan%20${encodeURIComponent(title)}`;
+
+
+  const scroll = (direction) => {
+
+    const { current } = scrollRef;
+
+    if (current) {
+
+      const itemWidth = 240; // width + gap
+
+      if (direction === "right") {
+
+        current.scrollBy({ left: itemWidth, behavior: "smooth" });
+
+      } else {
+
+        current.scrollBy({ left: -itemWidth, behavior: "smooth" });
+
+      }
+
+    }
+
+  };
+
+
+
+  const waLink = `https://wa.me/6281575897899?text=Halo%20Doger%20Interior,%20saya%20tertarik%20dengan%20${encodeURIComponent(title)}`;
+
+
 
   return (
-    <div className="project-block-ref fade-up">
-      <div className="ref-header-banner">
-        <div className="ref-text-content">
-          <h3>{title}</h3>
-          <p>{clientName}</p>
-          <a
-            href={waLink}
-            target="_blank"
-            rel="noreferrer"
-            className="btn-ref-wa"
-          >
-            HUBUNGI KAMI <ArrowRight size={16} />
-          </a>
+
+    <div className="card-proyek-compact fade-up" style={{ marginBottom: "30px" }}>
+
+      <div className="card-header-compact">
+
+        <div className="header-content">
+
+          <h3 className="title-compact">{title}</h3>
+
+          <p className="subtitle-compact">{clientName}</p>
+
         </div>
+
+
+
+        <a
+
+          href={waLink}
+
+          target="_blank"
+
+          rel="noreferrer"
+
+          className="btn-hubungi-box"
+
+        >
+
+          HUBUNGI KAMI <ArrowRight size={14} style={{ marginLeft: 8 }} />
+
+        </a>
+
       </div>
 
-      <div className="ref-slider-container">
-        <button onClick={prevSlide} className="btn-ref-nav left">
-          <ChevronLeft size={24} />
-        </button>
-        <div className="ref-viewport">
-          <div
-            className="ref-track"
-            style={{
-              transform: `translateX(-${current * 100}%)`,
-              width: `${100 * Math.ceil(items.length / itemsPerPage)}%`,
-              display: "flex",
-              transition: "transform 0.5s ease-in-out",
-            }}
-          >
-            {Array.from({ length: Math.ceil(items.length / itemsPerPage) }).map(
-              (_, pageIndex) => (
-                <div
-                  key={pageIndex}
-                  className="ref-slide-page"
-                  style={{ width: "100%", display: "flex" }}
-                >
-                  {items
-                    .slice(
-                      pageIndex * itemsPerPage,
-                      (pageIndex + 1) * itemsPerPage,
-                    )
-                    .map((imgSrc, i) => (
-                      <div
-                        key={i}
-                        className="ref-card-item"
-                        style={{ width: `${100 / itemsPerPage}%` }}
-                      >
-                        <div className="ref-img-wrap">
-                          <img
-                            src={imgSrc}
-                            alt={`${title} detail`}
-                            loading="lazy"
-                          />
-                        </div>
-                      </div>
-                    ))}
-                </div>
-              ),
-            )}
+
+
+      <div className="card-body-compact">
+
+        <div className="scroll-wrapper">
+
+          <button className="nav-btn left" onClick={() => scroll("left")}>
+
+            <ChevronLeft size={24} />
+
+          </button>
+
+
+
+          <div className="img-scroller" ref={scrollRef}>
+
+            {items.map((imgSrc, i) => (
+
+              <div key={i} className="img-item-compact" onClick={() => onImageClick(imgSrc)}>
+
+                <img src={imgSrc} alt={`${title} detail`} loading="lazy" />
+
+              </div>
+
+            ))}
+
           </div>
+
+
+
+          <button className="nav-btn right" onClick={() => scroll("right")}>
+
+            <ChevronRight size={24} />
+
+          </button>
+
         </div>
-        <button onClick={nextSlide} className="btn-ref-nav right">
-          <ChevronRight size={24} />
-        </button>
+
       </div>
+
     </div>
+
   );
+
 };
 
+
+
 // --- MAIN PAGE ---
+
+
+
+
+
+
+
 function LandingPage() {
+
+
+
   const [openFaq, setOpenFaq] = useState(0);
+
+
+
   const [formData, setFormData] = useState({ nama: "", wa: "", pesan: "" });
 
+
+
+  const [selectedImg, setSelectedImg] = useState(null);
+
+
+
+
+
+
+
+  // --- LOGIC MARQUEE LAYANAN ---
+
+
+
+  const marqueeRef = useRef(null);
+
+
+
+  const [isPaused, setIsPaused] = useState(false);
+
+
+
+  const [isDragging, setIsDragging] = useState(false);
+
+
+
+  const [startX, setStartX] = useState(0);
+
+
+
+  const [scrollLeft, setScrollLeft] = useState(0);
+
+
+
+
+
+
+
+  useEffect(() => {
+
+
+
+    const marquee = marqueeRef.current;
+
+
+
+    if (!marquee) return;
+
+
+
+
+
+
+
+    let animationId;
+
+
+
+    let lastTime = Date.now();
+
+
+
+    const speed = 40; // pixels per second
+
+
+
+
+
+
+
+    const animate = () => {
+
+
+
+      const currentTime = Date.now();
+
+
+
+      const deltaTime = (currentTime - lastTime) / 1000;
+
+
+
+      lastTime = currentTime;
+
+
+
+
+
+
+
+                  if (!isPaused && !isDragging) {
+
+
+
+
+
+
+
+                    marquee.scrollLeft += speed * deltaTime;
+
+
+
+
+
+
+
+                  }
+
+
+
+
+
+
+
+            
+
+
+
+
+
+
+
+                  // Loop logic: Jika sudah mencapai setengah (karena data diduplikasi), reset ke 0
+
+
+
+
+
+
+
+                  // Berguna untuk autoscroll maupun manual scroll
+
+
+
+
+
+
+
+                  if (marquee.scrollWidth > 0) {
+
+
+
+
+
+
+
+                    if (marquee.scrollLeft >= marquee.scrollWidth / 2) {
+
+
+
+
+
+
+
+                      marquee.scrollLeft = 0;
+
+
+
+
+
+
+
+                    } else if (marquee.scrollLeft <= 0 && isDragging) {
+
+
+
+
+
+
+
+                      // Jika di ujung kiri dan sedang drag, lompat ke tengah agar bisa lanjut scroll ke kiri
+
+
+
+
+
+
+
+                      // marquee.scrollLeft = marquee.scrollWidth / 2;
+
+
+
+
+
+
+
+                      // Tapi scrollLeft native jarang bisa negatif.
+
+
+
+
+
+
+
+                    }
+
+
+
+
+
+
+
+                  }
+
+
+
+
+
+
+
+            
+
+
+
+
+
+
+
+      
+
+
+
+      animationId = requestAnimationFrame(animate);
+
+
+
+    };
+
+
+
+
+
+
+
+    animationId = requestAnimationFrame(animate);
+
+
+
+    return () => cancelAnimationFrame(animationId);
+
+
+
+  }, [isPaused, isDragging]);
+
+
+
+
+
+
+
+    const handleMouseDown = (e) => {
+
+
+
+
+
+
+
+      setIsDragging(true);
+
+
+
+
+
+
+
+      setStartX(e.pageX - marqueeRef.current.getBoundingClientRect().left);
+
+
+
+
+
+
+
+      setScrollLeft(marqueeRef.current.scrollLeft);
+
+
+
+
+
+
+
+    };
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+    const handleMouseLeave = () => {
+
+
+
+
+
+
+
+      setIsDragging(false);
+
+
+
+
+
+
+
+    };
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+    const handleMouseUp = () => {
+
+
+
+
+
+
+
+      setIsDragging(false);
+
+
+
+
+
+
+
+    };
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+    const handleMouseMove = (e) => {
+
+
+
+
+
+
+
+      if (!isDragging) return;
+
+
+
+
+
+
+
+      e.preventDefault();
+
+
+
+
+
+
+
+      const x = e.pageX - marqueeRef.current.getBoundingClientRect().left;
+
+
+
+
+
+
+
+      const walk = (x - startX) * 1.5; // multiplier kecepatan scroll
+
+
+
+
+
+
+
+      marqueeRef.current.scrollLeft = scrollLeft - walk;
+
+
+
+
+
+
+
+    };
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
   const handleInput = (e) => {
+
+
+
+
+
+
     const { name, value } = e.target;
     setFormData({ ...formData, [name]: value });
   };
@@ -382,25 +846,29 @@ function LandingPage() {
               <h2>Welcome To Our Website</h2>
             </div>
             <div className="welcome-brand">
-              <div className="wb-logo">
-                DOGER <span>INTERIOR</span>
+              <div className="wb-logo-container">
+                <img
+                  src={logoDogger}
+                  alt="Logo Doger"
+                  className="wb-logo-img"
+                />
               </div>
             </div>
           </div>
           <div className="welcome-main-card fade-up delay-1">
             <div className="wm-header">
               <h1>
-                <span className="accent-text">Doger Interior</span> - Jasa
-                Interior Kitchen Set
+                <span className="accent-text">Doger Interior</span> — Spesialis
+                Jasa Interior & Furnitur Custom
               </h1>
-              <div className="wm-line"></div>
+              <div className="welcome-divider-line"></div>
             </div>
             <div className="wm-body">
               <p className="lead-paragraph">
                 <strong>Doger Interior</strong> merupakan spesialis{" "}
-                <em>jasa Interior Kitchen Set</em>. Kami melayani jasa pembuatan
-                kitchen set aluminium minimalis baik untuk rumah, kantor, hotel,
-                apartemen, restaurant dan lainnya.
+                <em>Jasa Interior Custom</em>. Kami melayani jasa pembuatan
+                berbagai interior baik untuk rumah, kantor, hotel, apartemen,
+                restaurant dan lainnya dengan berbagai pilihan material terbaik.
               </p>
             </div>
           </div>
@@ -418,7 +886,7 @@ function LandingPage() {
             </div>
           </div>
           <div className="about-text fade-up delay-2">
-            <h2>MENGAPA MEMILIH DOGER INTERIOR?</h2>
+            <h2 className="about-title">MENGAPA MEMILIH DOGER INTERIOR?</h2>
             <p
               style={{
                 marginBottom: "30px",
@@ -493,10 +961,7 @@ function LandingPage() {
       </section>
 
       {/* 4. SERVICES SECTION (INFINITE MARQUEE) */}
-      <section
-        id="services"
-        className="op10-section bg-white services-marquee-wrapper"
-      >
+      <section id="services" className="op10-section bg-white">
         <div className="op10-container">
           <div className="section-head center fade-up mb-50">
             <span className="sub-head">LAYANAN KAMI</span>
@@ -504,32 +969,42 @@ function LandingPage() {
           </div>
         </div>
 
-        <div className="services-marquee-track">
-          {INFINITE_SERVICES.map((service, index) => (
-            <div key={`${service.id}-${index}`} className="service-v-card">
-              <div className="card-img-top">
-                <img src={service.img} alt={service.title} />
-                <span className="card-type-badge">Tipe Premium</span>
-              </div>
-              <div className="card-body">
-                <h3>{service.title}</h3>
-                <p>{service.desc}</p>
-                <div className="card-features">
-                  {service.features.map((feat, idx) => (
-                    <span key={idx} className="feat-item">
-                      <CheckCircle2 size={14} className="check-icon" /> {feat}
-                    </span>
-                  ))}
+        <div className="services-marquee-wrapper">
+          <div
+            className="services-marquee-scroll-container"
+            ref={marqueeRef}
+            onMouseEnter={() => setIsPaused(true)}
+            onMouseLeave={() => {
+              setIsPaused(false);
+              handleMouseLeave();
+            }}
+            onMouseDown={handleMouseDown}
+            onMouseUp={handleMouseUp}
+            onMouseMove={handleMouseMove}
+            onTouchStart={() => setIsPaused(true)}
+            onTouchEnd={() => setIsPaused(false)}
+          >
+            <div className="services-marquee-track">
+              {INFINITE_SERVICES.map((service, index) => (
+                <div key={`${service.id}-${index}`} className="service-v-card">
+                  <div className="card-img-top">
+                    <img src={service.img} alt={service.title} />
+                    <span className="card-type-badge">Tipe Premium</span>
+                  </div>
+                  <div className="card-body">
+                    <h3>{service.title}</h3>
+                    <p>{service.desc}</p>
+                  </div>
+                  <Link to="/contact" className="card-footer-btn">
+                    <div className="btn-icon-box">
+                      <ChevronsRight size={24} />
+                    </div>
+                    <div className="btn-text-box">Pesan Sekarang</div>
+                  </Link>
                 </div>
-              </div>
-              <Link to="/contact" className="card-footer-btn">
-                <div className="btn-icon-box">
-                  <ChevronsRight size={24} />
-                </div>
-                <div className="btn-text-box">Pesan Sekarang</div>
-              </Link>
+              ))}
             </div>
-          ))}
+          </div>
         </div>
       </section>
 
@@ -706,7 +1181,7 @@ function LandingPage() {
           </div>
           <div className="multi-slider-wrapper">
             {PROJECT_CATEGORIES.map((cat, idx) => (
-              <ProjectSlider key={idx} {...cat} />
+              <ProjectSlider key={idx} {...cat} onImageClick={setSelectedImg} />
             ))}
           </div>
           <div className="center mt-40">
@@ -720,6 +1195,18 @@ function LandingPage() {
             </a>
           </div>
         </div>
+
+        {/* LIGHTBOX MODAL */}
+        {selectedImg && (
+          <div className="lightbox-overlay" onClick={() => setSelectedImg(null)}>
+            <div className="lightbox-content" onClick={(e) => e.stopPropagation()}>
+              <button className="lightbox-close" onClick={() => setSelectedImg(null)}>
+                <X size={32} />
+              </button>
+              <img src={selectedImg} alt="Enlarged project" className="lightbox-img" />
+            </div>
+          </div>
+        )}
       </section>
 
       {/* 9. FAQ & CONTACT */}

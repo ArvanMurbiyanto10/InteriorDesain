@@ -7,24 +7,30 @@
   left: 0;
   width: 100%;
   z-index: 9999;
-  padding: 15px 0;
-  transition: all 0.3s ease;
-  background: transparent;
+  /* Tambah padding vertikal agar tidak sesak */
+  padding: 22px 0;
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  background: transparent; /* Transparan di posisi atas */
+  box-shadow: none;
 }
+
 .op10-nav.scrolled {
-  background: #533f31;
+  background: #fff; /* Putih solid saat scroll */
   padding: 10px 0;
   box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
 }
+
 .op10-container {
-  width: 90%;
-  max-width: 1200px;
+  /* Perlebar width agar logo benar-benar ke kiri */
+  width: 96%;
+  max-width: 1800px;
   margin: 0 auto;
 }
+
 .nav-flex {
   display: flex;
   justify-content: space-between;
-  align-items: center;
+  align-items: center; /* Penting: Logo & Menu sejajar tengah vertikal */
   position: relative;
 }
 
@@ -34,89 +40,91 @@
   display: flex;
   align-items: center;
 }
+
 .brand-link {
   display: flex;
   align-items: center;
   text-decoration: none !important;
   gap: 10px;
 }
+
 .logo-img {
-  width: 40px;
-  height: 40px;
+  width: 280px;
+  height: auto;
+  max-height: 65px; 
   object-fit: contain;
-  background: #fff;
-  padding: 2px;
-  border-radius: 4px;
-}
-.brand-text {
-  font-size: 1.4rem;
-  font-weight: 800;
-  color: #533f31;
-  line-height: 1;
-  text-decoration: none !important;
-}
-.brand-text span {
-  color: #533f31;
-  font-weight: 400;
-  opacity: 0.7;
-}
-.op10-nav.scrolled .brand-text,
-.op10-nav.scrolled .brand-text span {
-  color: #fff;
+  transition: all 0.3s ease;
 }
 
-/* MENU LINKS (Desktop) */
+/* Efek mengecilkan logo saat discroll */
+.op10-nav.scrolled .logo-img {
+  width: 230px;
+  max-height: 55px;
+}
+
+.logo-img:hover {
+  transform: scale(1.02);
+}
+
 .nav-links {
   display: flex;
-  gap: 30px;
+  gap: 35px; /* Jarak antar menu sedikit diperlebar */
   align-items: center;
 }
+
 .nav-links a:not(.btn-nav-cta) {
   text-decoration: none !important;
-  color: #533f31;
+  color: #fff;
   font-weight: 600;
   font-size: 0.95rem;
+  letter-spacing: 0.5px;
   transition: 0.3s;
 }
+
 .op10-nav.scrolled .nav-links a:not(.btn-nav-cta) {
-  color: #fff;
+  color: #533f31;
 }
 
 /* TOMBOL KONSULTASI (Desktop) */
 .btn-nav-cta {
-  background: #533f31;
-  color: #fff;
+  background: #fff;
+  color: #533f31;
   padding: 10px 25px;
   border-radius: 50px;
   text-decoration: none !important;
   font-weight: 700;
-  font-size: 0.9rem;
+  font-size: 0.85rem;
   transition: 0.3s;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 }
+
 .op10-nav.scrolled .btn-nav-cta {
-  background: #fff;
-  color: #533f31;
+  background: #533f31;
+  color: #fff;
 }
 
 /* ELEMENTS HIDDEN ON DESKTOP */
 .sidebar-header {
   display: none;
-} /* Tombol close hanya untuk mobile */
+}
 .nav-actions {
   display: flex;
   align-items: center;
   z-index: 1002;
 }
+
 .burger-menu {
   display: none;
   background: none;
   border: none;
   cursor: pointer;
-  color: #533f31;
-  padding: 0;
-}
-.op10-nav.scrolled .burger-menu {
   color: #fff;
+  padding: 0;
+  font-size: 1.5rem; /* Icon burger diperjelas */
+}
+
+.op10-nav.scrolled .burger-menu {
+  color: #533f31;
 }
 
 /* =========================================
@@ -124,13 +132,21 @@
 ========================================= */
 @media (max-width: 992px) {
   .op10-nav {
-    background-color: #3e2e24 !important;
-    padding: 15px 0;
+    background-color: transparent !important;
+    padding: 15px 0; /* Padding mobile disesuaikan */
+    box-shadow: none;
   }
-  .brand-text,
-  .brand-text span {
-    color: #fff !important;
-    font-size: 1.2rem;
+
+  .op10-nav.scrolled {
+    background-color: #fff !important;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+  }
+
+  .logo-img {
+    /* Logo Mobile diperkecil lagi agar lebih lega */
+    width: 140px;
+    height: auto;
+    max-height: 40px;
   }
 
   /* Tampilkan Burger */
@@ -139,18 +155,22 @@
     color: #fff !important;
   }
 
+  .op10-nav.scrolled .burger-menu {
+    color: #533f31 !important;
+  }
+
   /* SIDEBAR MENU */
   .nav-links {
     position: fixed;
     top: 0;
-    right: -100%; /* Sembunyi */
-    width: 280px; /* Lebar Sidebar Pas (Tidak terlalu lebar) */
+    right: -100%;
+    width: 280px;
     height: 100vh;
     background-color: #ffffff;
     flex-direction: column;
     align-items: flex-start;
-    justify-content: flex-start; /* Mulai dari atas */
-    padding: 30px; /* Padding sisi */
+    justify-content: flex-start;
+    padding: 30px;
     box-shadow: -5px 0 20px rgba(0, 0, 0, 0.15);
     transition: right 0.4s cubic-bezier(0.77, 0, 0.175, 1);
     z-index: 10000;
@@ -160,12 +180,12 @@
     right: 0;
   }
 
-  /* TOMBOL CLOSE (X) DI POJOK KANAN ATAS SIDEBAR */
+  /* TOMBOL CLOSE (X) */
   .sidebar-header {
     display: flex;
     width: 100%;
-    justify-content: flex-end; /* X di kanan */
-    margin-bottom: 30px; /* Jarak ke menu pertama */
+    justify-content: flex-end;
+    margin-bottom: 30px;
   }
   .close-btn {
     background: none;
@@ -177,13 +197,13 @@
   /* LIST MENU LEBIH RAPI & KECIL */
   .nav-links a:not(.btn-nav-cta) {
     color: #444 !important;
-    font-size: 1rem; /* Ukuran font pas (tidak raksasa) */
+    font-size: 1rem;
     font-weight: 600;
     margin-bottom: 0;
     width: 100%;
     display: block;
-    padding: 12px 0; /* Jarak antar menu */
-    border-bottom: 1px solid #f0f0f0; /* Garis tipis */
+    padding: 15px 0; /* Jarak sentuh jari lebih nyaman */
+    border-bottom: 1px solid #f0f0f0;
   }
 
   /* TOMBOL KONSULTASI DI BAWAH */

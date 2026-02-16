@@ -1,14 +1,12 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import { Link } from "react-router-dom";
 import {
   ArrowLeft,
-  CheckCircle2,
   ChevronsRight,
   PenTool,
   MessageSquare,
   Star,
 } from "lucide-react";
-import Navbar from "./Navbar";
 import "./ServicesPage.css";
 
 // --- IMPORT FOTO LAYANAN ---
@@ -25,42 +23,36 @@ const SERVICES_DATA = [
     title: "Kitchen Set",
     desc: "Dapur mewah dengan material premium (Multiplek, PVC, Aluminium) kustom.",
     img: imgKitchen,
-    features: [""],
   },
   {
     id: 2,
     title: "Wardrobe",
     desc: "Penyimpanan cerdas dan rapi untuk memaksimalkan ruang pakaian Anda.",
     img: imgWardrobe,
-    features: [""],
   },
   {
     id: 3,
     title: "Lemari Bawah Tangga",
     desc: "Ubah area kosong bawah tangga menjadi storage multifungsi yang estetik.",
     img: imgTangga,
-    features: [""],
   },
   {
     id: 4,
     title: "Backdrop TV",
     desc: "Area hiburan mewah tanpa kabel berantakan, menggunakan material berkualitas.",
     img: imgTV,
-    features: [""],
   },
   {
     id: 5,
     title: "Pintu Sliding",
     desc: "Sekat ruangan fleksibel aluminium/kaca untuk privasi tanpa mengurangi cahaya.",
     img: imgSliding,
-    features: [""],
   },
   {
     id: 6,
     title: "Interior Komersial",
     desc: "Solusi interior lengkap untuk kantor atau kafe yang elegan dan fungsional.",
     img: imgKanopi,
-    features: [""],
   },
 ];
 
@@ -72,10 +64,67 @@ const ServicesPage = () => {
     window.scrollTo(0, 0);
   }, []);
 
+  // --- LOGIC MARQUEE LAYANAN ---
+  const marqueeRef = useRef(null);
+  const [isPaused, setIsPaused] = useState(false);
+  const [isDragging, setIsDragging] = useState(false);
+  const [startX, setStartX] = useState(0);
+  const [scrollLeft, setScrollLeft] = useState(0);
+
+  useEffect(() => {
+    const marquee = marqueeRef.current;
+    if (!marquee) return;
+
+    let animationId;
+    let lastTime = Date.now();
+    const speed = 40; // pixels per second
+
+    const animate = () => {
+      const currentTime = Date.now();
+      const deltaTime = (currentTime - lastTime) / 1000;
+      lastTime = currentTime;
+
+      if (!isPaused && !isDragging) {
+        marquee.scrollLeft += speed * deltaTime;
+      }
+
+      // Loop logic: Jika sudah mencapai setengah (karena data diduplikasi), reset ke 0
+      if (marquee.scrollWidth > 0) {
+        if (marquee.scrollLeft >= marquee.scrollWidth / 2) {
+          marquee.scrollLeft = 0;
+        }
+      }
+      animationId = requestAnimationFrame(animate);
+    };
+
+    animationId = requestAnimationFrame(animate);
+    return () => cancelAnimationFrame(animationId);
+  }, [isPaused, isDragging]);
+
+  const handleMouseDown = (e) => {
+    setIsDragging(true);
+    setStartX(e.pageX - marqueeRef.current.getBoundingClientRect().left);
+    setScrollLeft(marqueeRef.current.scrollLeft);
+  };
+
+  const handleMouseLeave = () => {
+    setIsDragging(false);
+  };
+
+  const handleMouseUp = () => {
+    setIsDragging(false);
+  };
+
+  const handleMouseMove = (e) => {
+    if (!isDragging) return;
+    e.preventDefault();
+    const x = e.pageX - marqueeRef.current.getBoundingClientRect().left;
+    const walk = (x - startX) * 1.5; // multiplier kecepatan scroll
+    marqueeRef.current.scrollLeft = scrollLeft - walk;
+  };
+
   return (
     <div className="services-root">
-      <Navbar />
-
       <main className="services-main">
         {/* HEADER SECTION */}
         <section className="services-header">
@@ -94,39 +143,47 @@ const ServicesPage = () => {
 
         {/* INFINITE SCROLL SECTION */}
         <section className="services-marquee-wrapper">
-          {/* Track Animasi */}
-          <div className="services-marquee-track">
-            {INFINITE_SERVICES.map((service, index) => (
-              /* Gunakan index unik karena ID akan duplikat */
-              <div key={`${service.id}-${index}`} className="service-v-card">
-                {/* Gambar & Badge */}
-                <div className="card-img-top">
-                  <img src={service.img} alt={service.title} />
-                  <span className="card-type-badge">Tipe Premium</span>
-                </div>
-
-                {/* Konten */}
-                <div className="card-body">
-                  <h3>{service.title}</h3>
-                  <p>{service.desc}</p>
-                  <div className="card-features">
-                    {service.features.map((feat, idx) => (
-                      <span key={idx} className="feat-item">
-                        <CheckCircle2 size={14} className="check-icon" /> {feat}
-                      </span>
-                    ))}
+          <div
+            className="services-marquee-scroll-container"
+            ref={marqueeRef}
+            onMouseEnter={() => setIsPaused(true)}
+            onMouseLeave={() => {
+              setIsPaused(false);
+              handleMouseLeave();
+            }}
+            onMouseDown={handleMouseDown}
+            onMouseUp={handleMouseUp}
+            onMouseMove={handleMouseMove}
+            onTouchStart={() => setIsPaused(true)}
+            onTouchEnd={() => setIsPaused(false)}
+          >
+            {/* Track Animasi */}
+            <div className="services-marquee-track">
+              {INFINITE_SERVICES.map((service, index) => (
+                /* Gunakan index unik karena ID akan duplikat */
+                <div key={`${service.id}-${index}`} className="service-v-card">
+                  {/* Gambar & Badge */}
+                  <div className="card-img-top">
+                    <img src={service.img} alt={service.title} />
+                    <span className="card-type-badge">Tipe Premium</span>
                   </div>
-                </div>
 
-                {/* Tombol Footer */}
-                <Link to="/contact" className="card-footer-btn">
-                  <div className="btn-icon-box">
-                    <ChevronsRight size={24} />
+                  {/* Konten */}
+                  <div className="card-body">
+                    <h3>{service.title}</h3>
+                    <p>{service.desc}</p>
                   </div>
-                  <div className="btn-text-box">Pesan Sekarang</div>
-                </Link>
-              </div>
-            ))}
+
+                  {/* Tombol Footer */}
+                  <Link to="/contact" className="card-footer-btn">
+                    <div className="btn-icon-box">
+                      <ChevronsRight size={24} />
+                    </div>
+                    <div className="btn-text-box">Pesan Sekarang</div>
+                  </Link>
+                </div>
+              ))}
+            </div>
           </div>
         </section>
 

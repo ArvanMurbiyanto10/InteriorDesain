@@ -25,7 +25,13 @@ const Navbar = () => {
     };
     fetchLogo();
 
-    const handleScroll = () => setScrolled(window.scrollY > 50);
+    const handleScroll = () => {
+      if (window.scrollY > 50) {
+        setScrolled(true);
+      } else {
+        setScrolled(false);
+      }
+    };
     window.addEventListener("scroll", handleScroll);
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
@@ -37,27 +43,23 @@ const Navbar = () => {
   return (
     <nav className={`op10-nav ${scrolled || !isHome ? "scrolled" : ""}`}>
       <div className="op10-container nav-flex">
-        {/* LOGO */}
+        {/* LOGO SAJA (TANPA TEKS) */}
         <div className="nav-brand">
           <Link to="/" onClick={closeMenu} className="brand-link">
             <img
               src={logoSource}
-              alt="Doger"
+              alt="Doger Interior"
               className="logo-img"
               onError={(e) => {
                 e.target.onerror = null;
                 e.target.src = defaultLogo;
               }}
             />
-            <div className="brand-text">
-              DOGER<span>.INTERIOR</span>
-            </div>
           </Link>
         </div>
 
         {/* MENU LINKS (SIDEBAR) */}
         <div className={`nav-links ${menuOpen ? "active" : ""}`}>
-          {/* --- TOMBOL SILANG (X) DI DALAM SIDEBAR --- */}
           <div className="sidebar-header">
             <button className="close-btn" onClick={closeMenu}>
               <X size={28} color="#333" />
@@ -91,7 +93,7 @@ const Navbar = () => {
           </a>
         </div>
 
-        {/* BURGER MENU (NAVBAR) */}
+        {/* BURGER MENU */}
         <div className="nav-actions">
           <button className="burger-menu" onClick={() => setMenuOpen(true)}>
             <Menu size={28} />

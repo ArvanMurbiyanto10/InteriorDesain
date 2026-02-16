@@ -16,7 +16,6 @@ import {
   ShieldCheck,
   Zap,
 } from "lucide-react";
-import Navbar from "./Navbar";
 import "./ContactPage.css";
 
 function ContactPage() {
@@ -104,8 +103,6 @@ function ContactPage() {
 
   return (
     <div className="contact-corporate-root">
-      <Navbar />
-
       <main className="fullscreen-split">
         {/* SISI KIRI: FORM KONSULTASI */}
         <div className="contact-side-left">
@@ -118,7 +115,7 @@ function ContactPage() {
             <p className="corporate-subtitle">
               Setiap ruang memiliki cerita unik. Doger.interior hadir untuk
               mengintegrasikan keahlian teknis selama 20 tahun dengan detail
-              desain personal[cite: 10].
+              desain personal.
             </p>
 
             <form onSubmit={kirimKeWA} className="corporate-form">
@@ -166,7 +163,7 @@ function ContactPage() {
                 <Phone size={16} /> 0852-8277-3811
               </div>
               <div className="q-link">
-                <Mail size={16} /> doger.interior@gmail.com
+                <Mail size={16} /> interiordoger@gmail.com
               </div>
               <div className="q-link">
                 <MapPin size={16} /> Depok, Jawa Barat

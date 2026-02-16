@@ -72,41 +72,45 @@ const AboutPage = () => {
           <div className="hero-grid">
             {/* Kiri: Teks */}
             <div className="hero-text">
-              <span className="sub-header">Profil Perusahaan</span>
-              <h1 className="main-header">Doger Interior</h1>
-
-              <div className="text-content-wrapper">
-                <p className="text-paragraph">
-                  Selama kami berkarya, kami percaya bahwa kualitas sejati
-                  adalah harmoni antara ketahanan material dengan kenyamanan
-                  penghuninya. Bagi kami, setiap proyek bukan hanya sekadar
-                  memproduksi furniture, melainkan sebuah kolaborasi erat untuk
-                  menciptakan ruangan yang benar-benar mewakili karakter dan
-                  kebutuhan client.
-                </p>
-
-                <p className="text-paragraph">
-                  Kami percaya bahwa setiap ruang memiliki cerita unik. Oleh
-                  karena itu, <strong>Doger Interior</strong> hadir untuk
-                  mengintegrasikan keahlian teknis yang telah terasah selama 20
-                  tahun dengan detail desain yang dipersonalisasikan sepenuhnya.
-                  Kami menciptakan solusi ruang yang cerdas melalui penguasaan
-                  berbagai material unggulan – mulai dari{" "}
-                  <strong>Multiplek, PVC Board hingga Aluminium</strong>.
-                </p>
-
-                <p className="text-paragraph">
-                  Bersama kami, Anda mendapatkan jaminan kualitas melalui
-                  pengerjaan teliti di workshop kami serta pendampingan personal
-                  mulai dari desain hingga instalasi. Kami menjunjung tinggi
-                  profesionalisme melalui
-                  <strong> transparansi di setiap langkah</strong>, memberikan
-                  update berkala agar Anda memiliki ketenangan pikiran
-                  sepenuhnya.
-                </p>
+              <div className="hero-header-group">
+                <span className="sub-header">Profil Perusahaan</span>
+                <h1 className="main-header">Doger Interior</h1>
               </div>
 
-              <div className="est-badge-hero">Est. 2019 — Depok</div>
+              <div className="hero-body-group">
+                <div className="text-content-wrapper">
+                  <p className="text-paragraph">
+                    Selama kami berkarya, kami percaya bahwa kualitas sejati
+                    adalah harmoni antara ketahanan material dengan kenyamanan
+                    penghuninya. Bagi kami, setiap proyek bukan hanya sekadar
+                    memproduksi furniture, melainkan sebuah kolaborasi erat
+                    untuk menciptakan ruangan yang benar-benar mewakili karakter
+                    dan kebutuhan client.
+                  </p>
+
+                  <p className="text-paragraph">
+                    Kami percaya bahwa setiap ruang memiliki cerita unik. Oleh
+                    karena itu, <strong>Doger Interior</strong> hadir untuk
+                    mengintegrasikan keahlian teknis yang telah terasah selama
+                    20 tahun dengan detail desain yang dipersonalisasikan
+                    sepenuhnya. Kami menciptakan solusi ruang yang cerdas
+                    melalui penguasaan berbagai material unggulan – mulai dari{" "}
+                    <strong>Multiplek, PVC Board hingga Aluminium</strong>.
+                  </p>
+
+                  <p className="text-paragraph">
+                    Bersama kami, Anda mendapatkan jaminan kualitas melalui
+                    pengerjaan teliti di workshop kami serta pendampingan
+                    personal mulai dari desain hingga instalasi. Kami menjunjung
+                    tinggi profesionalisme melalui
+                    <strong> transparansi di setiap langkah</strong>, memberikan
+                    update berkala agar Anda memiliki ketenangan pikiran
+                    sepenuhnya.
+                  </p>
+                </div>
+
+                <div className="est-badge-hero">Est. 2019 — Depok</div>
+              </div>
             </div>
 
             {/* Kanan: Foto Grid & Logo Dinamis */}
@@ -184,7 +188,6 @@ const AboutPage = () => {
         <section className="section-process">
           <div className="op10-container">
             <div className="center Heading-wrapper">
-              <span className="sub-header">Tahapan Pemesanan</span>
               <h2 className="main-header">Proses Terstruktur</h2>
               <div className="header-line"></div>
             </div>

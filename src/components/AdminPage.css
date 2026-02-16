@@ -565,42 +565,160 @@
     border-radius: 0;
     height: 65px;
     background: rgba(45, 36, 30, 0.95);
+    padding: 0 15px;
   }
 
   .admin-layout .nav-brand h2 {
-    font-size: 1.2rem;
+    font-size: 1.1rem;
   }
   .admin-layout .brand-icon {
-    width: 32px;
-    height: 32px;
+    width: 30px;
+    height: 30px;
+  }
+  .admin-layout .brand-icon svg {
+    width: 16px;
+    height: 16px;
+  }
+  .admin-layout .btn-logout {
+    padding: 8px 12px;
   }
   .admin-layout .btn-logout span {
     display: none;
   }
 
   .admin-layout .main-content {
-    padding-top: 90px;
-    padding-left: 15px;
-    padding-right: 15px;
+    padding-top: 85px;
+    padding-left: 12px;
+    padding-right: 12px;
   }
 
   .admin-layout .dashboard-header h1 {
-    font-size: 2rem;
+    font-size: 1.8rem;
+  }
+  .admin-layout .dashboard-header p {
+    font-size: 0.9rem;
   }
 
+  /* FORM ADJUSTMENTS */
+  .admin-layout .card-header,
+  .admin-layout .card-header-simple {
+    padding: 20px;
+  }
+  .admin-layout .card-header h3,
+  .admin-layout .card-header-simple h3 {
+    font-size: 1.15rem;
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+
+  .admin-layout .card-header h3 span,
+  .admin-layout .card-header-simple h3 span {
+    font-size: 0.85rem;
+    color: #888;
+    font-weight: 500;
+    font-family: "Plus Jakarta Sans", sans-serif;
+    display: inline-block;
+  }
+  .admin-layout .input-section,
+  .admin-layout .upload-section {
+    padding: 20px;
+  }
+
+  /* TABLE TO CARD TRANSFORMATION */
   .admin-layout .table-wrapper {
     padding: 15px;
-    overflow-x: auto;
   }
-  .admin-layout .modern-table {
-    min-width: 600px;
+  
+  .admin-layout .modern-table, 
+  .admin-layout .modern-table thead, 
+  .admin-layout .modern-table tbody, 
+  .admin-layout .modern-table th, 
+  .admin-layout .modern-table td, 
+  .admin-layout .modern-table tr { 
+    display: block; 
   }
+
+  .admin-layout .modern-table thead tr { 
+    position: absolute;
+    top: -9999px;
+    left: -9999px;
+  }
+
+  .admin-layout .modern-table tbody tr {
+    background: #fff;
+    border: 1px solid rgba(0,0,0,0.05);
+    border-radius: 20px;
+    margin-bottom: 25px;
+    padding: 0; /* Padding diatur di level td */
+    box-shadow: 0 10px 25px rgba(0,0,0,0.05);
+    overflow: hidden;
+  }
+
+  .admin-layout .modern-table td { 
+    border: none;
+    padding: 10px 20px;
+    position: relative;
+    text-align: left;
+  }
+
+  .admin-layout .modern-table td:first-child {
+    padding: 0; /* Gambar menempel ke pinggir */
+  }
+
+  .admin-layout .modern-table td:last-child {
+    padding-bottom: 20px;
+  }
+
+  .admin-layout .img-frame {
+    width: 100%;
+    aspect-ratio: 1 / 1;
+    height: auto;
+    margin-bottom: 0;
+    border-radius: 0; /* Gambar tajam di atas kartu */
+  }
+
+  .admin-layout .proj-title {
+    font-size: 1.25rem;
+    margin-top: 10px;
+    color: var(--brown-dark);
+  }
+
+  .admin-layout .proj-client {
+    font-size: 0.95rem;
+    margin-bottom: 5px;
+  }
+
+  .admin-layout .pill-badge {
+    display: inline-block;
+    margin-top: 5px;
+  }
+
+  .admin-layout .action-buttons {
+    justify-content: stretch;
+    margin-top: 15px;
+    border-top: 1px solid #f5f5f5;
+    padding-top: 20px;
+    gap: 12px;
+  }
+  
+  .admin-layout .btn-action {
+    flex: 1;
+    height: 48px;
+    border-radius: 12px;
+    font-size: 0.9rem;
+    font-weight: 600;
+  }
+
+  /* Tambahkan teks label pada tombol di mobile jika memungkinkan, 
+     namun di sini kita buat icon saja agar bersih */
 
   .admin-layout .form-actions {
     flex-direction: column-reverse;
+    gap: 12px;
   }
   .admin-layout .btn-secondary,
   .admin-layout .btn-primary {
     width: 100%;
+    padding: 15px;
   }
 }

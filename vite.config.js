@@ -5,6 +5,11 @@ import react from "@vitejs/plugin-react";
 export default defineConfig({
   plugins: [react()],
   server: {
-    allowedHosts: ["https://unaidedly-nonsaturated-kynlee.ngrok-free.dev"],
+    allowedHosts: [
+      "unaidedly-nonsaturated-kynlee.ngrok-free.dev",
+      ".ngrok-free.dev" // Mengizinkan semua subdomain ngrok
+    ],
+    historyApiFallback: true, // Memastikan routing React jalan saat refresh
+    host: true, // Penting agar bisa diakses dari jaringan luar
   },
 });

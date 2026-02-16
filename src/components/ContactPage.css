@@ -326,11 +326,16 @@ body, html {
   }
 
   /* 2. Sesuaikan Padding Container */
-  .contact-side-left, 
+  .contact-side-left {
+    padding: 60px 25px;
+    justify-content: center;
+    width: 100%;
+  }
+
   .contact-side-right {
-    padding: 60px 25px; /* Kurangi padding samping agar tidak sempit */
-    justify-content: center; /* Pusatkan konten */
-    width: 100%; /* Lebar penuh */
+    padding: 100px 25px 60px; /* Tambah padding atas agar tidak sesak di bawah navbar */
+    justify-content: center;
+    width: 100%;
   }
   
   /* Reset lebar konten di dalam container */
@@ -343,10 +348,18 @@ body, html {
   .corporate-title {
     font-size: 2.2rem; /* Kecilkan judul */
     line-height: 1.2;
+    text-align: center;
   }
   
   .corporate-subtitle {
     font-size: 1rem;
+    text-align: center;
+  }
+
+  .corporate-badge {
+    display: block;
+    width: max-content;
+    margin: 0 auto 25px;
   }
 
   .timeline-header {

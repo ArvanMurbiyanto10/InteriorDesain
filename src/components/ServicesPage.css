@@ -50,34 +50,50 @@
   width: 100%;
   padding-bottom: 100px;
   position: relative;
-  overflow: hidden; /* Sembunyikan kartu yang keluar jalur */
   background: #fcfcfc;
+  overflow: hidden;
+}
+
+.services-marquee-scroll-container {
+  width: 100%;
+  overflow-x: auto;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+  cursor: grab;
+}
+
+.services-marquee-scroll-container::-webkit-scrollbar {
+  display: none;
+}
+
+.services-marquee-scroll-container:active {
+  cursor: grabbing;
+}
+
+.services-marquee-wrapper::before,
+.services-marquee-wrapper::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  width: 80px;
+  height: 100%;
+  z-index: 10;
+  pointer-events: none;
+}
+.services-marquee-wrapper::before {
+  left: 0;
+  background: linear-gradient(to right, #fcfcfc, transparent);
+}
+.services-marquee-wrapper::after {
+  right: 0;
+  background: linear-gradient(to left, #fcfcfc, transparent);
 }
 
 .services-marquee-track {
   display: flex;
-  gap: 30px; /* Jarak antar kartu */
-  width: max-content; /* Lebar mengikuti konten */
+  gap: 30px;
+  width: max-content;
   padding: 20px 0;
-  
-  /* Animasi: durasi 40 detik, linier, selamanya */
-  animation: scrollInfinite 40s linear infinite;
-}
-
-/* Pause animasi saat mouse hover agar user bisa klik */
-.services-marquee-track:hover {
-  animation-play-state: paused;
-}
-
-@keyframes scrollInfinite {
-  0% {
-    transform: translateX(0);
-  }
-  100% {
-    /* Geser sejauh -50% (panjang 1 set data asli) */
-    /* Karena data diduplikasi, titik -50% visualnya sama dengan 0% */
-    transform: translateX(-50%);
-  }
 }
 
 /* --- KARTU VERTIKAL --- */
@@ -234,11 +250,6 @@
 /* RESPONSIVE */
 @media (max-width: 992px) {
   .values-grid { grid-template-columns: 1fr; }
-  
-  /* Di Mobile, animasi lebih cepat sedikit */
-  .services-marquee-track {
-    animation-duration: 25s;
-  }
 }
 
 @media (max-width: 480px) {

@@ -4,7 +4,7 @@ import { Instagram, Phone, Mail, MapPin, Clock } from "lucide-react";
 import "./Footer.css";
 
 // IMPORT LOGO (sesuaikan path jika perlu)
-import logoDogger from "../assets/logo-dogger.jpg";
+import logoDogger from "../assets/logo-dogger-footer.jpg";
 
 const Footer = () => {
   const navigate = useNavigate();
@@ -27,20 +27,17 @@ const Footer = () => {
         <div className="footer-content">
           {/* KOLOM 1: BRAND & SOSMED */}
           <div className="f-col-brand">
-            {/* WRAPPER LOGO + TEXT */}
+            {/* WRAPPER LOGO SAJA */}
             <div className="footer-brand-row">
               <img
                 src={logoDogger}
                 alt="Dogger Interior Logo"
                 className="footer-logo-img"
               />
-              <h2 className="footer-logo">
-                DOGER<span>.INTERIOR</span>
-              </h2>
             </div>
 
             <p className="footer-tagline">
-              Solusi interior & kitchen set premium Jabodetabek. Mewujudkan
+              Solusi interior & Furnitur Custom premium Jabodetabek. Mewujudkan
               ruang impian dengan kualitas terbaik dan harga transparan.
             </p>
 
@@ -63,7 +60,12 @@ const Footer = () => {
                 <Phone size={20} />
               </a>
 
-              <a href="mailto:doger.interior@gmail.com" aria-label="Email">
+              <a
+                href="https://mail.google.com/mail/?view=cm&fs=1&to=interiordoger@gmail.com"
+                target="_blank"
+                rel="noreferrer"
+                aria-label="Email"
+              >
                 <Mail size={20} />
               </a>
             </div>
@@ -86,7 +88,14 @@ const Footer = () => {
               </li>
               <li>
                 <Mail size={18} className="icon-accent" />
-                <span>doger.interior@gmail.com</span>
+                <a
+                  href="https://mail.google.com/mail/?view=cm&fs=1&to=interiordoger@gmail.com"
+                  target="_blank"
+                  rel="noreferrer"
+                  style={{ color: "inherit", textDecoration: "none" }}
+                >
+                  interiordoger@gmail.com
+                </a>
               </li>
               <li>
                 <Clock size={18} className="icon-accent" />

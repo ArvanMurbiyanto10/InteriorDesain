@@ -6,13 +6,13 @@ import {
   Camera,
   ChevronLeft,
   ChevronRight,
+  X,
 } from "lucide-react";
-import Navbar from "./Navbar";
 import "./ProjekPage.css";
 // Kembali menggunakan apartemen3.jpg
 import seamanan4 from "../assets/homeee.jpg";
 
-const ProjectCard = ({ item }) => {
+const ProjectCard = ({ item, onImageClick }) => {
   const scrollRef = useRef(null);
 
   const baseImages =
@@ -66,20 +66,28 @@ const ProjectCard = ({ item }) => {
           </button>
 
           <div className="img-scroller" ref={scrollRef}>
-            {infiniteImages.map((foto, idx) => (
-              <div key={idx} className="img-item-compact">
-                <img
-                  src={`${API.defaults.baseURL}/uploads/${foto}`}
-                  alt="interior design"
-                  onError={(e) => {
-                    e.target.onerror = null;
-                    e.target.src =
-                      "https://placehold.co/300x300?text=Doger+Interior";
-                  }}
-                  loading="lazy"
-                />
-              </div>
-            ))}
+            {infiniteImages.map((foto, idx) => {
+              const imgSrc = `${API.defaults.baseURL}/uploads/${foto}`;
+              return (
+                <div 
+                  key={idx} 
+                  className="img-item-compact" 
+                  onClick={() => onImageClick(imgSrc)}
+                  style={{ cursor: "pointer" }}
+                >
+                  <img
+                    src={imgSrc}
+                    alt="interior design"
+                    onError={(e) => {
+                      e.target.onerror = null;
+                      e.target.src =
+                        "https://placehold.co/300x300?text=Doger+Interior";
+                    }}
+                    loading="lazy"
+                  />
+                </div>
+              );
+            })}
           </div>
 
           <button className="nav-btn right" onClick={() => scroll("right")}>
@@ -94,6 +102,7 @@ const ProjectCard = ({ item }) => {
 const ProjekPage = () => {
   const [projects, setProjects] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [selectedImg, setSelectedImg] = useState(null);
 
   useEffect(() => {
     window.scrollTo(0, 0);
@@ -111,8 +120,6 @@ const ProjekPage = () => {
 
   return (
     <div className="page-root">
-      <Navbar />
-
       <div className="bg-blob blob-1"></div>
       <div className="bg-blob blob-2"></div>
 
@@ -142,7 +149,13 @@ const ProjekPage = () => {
         ) : (
           <div className="grid-layout">
             {projects.length > 0 ? (
-              projects.map((item) => <ProjectCard key={item.id} item={item} />)
+              projects.map((item) => (
+                <ProjectCard 
+                  key={item.id} 
+                  item={item} 
+                  onImageClick={setSelectedImg} 
+                />
+              ))
             ) : (
               <div className="empty-msg">
                 <Camera size={60} />
@@ -152,6 +165,18 @@ const ProjekPage = () => {
           </div>
         )}
       </div>
+
+      {/* LIGHTBOX MODAL */}
+      {selectedImg && (
+        <div className="lightbox-overlay" onClick={() => setSelectedImg(null)}>
+          <div className="lightbox-content" onClick={(e) => e.stopPropagation()}>
+            <button className="lightbox-close" onClick={() => setSelectedImg(null)}>
+              <X size={32} />
+            </button>
+            <img src={selectedImg} alt="Enlarged project" className="lightbox-img" />
+          </div>
+        </div>
+      )}
     </div>
   );
 };
