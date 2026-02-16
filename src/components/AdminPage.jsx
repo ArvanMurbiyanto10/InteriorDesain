@@ -1,6 +1,7 @@
-import React, { useState, useEffect } from "react";
-import API from "../api";
+import React, { useState, useEffect, useCallback } from "react";
+import API, { IMAGE_URL } from "../api"; 
 import { useNavigate } from "react-router-dom";
+
 import {
   Plus,
   Trash2,
@@ -17,20 +18,18 @@ import "./AdminPage.css";
 import adminBg from "../assets/foto-9.jpg";
 
 const AdminPage = () => {
-  // --- STATE PROYEK ---
   const [judul, setJudul] = useState("");
   const [klien, setKlien] = useState("");
   const [photoInputs, setPhotoInputs] = useState([
     { id: Date.now(), file: null },
   ]);
   const [projects, setProjects] = useState([]);
-
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
 
-  // --- FETCH DATA (Hanya Proyek) ---
-  const fetchData = async () => {
+  const fetchData = useCallback(async () => {
     try {
+      // Tambahkan timestamp agar browser tidak cache data lama
       const resProjects = await API.get(`/api/projects?t=${Date.now()}`);
       setProjects(resProjects.data);
     } catch (err) {
@@ -39,7 +38,7 @@ const AdminPage = () => {
         navigate("/login");
       }
     }
-  };
+  }, [navigate]);
 
   useEffect(() => {
     const isAuth = localStorage.getItem("isAdminLoggedIn");
@@ -48,9 +47,8 @@ const AdminPage = () => {
     } else {
       fetchData();
     }
-  }, [navigate]);
+  }, [navigate, fetchData]);
 
-  // --- HANDLER PROYEK ---
   const addPhotoInput = () =>
     setPhotoInputs([...photoInputs, { id: Date.now(), file: null }]);
 
@@ -61,8 +59,7 @@ const AdminPage = () => {
 
   const handleFileChange = (id, e) => {
     const file = e.target.files[0];
-    // Validasi sederhana (Max 5MB)
-    if (file && file.size > 5 * 1024 * 1024) {
+    if (file && file.size > 5 * 1024 * 1024) { // Limit 5MB
       alert("Ukuran file terlalu besar (Max 5MB)");
       return;
     }
@@ -75,6 +72,8 @@ const AdminPage = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     setLoading(true);
+    
+    // Filter input yang kosong
     const validFiles = photoInputs.map((i) => i.file).filter((f) => f !== null);
 
     if (validFiles.length < 1) {
@@ -85,16 +84,19 @@ const AdminPage = () => {
 
     const formData = new FormData();
     formData.append("judul", judul);
-    formData.append("klien", klien);
+    formData.append("klien", klien); // Backend menerima field 'klien'
     validFiles.forEach((file) => formData.append("images", file));
 
     try {
       await API.post(`/api/projects`, formData);
       alert("Proyek berhasil disimpan!");
+      
       // Reset Form
       setJudul("");
       setKlien("");
       setPhotoInputs([{ id: Date.now(), file: null }]);
+      
+      // Refresh Data
       fetchData();
     } catch (err) {
       console.error("Gagal simpan:", err);
@@ -117,17 +119,13 @@ const AdminPage = () => {
 
   return (
     <div className="admin-layout">
-      {/* --- BACKGROUND IMAGE FIXED --- */}
       <div
         className="admin-bg-fixed"
-        style={{
-          backgroundImage: `url(${adminBg})`,
-        }}
+        style={{ backgroundImage: `url(${adminBg})` }}
       >
         <div className="admin-bg-overlay"></div>
       </div>
 
-      {/* --- NAVBAR --- */}
       <nav className="admin-navbar glass">
         <div className="nav-brand">
           <div className="brand-icon">
@@ -148,29 +146,17 @@ const AdminPage = () => {
         </button>
       </nav>
 
-      {/* --- MAIN CONTENT --- */}
       <main className="main-content">
         <div className="content-container">
           <div className="dashboard-header animate-fade-up">
-            <h1
-              style={{
-                color: "#fff",
-                textShadow: "0 2px 10px rgba(0,0,0,0.5)",
-              }}
-            >
-              Dashboard Admin
-            </h1>
-            <p style={{ color: "rgba(255,255,255,0.9)" }}>
-              Kelola portofolio proyek Anda di sini.
-            </p>
+            <h1>Dashboard Admin</h1>
+            <p>Kelola portofolio proyek Anda di sini.</p>
           </div>
 
-          {/* 1. INPUT PROYEK (Form) */}
+          {/* FORM INPUT PROYEK */}
           <div className="card form-card animate-fade-up delay-1">
             <div className="card-header">
-              <h3>
-                <Plus size={20} className="icon-gold" /> Input Proyek Baru
-              </h3>
+              <h3><Plus size={20} className="icon-gold" /> Input Proyek Baru</h3>
             </div>
 
             <form onSubmit={handleSubmit}>
@@ -224,25 +210,11 @@ const AdminPage = () => {
                     ))}
                   </div>
                   <div className="form-actions">
-                    <button
-                      type="button"
-                      onClick={addPhotoInput}
-                      className="btn-secondary"
-                    >
+                    <button type="button" onClick={addPhotoInput} className="btn-secondary">
                       <Plus size={16} /> Tambah Slot
                     </button>
-                    <button
-                      type="submit"
-                      className="btn-primary"
-                      disabled={loading}
-                    >
-                      {loading ? (
-                        "Menyimpan..."
-                      ) : (
-                        <>
-                          <Save size={18} /> Simpan Proyek
-                        </>
-                      )}
+                    <button type="submit" className="btn-primary" disabled={loading}>
+                      {loading ? "Menyimpan..." : <><Save size={18} /> Simpan Proyek</>}
                     </button>
                   </div>
                 </div>
@@ -250,13 +222,10 @@ const AdminPage = () => {
             </form>
           </div>
 
-          {/* 2. DAFTAR PROYEK (Table) */}
+          {/* TABEL DATA PROYEK */}
           <div className="card table-card animate-fade-up delay-2">
             <div className="card-header-simple">
-              <h3>
-                <FolderOpen size={20} className="icon-gold" /> Database Proyek{" "}
-                <span>({projects.length} Items)</span>
-              </h3>
+              <h3><FolderOpen size={20} className="icon-gold" /> Database Proyek <span>({projects.length} Items)</span></h3>
             </div>
 
             <div className="table-wrapper">
@@ -275,18 +244,19 @@ const AdminPage = () => {
                       <td width="100">
                         <div className="img-frame">
                           <img
-                            src={`${API.defaults.baseURL}/uploads/${item.foto}`}
-                            onError={(e) =>
-                              (e.target.src =
-                                "https://placehold.co/60?text=No+Img")
-                            }
+                            src={`${IMAGE_URL}${item.foto}`}
+                            onError={(e) => (e.target.src = "https://placehold.co/60?text=No+Img")}
                             alt="cover"
                           />
                         </div>
                       </td>
                       <td>
+                        {/* UPDATE: Menggunakan field lowercase dari database */}
                         <div className="proj-title">{item.judul}</div>
-                        <div className="proj-client">{item.klien || "-"}</div>
+                        <div className="proj-client">
+                          <span style={{color: '#999', fontSize: '0.85em', marginRight: '5px'}}>Klien:</span>
+                          {item.nama_klien || "-"}
+                        </div>
                       </td>
                       <td>
                         <span className="pill-badge">
@@ -295,18 +265,10 @@ const AdminPage = () => {
                       </td>
                       <td style={{ textAlign: "right" }}>
                         <div className="action-buttons">
-                          <button
-                            onClick={() => navigate(`/admin/edit/${item.id}`)}
-                            className="btn-action edit"
-                            title="Edit"
-                          >
+                          <button onClick={() => navigate(`/admin/edit/${item.id}`)} className="btn-action edit" title="Edit Data">
                             <Edit3 size={16} />
                           </button>
-                          <button
-                            onClick={() => handleDelete(item.id)}
-                            className="btn-action delete"
-                            title="Hapus"
-                          >
+                          <button onClick={() => handleDelete(item.id)} className="btn-action delete" title="Hapus Permanen">
                             <Trash2 size={16} />
                           </button>
                         </div>
@@ -317,7 +279,7 @@ const AdminPage = () => {
                     <tr>
                       <td colSpan="4" className="empty-state">
                         <FolderOpen size={40} />
-                        <p>Belum ada data proyek.</p>
+                        <p>Belum ada data proyek. Silakan input di atas.</p>
                       </td>
                     </tr>
                   )}
