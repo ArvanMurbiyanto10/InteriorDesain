@@ -12,4 +12,8 @@ export default defineConfig({
     historyApiFallback: true, // Memastikan routing React jalan saat refresh
     host: true, // Penting agar bisa diakses dari jaringan luar
   },
+  test: {
+    globals: true,
+    environment: "jsdom",
+  },
 });

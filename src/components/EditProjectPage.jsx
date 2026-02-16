@@ -10,9 +10,7 @@ const EditProjectPage = () => {
   const [judul, setJudul] = useState("");
   const [klien, setKlien] = useState("");
   const [existingGallery, setExistingGallery] = useState([]);
-  const [photoInputs, setPhotoInputs] = useState([
-    { id: Date.now(), file: null },
-  ]);
+  const [newFiles, setNewFiles] = useState([]);
   const [loading, setLoading] = useState(false);
 
   useEffect(() => {
@@ -24,26 +22,6 @@ const EditProjectPage = () => {
       })
       .catch(() => navigate("/admin")); // Variabel 'err' dihapus karena tidak digunakan
   }, [id, navigate]);
-
-  const addPhotoInput = () =>
-    setPhotoInputs([...photoInputs, { id: Date.now(), file: null }]);
-
-  const removePhotoInput = (id) => {
-    if (photoInputs.length > 1)
-      setPhotoInputs(photoInputs.filter((i) => i.id !== id));
-  };
-
-  const handleFileChange = (id, e) => {
-    const file = e.target.files[0];
-    if (file && file.size > 5 * 1024 * 1024) {
-      alert("Ukuran file terlalu besar (Max 5MB)");
-      return;
-    }
-    const newInputs = photoInputs.map((item) =>
-      item.id === id ? { ...item, file: file } : item,
-    );
-    setPhotoInputs(newInputs);
-  };
 
   const handleDeletePhoto = async (filename) => {
     if (!window.confirm("Hapus foto?")) return;
@@ -59,14 +37,12 @@ const EditProjectPage = () => {
     e.preventDefault();
     setLoading(true);
 
-    const validFiles = photoInputs.map((i) => i.file).filter((f) => f !== null);
-
     const formData = new FormData();
     formData.append("judul", judul);
     formData.append("klien", klien); // Dikirim ke backend sebagai 'klien'
 
     // Menambahkan file baru yang dipilih ke FormData
-    validFiles.forEach((file) => {
+    Array.from(newFiles).forEach((file) => {
       formData.append("images", file);
     });
 
@@ -110,40 +86,16 @@ const EditProjectPage = () => {
                   onChange={(e) => setKlien(e.target.value)}
                 />
               </div>
-
               <div className="input-group">
                 <label>Tambah Foto Baru</label>
-                <div className="photo-inputs-list">
-                  {photoInputs.map((input, index) => (
-                    <div key={input.id} className="edit-file-input-row">
-                      <input
-                        type="file"
-                        onChange={(e) => handleFileChange(input.id, e)}
-                        accept="image/*"
-                      />
-                      {photoInputs.length > 1 && (
-                        <button
-                          type="button"
-                          onClick={() => removePhotoInput(input.id)}
-                          className="btn-remove-slot"
-                        >
-                          <Trash2 size={16} />
-                        </button>
-                      )}
-                    </div>
-                  ))}
-                </div>
-                <button
-                  type="button"
-                  onClick={addPhotoInput}
-                  className="btn-add-slot"
-                >
-                  <Plus size={16} /> Tambah Slot Foto
-                </button>
+                <input
+                  type="file"
+                  multiple
+                  onChange={(e) => setNewFiles(e.target.files)}
+                />
               </div>
-
               <button type="submit" className="btn-save" disabled={loading}>
-                <Save size={18} /> {loading ? "Menyimpan..." : "Simpan Perubahan"}
+                <Save size={18} /> Simpan
               </button>
             </div>
           </div>

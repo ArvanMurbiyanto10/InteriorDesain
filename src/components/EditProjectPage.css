@@ -3,7 +3,7 @@
   background-color: #f4f6f9; /* Background abu muda lembut untuk admin */
   min-height: 100vh;
   padding: 40px 20px;
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
 }
 
 .edit-container {
@@ -27,7 +27,7 @@
 }
 
 .btn-back:hover {
-  color: #5D4037;
+  color: #5d4037;
 }
 
 /* --- HEADER --- */
@@ -69,8 +69,8 @@
 .edit-card h3 {
   margin-top: 0;
   margin-bottom: 20px;
-  color: #5D4037;
-  border-left: 4px solid #5D4037;
+  color: #5d4037;
+  border-left: 4px solid #5d4037;
   padding-left: 10px;
 }
 
@@ -103,7 +103,7 @@
 .input-group textarea:focus,
 .input-group select:focus {
   outline: none;
-  border-color: #5D4037;
+  border-color: #5d4037;
   background-color: #fff;
   box-shadow: 0 0 0 3px rgba(93, 64, 55, 0.1);
 }
@@ -112,7 +112,7 @@
 .btn-save {
   width: 100%;
   padding: 14px;
-  background-color: #5D4037; /* Warna Cokelat Utama */
+  background-color: #5d4037; /* Warna Cokelat Utama */
   color: white;
   border: none;
   border-radius: 8px;
@@ -123,79 +123,15 @@
   align-items: center;
   justify-content: center;
   gap: 10px;
-  transition: background 0.3s, transform 0.2s;
+  transition:
+    background 0.3s,
+    transform 0.2s;
   margin-top: 10px;
 }
 
 .btn-save:hover {
   background-color: #4e362e;
   transform: translateY(-2px);
-}
-
-/* --- PHOTO INPUTS LIST --- */
-.photo-inputs-list {
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-  margin-bottom: 15px;
-}
-
-.edit-file-input-row {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  background: #f9f9f9;
-  padding: 8px;
-  border-radius: 6px;
-  border: 1px dashed #ccc;
-}
-
-.edit-file-input-row input[type="file"] {
-  flex: 1;
-  font-size: 0.85rem;
-  padding: 5px;
-}
-
-.btn-remove-slot {
-  background: #fee2e2;
-  color: #dc2626;
-  border: none;
-  padding: 8px;
-  border-radius: 6px;
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  transition: all 0.2s;
-}
-
-.btn-remove-slot:hover {
-  background: #fecaca;
-  color: #b91c1c;
-}
-
-.btn-add-slot {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 8px;
-  width: 100%;
-  padding: 10px;
-  background: white;
-  color: #5D4037;
-  border: 2px dashed #5D4037;
-  border-radius: 8px;
-  cursor: pointer;
-  font-weight: 600;
-  font-size: 0.9rem;
-  transition: all 0.2s;
-  margin-bottom: 20px;
-}
-
-.btn-add-slot:hover {
-  background: #fdf8f6;
-  border-color: #4e362e;
-  color: #4e362e;
 }
 
 /* --- GALERI MANAGEMENT (SISI KANAN) --- */
@@ -212,7 +148,7 @@
   border-radius: 8px;
   overflow: hidden;
   border: 1px solid #eee;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
 }
 
 .gallery-item-edit img {
@@ -242,7 +178,7 @@
   align-items: center;
   justify-content: center;
   transition: all 0.2s;
-  box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
 }
 
 .btn-delete-photo:hover {
@@ -258,7 +194,7 @@
   align-items: center;
   justify-content: center;
   font-size: 1.5rem;
-  color: #5D4037;
+  color: #5d4037;
   font-weight: bold;
 }
 
@@ -267,7 +203,7 @@
   .edit-grid {
     grid-template-columns: 1fr; /* Jadi satu kolom di HP */
   }
-  
+
   .edit-card {
     padding: 20px;
   }
