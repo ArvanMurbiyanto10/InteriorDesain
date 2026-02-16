@@ -45,7 +45,7 @@ const ProjectCard = ({ item, onImageClick }) => {
         <div className="header-content">
           <h3 className="title-compact">{item.judul}</h3>
           <p className="subtitle-compact">
-            {item.klien ? `Proyek ${item.klien}` : "Proyek Interior"}
+            {item.nama_klien ? `Proyek ${item.nama_klien}` : "Proyek Interior"}
           </p>
         </div>
 
@@ -69,9 +69,9 @@ const ProjectCard = ({ item, onImageClick }) => {
             {infiniteImages.map((foto, idx) => {
               const imgSrc = `${API.defaults.baseURL}/uploads/${foto}`;
               return (
-                <div 
-                  key={idx} 
-                  className="img-item-compact" 
+                <div
+                  key={idx}
+                  className="img-item-compact"
                   onClick={() => onImageClick(imgSrc)}
                   style={{ cursor: "pointer" }}
                 >
@@ -150,10 +150,10 @@ const ProjekPage = () => {
           <div className="grid-layout">
             {projects.length > 0 ? (
               projects.map((item) => (
-                <ProjectCard 
-                  key={item.id} 
-                  item={item} 
-                  onImageClick={setSelectedImg} 
+                <ProjectCard
+                  key={item.id}
+                  item={item}
+                  onImageClick={setSelectedImg}
                 />
               ))
             ) : (
@@ -169,11 +169,21 @@ const ProjekPage = () => {
       {/* LIGHTBOX MODAL */}
       {selectedImg && (
         <div className="lightbox-overlay" onClick={() => setSelectedImg(null)}>
-          <div className="lightbox-content" onClick={(e) => e.stopPropagation()}>
-            <button className="lightbox-close" onClick={() => setSelectedImg(null)}>
+          <div
+            className="lightbox-content"
+            onClick={(e) => e.stopPropagation()}
+          >
+            <button
+              className="lightbox-close"
+              onClick={() => setSelectedImg(null)}
+            >
               <X size={32} />
             </button>
-            <img src={selectedImg} alt="Enlarged project" className="lightbox-img" />
+            <img
+              src={selectedImg}
+              alt="Enlarged project"
+              className="lightbox-img"
+            />
           </div>
         </div>
       )}

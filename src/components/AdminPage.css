@@ -646,71 +646,88 @@
 
   .admin-layout .modern-table tbody tr {
     background: #fff;
-    border: 1px solid rgba(0,0,0,0.05);
+    border: none;
     border-radius: 20px;
-    margin-bottom: 25px;
-    padding: 0; /* Padding diatur di level td */
-    box-shadow: 0 10px 25px rgba(0,0,0,0.05);
+    margin-bottom: 30px;
+    padding: 0; 
+    box-shadow: 0 12px 30px rgba(0,0,0,0.08);
     overflow: hidden;
+    transform: none !important;
+    display: flex;
+    flex-direction: column;
   }
 
   .admin-layout .modern-table td { 
     border: none;
-    padding: 10px 20px;
-    position: relative;
-    text-align: left;
+    padding: 15px 20px;
+    width: 100% !important;
+    display: block;
   }
 
   .admin-layout .modern-table td:first-child {
-    padding: 0; /* Gambar menempel ke pinggir */
+    padding: 0; 
+    order: 1;
+  }
+
+  .admin-layout .modern-table td:nth-child(2) {
+    padding-top: 20px;
+    padding-bottom: 5px;
+    order: 2;
+  }
+
+  .admin-layout .modern-table td:nth-child(3) {
+    padding-top: 0;
+    padding-bottom: 15px;
+    order: 3;
   }
 
   .admin-layout .modern-table td:last-child {
-    padding-bottom: 20px;
+    padding: 15px 20px;
+    background: #fdfdfd;
+    border-top: 1px solid #f0f0f0;
+    order: 4;
   }
 
   .admin-layout .img-frame {
     width: 100%;
-    aspect-ratio: 1 / 1;
+    aspect-ratio: 4 / 3; 
     height: auto;
-    margin-bottom: 0;
-    border-radius: 0; /* Gambar tajam di atas kartu */
+    border-radius: 0;
   }
 
   .admin-layout .proj-title {
-    font-size: 1.25rem;
-    margin-top: 10px;
+    font-size: 1.3rem;
+    font-weight: 800;
     color: var(--brown-dark);
+    line-height: 1.2;
   }
 
   .admin-layout .proj-client {
     font-size: 0.95rem;
-    margin-bottom: 5px;
+    margin-top: 6px;
+    color: var(--text-muted);
   }
 
   .admin-layout .pill-badge {
-    display: inline-block;
-    margin-top: 5px;
+    display: inline-flex;
+    margin-top: 0;
+    background: rgba(212, 175, 55, 0.15);
+    color: #967a1e;
+    font-size: 0.8rem;
+    letter-spacing: 0.5px;
   }
 
   .admin-layout .action-buttons {
-    justify-content: stretch;
-    margin-top: 15px;
-    border-top: 1px solid #f5f5f5;
-    padding-top: 20px;
+    justify-content: flex-end;
     gap: 12px;
   }
   
   .admin-layout .btn-action {
     flex: 1;
-    height: 48px;
+    max-width: 120px;
+    height: 46px;
     border-radius: 12px;
-    font-size: 0.9rem;
-    font-weight: 600;
   }
-
-  /* Tambahkan teks label pada tombol di mobile jika memungkinkan, 
-     namun di sini kita buat icon saja agar bersih */
 
   .admin-layout .form-actions {
     flex-direction: column-reverse;
@@ -720,5 +737,15 @@
   .admin-layout .btn-primary {
     width: 100%;
     padding: 15px;
+    font-size: 0.95rem;
+  }
+
+  .admin-layout .photo-scroll-area {
+    max-height: 350px;
+  }
+
+  .admin-layout .file-input-row {
+    padding: 12px;
+    gap: 10px;
   }
 }
